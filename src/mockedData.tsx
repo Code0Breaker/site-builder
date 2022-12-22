@@ -8,6 +8,12 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import GoogleIcon from '@mui/icons-material/Google';
 
+import MailIcon from '@mui/icons-material/Mail';
+import SendIcon from '@mui/icons-material/Send';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 interface WidgetType{
     icon:JSX.Element,
     title:string, 
@@ -24,14 +30,24 @@ export const widgetData:WidgetType[] = [
     {icon:<ThumbUpIcon/>,title:'Earning', count:'$22.500',percent:50, text:'19% compared to last week', color:'warning'},
 ]
 
-// FacebookIcon
-// TwitterIcon
-// LinkedInIcon
-// GoogleIcon
-
 export const socialData = [
     {icon: <FacebookIcon/>,title:'Facebook', color:'#00bcd2'},
     {icon: <TwitterIcon/>,title:'Twitter', color:'black'},
     {icon: <LinkedInIcon/>,title:'Linkedin', color:'green'},
     {icon: <GoogleIcon/>,title:'Google', color:'blue'},
+]
+
+export const inboxData = [
+    {icon: <MailIcon/>,title:'Inbox'},
+    {icon: <SendIcon/>,title:'Sent'},
+    {icon: <DraftsIcon/>,title:'Draft'},
+    {icon: <StarBorderIcon/>,title:'Starred'},
+    {icon: <DeleteIcon/>,title:'Trash'},
+]
+
+export const labelsData = [
+    {color:'#de4848', title:'Web Design'},
+    {color:'#007bff', title:'Recharge'},
+    {color:'#5A5A5A', title:'Paypal'},
+    {color:'#5A5A5A', title:'Family'},
 ]

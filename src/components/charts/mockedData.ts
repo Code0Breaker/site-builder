@@ -101,13 +101,11 @@ export const barOption = {
   };
   
   export const pieOption = {
-    title: {
-      text: 'My Wallets',
-      left: 'left'
-    },
-    label:{
-        show:false
-    },
+    // title: {
+    //   text: 'My Wallets',
+    //   left: 'left'
+    // },
+
     tooltip: {
       trigger: 'item',
     },
@@ -120,6 +118,13 @@ export const barOption = {
         name: 'Access From',
         type: 'pie',
         radius: '50%',
+        label:{
+          show: false
+        },
+         labelLine: {
+          show: false
+        },
+
         data: [
           { value: 8920, name: 'Wallet Balance' },
           { value: 9920, name: 'Travels' },

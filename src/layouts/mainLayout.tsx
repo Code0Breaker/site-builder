@@ -198,8 +198,8 @@ export default function MainLayout() {
         </Box>
         <FlexColumn mt={2} gap={'5px'} width={'100%'} alignItems={'center'}>
             <StyledNavLink to={'/'}><HomeOutlinedIcon/>Dashboard</StyledNavLink>
-            {/* <StyledNavLink to={'/inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink> */}
-            <StyledNavLink to={'/Chat'}><ForumIcon/>Chat</StyledNavLink>
+            <StyledNavLink to={'/inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
+            <StyledNavLink to={'/chat'}><ForumIcon/>Chat</StyledNavLink>
         </FlexColumn>
 
       </Drawer>

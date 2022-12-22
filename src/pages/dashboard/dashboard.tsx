@@ -11,14 +11,6 @@ import { TextArea } from "../../models/textfields"
 
 const Dashboard = () =>(
     <>
-    {/* <Box position={'absolute'} width={'100%'} padding={'10px 15px'} display={'flex'} justifyContent={'space-between'}>
-        <Typography>Dashboard</Typography>
-        <Box display={'flex'} alignItems={'center'} gap={2}>
-            <HomeIcon/>
-            <Typography>/ Dashboard</Typography>
-            <Button variant={'contained'} color={'primary'}>Create New</Button>
-        </Box>
-    </Box> */}
     <FlexColumn>
         <PaperBox width={'100%'} justifyContent={'center'}>
             {widgetData.map((item, i) => {
@@ -43,12 +35,19 @@ const Dashboard = () =>(
         </PaperBox>
         <Box display={'flex'} width={'100%'} gap={5}>
             <Box width={'65%'}>
-                <PaperBox>
+                <PaperBox height={340} position={'relative'}>
+                    <Box zIndex={999} position={'absolute'} display={'flex'} width={'95%'} justifyContent={'space-between'}>
+                        <Typography>Cryptocurrency Overview</Typography>
+                        <Box display={'flex'} gap={1}>
+                            <Button>Monthly</Button>
+                            <Button>Yearly</Button>
+                        </Box>
+                    </Box>
                     <DinamicChart option={lineOption} />
                 </PaperBox>
             </Box>
             <Box width={'35%'}>
-                <PaperBox>
+                <PaperBox height={340}>
                     <DinamicChart option={barOption} />
                 </PaperBox>
             </Box>
@@ -60,10 +59,10 @@ const Dashboard = () =>(
         <Box display={'flex'} width="100%" gap={5}>
             <FlexColumn width={'30%'}>
                 <PaperBox justifyContent={'space-between'}>
-                    <Box maxWidth={300} width={'100%'}>
+                    <Box width={100}>
                         <DinamicChart option={pieOption} />
                     </Box>
-                    <FlexColumn justifyContent={'flex-end'} pb={9} gap={0.5}>
+                    <FlexColumn justifyContent={'flex-end'} pb={5} gap={0.5}>
                         <Typography fontWeight={'bold'}>$7,025.72</Typography>
                         <Box display="flex" justifyContent={'space-between'} width={150}>
                             <Typography variant="caption" sx={{ lineBreak: 'none' }}>Wallet Balance</Typography>

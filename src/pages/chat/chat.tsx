@@ -8,6 +8,7 @@ import VideoChatIcon from '@mui/icons-material/VideoChat';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import { TextField } from "@mui/material"
+import { TextArea } from "../../models/textfields"
 
 const Chat = () =>{
     return(
@@ -80,7 +81,7 @@ const Chat = () =>{
                             <Typography>Hi Aiden, how are you? How is the project coming along?</Typography>
                         </Box>
                     </FlexColumn>
-                    <textarea placeholder="Enter text here" rows={4}/>
+                    <TextArea placeholder="Enter text here" rows={4}/>
                 </FlexColumn>
                 </FlexColumn>
                 <Box width={'15%'} p={'20px'}>
