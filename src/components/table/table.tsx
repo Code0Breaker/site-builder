@@ -32,7 +32,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function CustomizedTable() {
   return (
     <TableContainer>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table sx={{ width: '100%' }} aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Date</StyledTableCell>

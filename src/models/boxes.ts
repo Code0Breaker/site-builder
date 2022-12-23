@@ -1,13 +1,37 @@
 import styled from "@emotion/styled";
 import { Box } from "@mui/material";
 
-export const FlexColumn = styled(Box)({
+export const Flex = styled(Box)({
     display:'flex',
+})
+
+export const FlexColumn = styled(Flex)({
     flexDirection:'column'
 })
 
-export const PaperBox = styled(Box)({
-    display:'flex',
+export const FlexAlignCenter = styled(Flex)({
+    alignItems:'center'
+})
+
+export const FlexEnd = styled(Flex)({
+    alignItems:'flex-end'
+})
+
+export const FlexStart = styled(Flex)({
+    alignItems:'flex-start'
+})
+
+export const SpaceBetween = styled(Flex)({
+    width:'100%',
+    justifyContent:'space-between'
+})
+
+export const FlexCenter= styled(Flex)({
+    width:'100%',
+    justifyContent:'center'
+})
+
+export const PaperBox = styled(Flex)({
     transition: 'all 0.3s ease-in-out',
     background: '#fff',
     borderColor: '#eee',

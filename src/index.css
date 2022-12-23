@@ -62,6 +62,51 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.react-kanban-board,.react-kanban-board>div{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap:30px
+}
+
+.react-kanban-board>div>div{
+  background: white;
+  padding: 20px;
+  width: 500px;
+}
+
+.react-kanban-column-header{
+    font-size: 16px;
+    padding: 20px;
+    font-weight: 600;
+    color: #444;
+  /* margin: 5px 0;
+    padding: 8px 15px;
+    text-decoration: none;
+    border: 1px solid #efefef;
+    background: #fff; */
+}
+
+/* .react-kanban-card {
+    margin: 5px 0;
+    width: 100%;
+    padding: 8px 15px;
+    text-decoration: none;
+    border: 1px solid #efefef;
+    background: #fff;
+} */
+.react-kanban-column>div:last-child>div{
+  background: #f7f7f7;
+  border-radius: 3px;
+  padding: 20px;
+  margin: 5px 0;
+}
+
+.react-kanban-card__title span{
+  font-weight: 600;
+  margin-bottom: 10px;
+} 
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

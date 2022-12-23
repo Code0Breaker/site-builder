@@ -1,19 +1,20 @@
 import Avatar from "@mui/material/Avatar"
 import { Box, Button, Grid, LinearProgress, Typography } from "@mui/material"
+import { FlexCenter, SpaceBetween } from "../../models/boxes"
 
 export const Comment = () =>{
     return(
-        <Box gap={1} display={'flex'} width={'100%'} justifyContent={'center'}>
+        <FlexCenter gap={1}>
             <Box width={50}>
                 <Avatar/>
             </Box>
             <Box>
-                <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
+                <SpaceBetween>
                     <Typography>@Isabella</Typography>
                     <Typography>1 hour ago</Typography>
-                </Box>
+                </SpaceBetween>
                 <Typography variant="caption">Contrary to popular belief, Lorem Ipsum is not simply random text</Typography>
             </Box>
-        </Box>
+        </FlexCenter>
     )
 }

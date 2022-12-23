@@ -5,7 +5,7 @@ import { barOption, lineOption, pieOption } from "../../components/charts/mocked
 import { Comment } from "../../components/comment/comment"
 import CustomizedTable from "../../components/table/table"
 import { socialData, widgetData } from "../../mockedData"
-import { FlexColumn, PaperBox, ProgressWitgetBox } from "../../models/boxes"
+import { Flex, FlexColumn, PaperBox, ProgressWitgetBox, SpaceBetween } from "../../models/boxes"
 import HomeIcon from '@mui/icons-material/Home';
 import { TextArea } from "../../models/textfields"
 
@@ -16,7 +16,7 @@ const Dashboard = () =>(
             {widgetData.map((item, i) => {
                 return (
                     <ProgressWitgetBox key={i}>
-                        <Box display={'flex'} justifyContent={'space-between'}>
+                        <SpaceBetween>
                             <Box>
                                 {item.icon}
                             </Box>
@@ -24,7 +24,7 @@ const Dashboard = () =>(
                                 <Typography>{item.title}</Typography>
                                 <Typography>{item.count}</Typography>
                             </Box>
-                        </Box>
+                        </SpaceBetween>
                         <Box mt={1}>
                             <LinearProgress variant="determinate" value={item.percent} color={item.color} />
                             <Typography variant={'caption'}>{item.text}</Typography>
@@ -33,16 +33,16 @@ const Dashboard = () =>(
                 )
             })}
         </PaperBox>
-        <Box display={'flex'} width={'100%'} gap={5}>
+        <Flex width={'100%'} gap={5}>
             <Box width={'65%'}>
                 <PaperBox height={340} position={'relative'}>
-                    <Box zIndex={999} position={'absolute'} display={'flex'} width={'95%'} justifyContent={'space-between'}>
+                    <SpaceBetween  style={{width:'95%'}} zIndex={999} position={'absolute'}>
                         <Typography>Cryptocurrency Overview</Typography>
-                        <Box display={'flex'} gap={1}>
+                        <Flex gap={1}>
                             <Button>Monthly</Button>
                             <Button>Yearly</Button>
-                        </Box>
-                    </Box>
+                        </Flex>
+                    </SpaceBetween>
                     <DinamicChart option={lineOption} />
                 </PaperBox>
             </Box>
@@ -51,12 +51,12 @@ const Dashboard = () =>(
                     <DinamicChart option={barOption} />
                 </PaperBox>
             </Box>
-        </Box>
+        </Flex>
         <PaperBox>
             <CustomizedTable />
         </PaperBox>
 
-        <Box display={'flex'} width="100%" gap={5}>
+        <Flex width="100%" gap={5}>
             <FlexColumn width={'30%'}>
                 <PaperBox justifyContent={'space-between'}>
                     <Box width={100}>
@@ -64,18 +64,18 @@ const Dashboard = () =>(
                     </Box>
                     <FlexColumn justifyContent={'flex-end'} pb={5} gap={0.5}>
                         <Typography fontWeight={'bold'}>$7,025.72</Typography>
-                        <Box display="flex" justifyContent={'space-between'} width={150}>
+                        <SpaceBetween style={{width:150}}>
                             <Typography variant="caption" sx={{ lineBreak: 'none' }}>Wallet Balance</Typography>
                             <Typography variant="caption">8920$</Typography>
-                        </Box>
-                        <Box display="flex" justifyContent={'space-between'} width={150}>
+                        </SpaceBetween>
+                        <SpaceBetween style={{width:150}}>
                             <Typography variant="caption">Travels</Typography>
                             <Typography variant="caption">920$</Typography>
-                        </Box>
-                        <Box display="flex" justifyContent={'space-between'} width={150}>
+                        </SpaceBetween>
+                        <SpaceBetween style={{width:150}}>
                             <Typography variant="caption">Foods & Drinks</Typography>
                             <Typography variant="caption">120$</Typography>
-                        </Box>
+                        </SpaceBetween>
                     </FlexColumn>
                 </PaperBox>
                 <PaperBox justifyContent={'space-between'}>
@@ -105,10 +105,10 @@ const Dashboard = () =>(
                 <PaperBox p={2} flexDirection={'column'}>
                     <Typography>Twitter Feed</Typography>
                     <TextArea placeholder="Enter here for tweet..." rows={6} />
-                    <Box mt={2} width={'100%'} display={'flex'} justifyContent={'space-between'} alignItems={'center'}>
+                    <SpaceBetween mt={2} alignItems={'center'}>
                         <Button variant="contained" color="primary">Tweet</Button>
                         <Button color="primary">13k users active</Button>
-                    </Box>
+                    </SpaceBetween>
                     <Divider sx={{ mt: 2, mb: 2 }} />
                     <FlexColumn gap={2}>
                         {Array.from(Array(5)).map((item, i) => {
@@ -123,10 +123,10 @@ const Dashboard = () =>(
                     <Typography>Social Counter</Typography>
                     {socialData.map(item => {
                         return (
-                            <Box display={'flex'} width={'100%'} justifyContent={'space-between'} alignItems={'center'}>
+                            <SpaceBetween alignItems={'center'}>
                                 <Typography gap={1} display={'flex'} alignItems={'center'}>{item.icon} {item.title}</Typography>
                                 <Typography sx={{ p: '4px 8px', borderRadius: 1, border: `1px solid ${item.color}`, color: item.color }}>16,785</Typography>
-                            </Box>
+                            </SpaceBetween>
                         )
                     })}
                     {socialData.map(item => {
@@ -144,7 +144,7 @@ const Dashboard = () =>(
                     <TextField placeholder="Enter Email" variant="filled" />
                 </PaperBox>
             </FlexColumn>
-        </Box>
+        </Flex>
     </FlexColumn>
     </>
 )

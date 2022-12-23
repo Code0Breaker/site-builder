@@ -12,8 +12,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { StyledNavLink } from '../models/buttons';
-import { FlexColumn, PaperBox, ProgressWitgetBox } from '../models/boxes';
+import { StyledMenuAccordion, StyledNavLink, StyledSubNavLink } from '../models/buttons';
+import { Flex, FlexAlignCenter, FlexColumn, PaperBox, ProgressWitgetBox, SpaceBetween } from '../models/boxes';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
@@ -22,7 +22,7 @@ import ForumIcon from '@mui/icons-material/Forum';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import { TextField } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, TextField } from '@mui/material';
 import { SearchInput } from '../models/textfields';
 import EmailIcon from '@mui/icons-material/Email';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -33,6 +33,10 @@ import logo from '../assets/icon-dark.svg'
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import LeaderboardIcon from '@mui/icons-material/Leaderboard';
+import ListIcon from '@mui/icons-material/List';
+import { useState } from 'react';
 
 const drawerWidth = 240;
 
@@ -40,7 +44,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
 }>(({ theme, open }) => ({
   background:'#f4f7f9',
-  width:'99vw',
+  width:'98vw',
   minHeight:'100vh',
   flexGrow: 1,
   padding: '100px 30px',
@@ -91,19 +95,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function MainLayout() {
-  const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-//   const [menuOpen, setMenuOpen] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [open, setOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
-  };
-  const handleDrawerOpen = () => {
-    setOpen(true);
   };
 
   const handleDrawerClose = () => {
@@ -118,8 +117,8 @@ export default function MainLayout() {
           <IconButton onClick={handleDrawerClose}>
             {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
-          <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
-            <Box display={'flex'}>
+          <SpaceBetween>
+            <Flex>
                 <IconButton>
                     <WidgetsIcon sx={{color:'white'}}/>
                 </IconButton>
@@ -131,10 +130,10 @@ export default function MainLayout() {
                 <IconButton>
                     <QuestionAnswerIcon sx={{color:'white'}}/>
                 </IconButton>
-            </Box>
-            <Box display={'flex'}>
+            </Flex>
+            <Flex>
                 <SearchInput placeholder='Search here...'/>
-                <Box display={'flex'}>
+                <Flex>
                     <IconButton>
                         <EmailIcon sx={{color:'white'}}/>
                     </IconButton>
@@ -150,9 +149,9 @@ export default function MainLayout() {
                     <IconButton>
                         <PowerSettingsNewIcon sx={{color:'white'}}/>
                     </IconButton>
-                </Box>
-            </Box>
-          </Box>
+                </Flex>
+            </Flex>
+          </SpaceBetween>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -176,7 +175,7 @@ export default function MainLayout() {
 
         </DrawerHeader>
         <Divider sx={{mb:5}}/>
-        <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+        <FlexColumn alignItems={'center'}>
             <Box borderRadius={100}>
                 <img src={userImg} width="140" height="140" style={{objectFit:'contain', borderRadius:100}}/>
             </Box>
@@ -195,19 +194,37 @@ export default function MainLayout() {
               <MenuItem>My account</MenuItem>
               <MenuItem>Logout</MenuItem>
             </Menu>
-        </Box>
+        </FlexColumn>
         <FlexColumn mt={2} gap={'5px'} width={'100%'} alignItems={'center'}>
             <StyledNavLink to={'/'}><HomeOutlinedIcon/>Dashboard</StyledNavLink>
             <StyledNavLink to={'/inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
             <StyledNavLink to={'/chat'}><ForumIcon/>Chat</StyledNavLink>
+            <StyledNavLink to={'/taskboard'}><ListIcon/>Taskboard</StyledNavLink>
+            <StyledNavLink to={'/contacts'}><ImportContactsIcon/>Contacts</StyledNavLink>
+            <StyledMenuAccordion>
+              <AccordionSummary
+              sx={{padding:0}}
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <FlexAlignCenter gap={2}>
+                  <LeaderboardIcon/>
+                  Charts
+                </FlexAlignCenter>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FlexColumn>
+                  <StyledSubNavLink to={'/chartjs'}>-- Chartjs</StyledSubNavLink>
+                  <StyledSubNavLink to={'/echarts'}>-- eCharts</StyledSubNavLink>
+                </FlexColumn>
+              </AccordionDetails>
+            </StyledMenuAccordion>
         </FlexColumn>
 
       </Drawer>
       <Main open={open}>
         <Outlet/>
-        {/* <DrawerHeader /> */}
-
-        {/* <Outlet/> */}
       </Main>
     </Box>
   );
