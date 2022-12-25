@@ -6,6 +6,7 @@ import Chat from './pages/chat/chat'
 import Contacts from './pages/contacts/contacts'
 import Dashboard from './pages/dashboard/dashboard'
 import Echarts from './pages/echarts/echarts'
+import Gauges from './pages/gauges/gauges'
 import Inbox from './pages/inbox/inbox'
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         {path:'echarts', element:<Echarts/>},
         {path:'chartjs', element:<Chartjs/>},
         {path:'taskboard', element:<Taskboard/>},
+        {path:'gauges', element:<Gauges/>},
       ]
     }
    ])

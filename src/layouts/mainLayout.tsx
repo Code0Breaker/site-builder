@@ -217,6 +217,7 @@ export default function MainLayout() {
                 <FlexColumn>
                   <StyledSubNavLink to={'/chartjs'}>-- Chartjs</StyledSubNavLink>
                   <StyledSubNavLink to={'/echarts'}>-- eCharts</StyledSubNavLink>
+                  <StyledSubNavLink to={'/gauges'}>-- Gauges</StyledSubNavLink>
                 </FlexColumn>
               </AccordionDetails>
             </StyledMenuAccordion>

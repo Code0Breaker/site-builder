@@ -31,6 +31,13 @@ export const FlexCenter= styled(Flex)({
     justifyContent:'center'
 })
 
+export const FullCenteredIn= styled(Flex)({
+    width:'100%',
+    height:'100%',
+    justifyContent:'center',
+    alignItems:'center'
+})
+
 export const PaperBox = styled(Flex)({
     transition: 'all 0.3s ease-in-out',
     background: '#fff',
