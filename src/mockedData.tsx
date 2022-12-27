@@ -51,3 +51,12 @@ export const labelsData = [
     {color:'#5A5A5A', title:'Paypal'},
     {color:'#5A5A5A', title:'Family'},
 ]
+
+export const tData = [
+    {color:'#de4848', title:'Marketing'},
+    {color:'#007bff', title:'Design Task'},
+    {color:'green', title:'Development'},
+    {color:'#5A5A5B', title:'Finance'},
+    {color:'#5A5A5B', title:'Meeting'},
+    {color:'#5A5A5B', title:'Finance'},
+]

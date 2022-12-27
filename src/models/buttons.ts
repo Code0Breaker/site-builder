@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Accordion } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export const StyledNavLink = styled(NavLink)({
     display:'flex',
@@ -57,4 +57,9 @@ export const StyledSubNavLink = styled(NavLink)({
         background:'#feb800',
         color:'white'
     }
+})
+
+export const AuthLinks = styled(Link)({
+    textDecoration:'none',
+    color:'white'
 })

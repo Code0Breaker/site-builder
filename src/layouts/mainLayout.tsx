@@ -36,6 +36,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import ListIcon from '@mui/icons-material/List';
+import FileCopyIcon from '@mui/icons-material/FileCopy';
 import { useState } from 'react';
 
 const drawerWidth = 240;
@@ -200,6 +201,7 @@ export default function MainLayout() {
             <StyledNavLink to={'/inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
             <StyledNavLink to={'/chat'}><ForumIcon/>Chat</StyledNavLink>
             <StyledNavLink to={'/taskboard'}><ListIcon/>Taskboard</StyledNavLink>
+            <StyledNavLink to={'/calendar'}><CalendarMonthIcon/>Calendar</StyledNavLink>
             <StyledNavLink to={'/contacts'}><ImportContactsIcon/>Contacts</StyledNavLink>
             <StyledMenuAccordion>
               <AccordionSummary
@@ -218,6 +220,46 @@ export default function MainLayout() {
                   <StyledSubNavLink to={'/chartjs'}>-- Chartjs</StyledSubNavLink>
                   <StyledSubNavLink to={'/echarts'}>-- eCharts</StyledSubNavLink>
                   <StyledSubNavLink to={'/gauges'}>-- Gauges</StyledSubNavLink>
+                </FlexColumn>
+              </AccordionDetails>
+            </StyledMenuAccordion>
+
+            <StyledMenuAccordion>
+              <AccordionSummary
+              sx={{padding:0}}
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <FlexAlignCenter gap={2}>
+                  <FileCopyIcon/>
+                  Pages
+                </FlexAlignCenter>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FlexColumn>
+                  <StyledSubNavLink to={'/search-results'}>-- Search Results</StyledSubNavLink>
+                  <StyledSubNavLink to={'/image-gallery'}>-- Image gallery</StyledSubNavLink>
+                  <StyledSubNavLink to={'/faq'}>-- FAQ</StyledSubNavLink>
+                </FlexColumn>
+              </AccordionDetails>
+            </StyledMenuAccordion>
+
+            <StyledMenuAccordion>
+              <AccordionSummary
+              sx={{padding:0}}
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <FlexAlignCenter gap={2}>
+                  <FileCopyIcon/>
+                  Authentication
+                </FlexAlignCenter>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FlexColumn>
+                  <StyledSubNavLink to={'/login'}>-- Login</StyledSubNavLink>
                 </FlexColumn>
               </AccordionDetails>
             </StyledMenuAccordion>
