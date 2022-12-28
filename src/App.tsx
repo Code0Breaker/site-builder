@@ -1,6 +1,7 @@
 import { useRoutes } from 'react-router-dom'
 import Taskboard from './components/taskboard/taskboard'
 import MainLayout from './layouts/mainLayout'
+import BlogList from './pages/blogList/blogList'
 import Calendar from './pages/calendar/calendar'
 import Chartjs from './pages/chartjs/chartjs'
 import Chat from './pages/chat/chat'
@@ -12,7 +13,11 @@ import Gauges from './pages/gauges/gauges'
 import ImageGallery from './pages/imageGallery/imageGallery'
 import Inbox from './pages/inbox/inbox'
 import Login from './pages/login/login'
+import Maps from './pages/maps/maps'
+import NewPost from './pages/newPost/newPost'
 import SearchResults from './pages/searchResults/searchResults'
+import Summernote from './pages/summernote/summernote'
+import TypographySection from './pages/typography/typography'
 
 function App() {
    const routes = useRoutes([
@@ -32,6 +37,11 @@ function App() {
         {path:'search-results', element:<SearchResults/>},
         {path:'image-gallery', element:<ImageGallery/>},
         {path:'faq', element:<Faq/>},
+        {path:'summernote', element:<Summernote/>},
+        {path:'new-post', element:<NewPost/>},
+        {path:'typography', element:<TypographySection/>},
+        {path:'maps', element:<Maps/>},
+        {path:'blog-list', element:<BlogList/>},
       ],
     },
     {path:'login',element:<Login/>}

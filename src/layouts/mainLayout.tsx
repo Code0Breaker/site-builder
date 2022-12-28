@@ -37,6 +37,11 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import LeaderboardIcon from '@mui/icons-material/Leaderboard';
 import ListIcon from '@mui/icons-material/List';
 import FileCopyIcon from '@mui/icons-material/FileCopy';
+import LockIcon from '@mui/icons-material/Lock';
+import EditIcon from '@mui/icons-material/Edit';
+import LanguageIcon from '@mui/icons-material/Language';
+import MapIcon from '@mui/icons-material/Map';
+import DiamondIcon from '@mui/icons-material/Diamond';
 import { useState } from 'react';
 
 const drawerWidth = 240;
@@ -211,6 +216,25 @@ export default function MainLayout() {
                 id="panel1a-header"
               >
                 <FlexAlignCenter gap={2}>
+                  <DiamondIcon/>
+                  UI Elements
+                </FlexAlignCenter>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FlexColumn>
+                  <StyledSubNavLink to={'/typography'}>-- Typography</StyledSubNavLink>
+                </FlexColumn>
+              </AccordionDetails>
+            </StyledMenuAccordion>
+
+            <StyledMenuAccordion>
+              <AccordionSummary
+              sx={{padding:0}}
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <FlexAlignCenter gap={2}>
                   <LeaderboardIcon/>
                   Charts
                 </FlexAlignCenter>
@@ -253,13 +277,70 @@ export default function MainLayout() {
                 id="panel1a-header"
               >
                 <FlexAlignCenter gap={2}>
-                  <FileCopyIcon/>
+                  <LockIcon/>
                   Authentication
                 </FlexAlignCenter>
               </AccordionSummary>
               <AccordionDetails>
                 <FlexColumn>
                   <StyledSubNavLink to={'/login'}>-- Login</StyledSubNavLink>
+                </FlexColumn>
+              </AccordionDetails>
+            </StyledMenuAccordion>
+
+            <StyledMenuAccordion>
+              <AccordionSummary
+              sx={{padding:0}}
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <FlexAlignCenter gap={2}>
+                  <EditIcon/>
+                  Forms
+                </FlexAlignCenter>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FlexColumn>
+                  <StyledSubNavLink to={'/summernote'}>-- Summernote</StyledSubNavLink>
+                </FlexColumn>
+              </AccordionDetails>
+            </StyledMenuAccordion>
+
+            <StyledMenuAccordion>
+              <AccordionSummary
+              sx={{padding:0}}
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <FlexAlignCenter gap={2}>
+                  <LanguageIcon/>
+                  Blog
+                </FlexAlignCenter>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FlexColumn>
+                  <StyledSubNavLink to={'/new-post'}>-- new Post</StyledSubNavLink>
+                </FlexColumn>
+              </AccordionDetails>
+            </StyledMenuAccordion>
+
+            <StyledMenuAccordion>
+              <AccordionSummary
+              sx={{padding:0}}
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <FlexAlignCenter gap={2}>
+                  <MapIcon/>
+                  Maps
+                </FlexAlignCenter>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FlexColumn>
+                  <StyledSubNavLink to={'/maps'}>-- jVector Map</StyledSubNavLink>
                 </FlexColumn>
               </AccordionDetails>
             </StyledMenuAccordion>

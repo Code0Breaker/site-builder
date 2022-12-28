@@ -1,4 +1,4 @@
-import { Divider, Typography } from "@mui/material"
+import { Button, Checkbox, Divider, FormControlLabel, OutlinedInput, TextField, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import { Link } from "react-router-dom"
 import { Flex, FlexAlignCenter, FlexCenter, FlexColumn, SpaceBetween } from "../../models/boxes"
@@ -20,6 +20,40 @@ const Login = () =>{
                         </FlexAlignCenter>
                     </SpaceBetween>
                     <Divider sx={{borderColor:'rgba(255,255,255,0.14)'}}/>
+                    <SpaceBetween mt={'100px'}>
+                        <Box>
+                            <Typography fontWeight={300} variant={'h4'} color={'white'} maxWidth={260}>
+                                Everything
+                                you need for
+                                your Dashboard
+                            </Typography>
+                            <Typography mt={2} fontWeight={300} color={'white'} maxWidth={360}>
+                                It is a long established fact that
+                                a reader will be distracted by
+                                the readable content of a page
+                                when looking at its layout.
+                            </Typography>
+                        </Box>
+                        <FlexColumn p={'20px'} sx={{background:'white'}} gap={5}>
+                            <Typography color={'black'}>Login to your account</Typography>
+                            <FlexColumn gap={2}>
+                                <OutlinedInput sx={{border:'1px solid #ced4da', borderRadius:'5px',height:'35px',color:'white',width:"308px"}} placeholder="Email"/>
+                                <OutlinedInput sx={{border:'1px solid #ced4da', borderRadius:'5px',height:'35px',color:'white',width:"308px"}} placeholder="Password"/>
+                                <FormControlLabel
+                                sx={{color:'black'}}
+                                label="Remember me"
+                                control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />} />
+                            </FlexColumn>
+                            <Button fullWidth variant="contained">Log in</Button>
+                            <FlexColumn alignItems={'center'}>
+                                <Link to={'/'}>Forgot password?</Link>
+                                <Flex>
+                                    <Typography color={'black'}>Don't have an account? </Typography>
+                                    <Link to={'/'}>Register</Link>
+                                </Flex>
+                            </FlexColumn>
+                        </FlexColumn>
+                    </SpaceBetween>
                 </FlexColumn>
             </FlexCenter>
             <Box width={'70%'} height={'100%'} sx={{background:'#feb800'}}>
