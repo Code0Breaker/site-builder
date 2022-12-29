@@ -10,11 +10,13 @@ import Dashboard from './pages/dashboard/dashboard'
 import Echarts from './pages/echarts/echarts'
 import Faq from './pages/faq/faq'
 import Gauges from './pages/gauges/gauges'
+import HelperClasses from './pages/helperClasses/helperClasses'
 import ImageGallery from './pages/imageGallery/imageGallery'
 import Inbox from './pages/inbox/inbox'
 import Login from './pages/login/login'
 import Maps from './pages/maps/maps'
 import NewPost from './pages/newPost/newPost'
+import Register from './pages/register/register'
 import SearchResults from './pages/searchResults/searchResults'
 import Summernote from './pages/summernote/summernote'
 import TypographySection from './pages/typography/typography'
@@ -42,9 +44,11 @@ function App() {
         {path:'typography', element:<TypographySection/>},
         {path:'maps', element:<Maps/>},
         {path:'blog-list', element:<BlogList/>},
+        {path:'helper-classes', element:<HelperClasses/>},
       ],
     },
-    {path:'login',element:<Login/>}
+    {path:'login',element:<Login/>},
+    {path:'register',element:<Register/>}
    ])
 
   return routes

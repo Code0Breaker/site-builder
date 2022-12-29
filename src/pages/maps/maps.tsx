@@ -8,7 +8,7 @@ const Maps = () =>{
             <PaperBox justifyContent={'center'}>
                 <WorldMap />
             </PaperBox>
-            <SpaceBetween gap={5} flexWrap={isTablet?'wrap':'nowrap'}>
+            <SpaceBetween gap={5} flexWrap={'wrap'}>
                 <PaperBox justifyContent={'center'} width={'100%'}>
                     <WorldMap selected={'na'}/>
                 </PaperBox>

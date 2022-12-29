@@ -223,6 +223,7 @@ export default function MainLayout() {
               <AccordionDetails>
                 <FlexColumn>
                   <StyledSubNavLink to={'/typography'}>-- Typography</StyledSubNavLink>
+                  <StyledSubNavLink to={'/helper-classes'}>-- Helper classes</StyledSubNavLink>
                 </FlexColumn>
               </AccordionDetails>
             </StyledMenuAccordion>
@@ -284,6 +285,7 @@ export default function MainLayout() {
               <AccordionDetails>
                 <FlexColumn>
                   <StyledSubNavLink to={'/login'}>-- Login</StyledSubNavLink>
+                  <StyledSubNavLink to={'/register'}>-- Register</StyledSubNavLink>
                 </FlexColumn>
               </AccordionDetails>
             </StyledMenuAccordion>

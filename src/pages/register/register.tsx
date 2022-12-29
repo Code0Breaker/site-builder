@@ -4,7 +4,10 @@ import { Link } from "react-router-dom"
 import { Flex, FlexAlignCenter, FlexCenter, FlexColumn, SpaceBetween } from "../../models/boxes"
 import logo from '../../assets/icon-light.svg'
 import { AuthLinks } from "../../models/buttons"
-const Login = () =>{
+import FacebookIcon from '@mui/icons-material/Facebook';
+import TwitterIcon from '@mui/icons-material/Twitter';
+
+const Register = () =>{
     return(
         <Flex width={'100vw'} height={'100vh'} position={'relative'}>
             <FlexCenter width={'100%'} position={'absolute'} top={100}>
@@ -16,7 +19,7 @@ const Login = () =>{
                         </FlexAlignCenter>
                         <FlexAlignCenter gap={2}>
                             <AuthLinks to={'/'}>Documentation</AuthLinks>
-                            <AuthLinks to={'/register'}>Sign Up</AuthLinks>
+                            <AuthLinks to={'/login'}>Sign In</AuthLinks>
                         </FlexAlignCenter>
                     </SpaceBetween>
                     <Divider sx={{borderColor:'rgba(255,255,255,0.14)'}}/>
@@ -35,7 +38,7 @@ const Login = () =>{
                             </Typography>
                         </Box>
                         <FlexColumn p={'20px'} sx={{background:'white'}} gap={5}>
-                            <Typography color={'black'}>Login to your account</Typography>
+                            <Typography color={'black'}>Register to your account</Typography>
                             <FlexColumn gap={2}>
                                 <OutlinedInput sx={{border:'1px solid #ced4da', borderRadius:'5px',height:'35px',color:'white',width:"308px"}} placeholder="Email"/>
                                 <OutlinedInput sx={{border:'1px solid #ced4da', borderRadius:'5px',height:'35px',color:'white',width:"308px"}} placeholder="Password"/>
@@ -44,13 +47,17 @@ const Login = () =>{
                                 label="Remember me"
                                 control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />} />
                             </FlexColumn>
-                            <Button fullWidth variant="contained">Log in</Button>
+                            <Button fullWidth variant="contained">Register</Button>
                             <FlexColumn alignItems={'center'}>
-                                <Link to={'/'}>Forgot password?</Link>
-                                <Flex>
-                                    <Typography color={'black'}>Don't have an account? </Typography>
-                                    <Link to={'/'}>Register</Link>
-                                </Flex>
+                                <Box width={'100%'} mb={3}>
+                                    <Divider> 
+                                        <Typography variant="h5" color={'gray'}>OR</Typography>
+                                    </Divider>
+                                </Box>
+                                <FlexColumn width={'100%'} gap={2}>
+                                    <Button variant="outlined" startIcon={<FacebookIcon/>}>Sign in with Facebook</Button>
+                                    <Button variant="outlined" startIcon={<TwitterIcon/>}>Sign in with Twitter</Button>
+                                </FlexColumn>
                             </FlexColumn>
                         </FlexColumn>
                     </SpaceBetween>
@@ -66,4 +73,4 @@ const Login = () =>{
     )
 }
 
-export default Login
+export default Register
