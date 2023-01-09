@@ -9,11 +9,11 @@ const Maps = () =>{
                 <WorldMap />
             </PaperBox>
             <SpaceBetween gap={5} flexWrap={'wrap'}>
-                <PaperBox justifyContent={'center'} width={'100%'}>
+                <PaperBox justifyContent={'center'} width={'100%'} overflow={'auto'}>
                     <WorldMap selected={'na'}/>
                 </PaperBox>
 
-                <PaperBox justifyContent={'center'} width={'100%'}>
+                <PaperBox justifyContent={'center'} width={'100%'} overflow={'auto'}>
                     <WorldMap />
                 </PaperBox>
             </SpaceBetween>

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material"
+import { Box, Grid, useMediaQuery } from "@mui/material"
 import { AreaChart } from "../../components/charts/chartjsAreaChart"
 import { BarChart } from "../../components/charts/chartjsBarChart"
 import { DoughnutChart } from "../../components/charts/chartjsDonatChart"
@@ -9,59 +9,55 @@ import { RadarChart } from "../../components/charts/chartjsRadarChart"
 import { Flex, FlexColumn, PaperBox } from "../../models/boxes"
 
 const Chartjs = () =>{
+    const isMobile = useMediaQuery('(max-width:860px)')
     return(
-        <FlexColumn>
-        <Flex width={'100%'} gap={3}>
-            <Box width={'50%'}>
-                <PaperBox height={500}>
+        <Grid container gap={3}>
+       
+            <Grid xs={isMobile?12:5.7}>
+                <PaperBox>
                     <LineChart/>
                 </PaperBox>
-            </Box>
-            <Box width={'50%'}>
-                <PaperBox height={500}>
+            </Grid>
+            <Grid xs={isMobile?12:5.7}>
+                <PaperBox>
                     <BarChart/>
                 </PaperBox>
-            </Box>
-        </Flex>
-        <Flex width={'100%'} gap={3}>
-            <Box width={'50%'}>
-                <PaperBox height={500}>
+            </Grid>
+  
+            <Grid xs={isMobile?12:5.7}>
+                <PaperBox>
                     <AreaChart/>
                 </PaperBox>
-            </Box>
-            <Box width={'50%'}>
-                <PaperBox height={500}>
+            </Grid>
+            <Grid xs={isMobile?12:5.7}>
+                <PaperBox>
                     <LineChart/>
                 </PaperBox>
-            </Box>
-        </Flex>
-
-        <Flex width={'100%'} gap={3}>
-            <Box width={'50%'}>
-                <PaperBox height={500} justifyContent={'center'}>
+            </Grid>
+   
+            <Grid xs={isMobile?12:5.7}>
+                <PaperBox justifyContent={'center'}>
                     <PieChart/>
                 </PaperBox>
-            </Box>
-            <Box width={'50%'}>
-                <PaperBox height={500} justifyContent={'center'}>
+            </Grid>
+            <Grid xs={isMobile?12:5.7}>
+                <PaperBox justifyContent={'center'}>
                     <DoughnutChart/>
                 </PaperBox>
-            </Box>
-        </Flex>
-
-        <Flex width={'100%'} gap={3}>
-            <Box width={'50%'}>
-                <PaperBox height={500} justifyContent={'center'}>
+            </Grid>
+ 
+            <Grid xs={isMobile?12:5.7}>
+                <PaperBox justifyContent={'center'}>
                     <RadarChart/>
                 </PaperBox>
-            </Box>
-            <Box width={'50%'}>
-                <PaperBox height={500} justifyContent={'center'}>
+            </Grid>
+            <Grid xs={isMobile?12:5.7}>
+                <PaperBox justifyContent={'center'}>
                     <PolarAreaChart/>
                 </PaperBox>
-            </Box>
-        </Flex>
-    </FlexColumn>
+            </Grid>
+      
+    </Grid>
     )
 }
 

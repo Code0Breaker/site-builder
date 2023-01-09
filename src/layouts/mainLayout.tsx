@@ -22,7 +22,7 @@ import ForumIcon from '@mui/icons-material/Forum';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer';
-import { Accordion, AccordionDetails, AccordionSummary, TextField } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, TextField, useMediaQuery } from '@mui/material';
 import { SearchInput } from '../models/textfields';
 import EmailIcon from '@mui/icons-material/Email';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -48,9 +48,10 @@ const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
   open?: boolean;
-}>(({ theme, open }) => ({
+  isMobile:boolean
+}>(({ theme, open, isMobile }) => ({
   background:'#f4f7f9',
-  width:'98vw',
+  width:'calc(100vw - 50px)',
   minHeight:'100vh',
   flexGrow: 1,
   padding: '100px 30px',
@@ -58,9 +59,9 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
-  marginLeft: `-${drawerWidth}px`,
+  marginLeft: !isMobile?`-${drawerWidth}px`:0,
   ...(open && {
-    width:`calc(100vw - ${drawerWidth+17}px)`,
+    width:!isMobile?`calc(100vw - ${drawerWidth+72}px)`:'calc(100vw - 50px)',
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
       duration: theme.transitions.duration.enteringScreen,
@@ -101,6 +102,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 }));
 
 export default function MainLayout() {
+  const isMobile = useMediaQuery('(max-width:820px)')
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
@@ -138,7 +140,7 @@ export default function MainLayout() {
                 </IconButton>
             </Flex>
             <Flex>
-                <SearchInput placeholder='Search here...'/>
+                {!isMobile&&<SearchInput placeholder='Search here...'/>}
                 <Flex>
                     <IconButton>
                         <EmailIcon sx={{color:'white'}}/>
@@ -169,9 +171,10 @@ export default function MainLayout() {
             boxSizing: 'border-box',
           },
         }}
-        variant="persistent"
+        variant={isMobile?'temporary':"persistent"}
         anchor="left"
         open={open}
+        onClose={()=>setOpen(false)}
       >
         <DrawerHeader>
             <Box display={'flex'} gap={2} width={'100%'} alignItems={'center'}>
@@ -349,7 +352,7 @@ export default function MainLayout() {
         </FlexColumn>
 
       </Drawer>
-      <Main open={open}>
+      <Main open={open} isMobile={isMobile}>
         <Outlet/>
       </Main>
     </Box>

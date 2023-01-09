@@ -8,12 +8,12 @@ const TypographySection = () =>{
             <PaperBox>
                 <FlexColumn>
                     <Typography fontWeight={500} mb={4}>Header</Typography>
-                    <Typography variant="h1">Dashboard Heading 1</Typography>
-                    <Typography variant="h2">Dashboard Heading 2</Typography>
-                    <Typography variant="h3">Dashboard Heading 3</Typography>
-                    <Typography variant="h4">Dashboard Heading 4</Typography>
-                    <Typography variant="h5">Dashboard Heading 5</Typography>
-                    <Typography variant="h6">Dashboard Heading 6</Typography>
+                    <Typography variant="h1" sx={{wordBreak: 'break-word'}}>Dashboard Heading 1</Typography>
+                    <Typography variant="h2" sx={{wordBreak: 'break-word'}}>Dashboard Heading 2</Typography>
+                    <Typography variant="h3" sx={{wordBreak: 'break-word'}}>Dashboard Heading 3</Typography>
+                    <Typography variant="h4" sx={{wordBreak: 'break-word'}}>Dashboard Heading 4</Typography>
+                    <Typography variant="h5" sx={{wordBreak: 'break-word'}}>Dashboard Heading 5</Typography>
+                    <Typography variant="h6" sx={{wordBreak: 'break-word'}}>Dashboard Heading 6</Typography>
                 </FlexColumn>
             </PaperBox>
 

@@ -1,10 +1,11 @@
-import { Button, Checkbox, Divider, FormControlLabel, OutlinedInput, TextField, Typography } from "@mui/material"
+import { Button, Checkbox, Divider, FormControlLabel, OutlinedInput, TextField, Typography, useMediaQuery } from "@mui/material"
 import { Box } from "@mui/system"
 import { Link } from "react-router-dom"
 import { Flex, FlexAlignCenter, FlexCenter, FlexColumn, SpaceBetween } from "../../models/boxes"
 import logo from '../../assets/icon-light.svg'
 import { AuthLinks } from "../../models/buttons"
 const Login = () =>{
+    const isMobile = useMediaQuery('(max-width:820px)')
     return(
         <Flex width={'100vw'} height={'100vh'} position={'relative'}>
             <FlexCenter width={'100%'} position={'absolute'} top={100}>
@@ -21,7 +22,7 @@ const Login = () =>{
                     </SpaceBetween>
                     <Divider sx={{borderColor:'rgba(255,255,255,0.14)'}}/>
                     <SpaceBetween mt={'100px'}>
-                        <Box>
+                        {!isMobile&&<Box>
                             <Typography fontWeight={300} variant={'h4'} color={'white'} maxWidth={260}>
                                 Everything
                                 you need for
@@ -33,7 +34,7 @@ const Login = () =>{
                                 the readable content of a page
                                 when looking at its layout.
                             </Typography>
-                        </Box>
+                        </Box>}
                         <FlexColumn p={'20px'} sx={{background:'white'}} gap={5}>
                             <Typography color={'black'}>Login to your account</Typography>
                             <FlexColumn gap={2}>

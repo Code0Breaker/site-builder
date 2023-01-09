@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControlLabel, Grid, Input, LinearProgress, TextField, Typography } from "@mui/material"
+import { Box, Button, Checkbox, FormControlLabel, Grid, Input, LinearProgress, TextField, Typography, useMediaQuery } from "@mui/material"
 import Divider from "@mui/material/Divider"
 import { DinamicChart } from "../../components/charts/dinamicChart"
 import { barOption, lineOption, pieOption } from "../../components/charts/mockedData"
@@ -9,10 +9,12 @@ import { Flex, FlexColumn, PaperBox, ProgressWitgetBox, SpaceBetween } from "../
 import HomeIcon from '@mui/icons-material/Home';
 import { TextArea } from "../../models/textfields"
 
-const Dashboard = () =>(
+const Dashboard = () =>{
+    const isMobile = useMediaQuery('(max-width:830px)')
+    return(
     <>
     <FlexColumn>
-        <PaperBox width={'100%'} justifyContent={'center'}>
+        <PaperBox flexWrap={isMobile?'wrap':'nowrap'} width={'100%'} justifyContent={'center'}>
             {widgetData.map((item, i) => {
                 return (
                     <ProgressWitgetBox key={i}>
@@ -33,8 +35,8 @@ const Dashboard = () =>(
                 )
             })}
         </PaperBox>
-        <Flex width={'100%'} gap={5}>
-            <Box width={'65%'}>
+        <Flex flexWrap={isMobile?'wrap':'nowrap'} width={'100%'} gap={5}>
+            <Box width={isMobile?'100%':'65%'}>
                 <PaperBox height={340} position={'relative'}>
                     <SpaceBetween  style={{width:'95%'}} zIndex={999} position={'absolute'}>
                         <Typography>Cryptocurrency Overview</Typography>
@@ -46,7 +48,7 @@ const Dashboard = () =>(
                     <DinamicChart option={lineOption} />
                 </PaperBox>
             </Box>
-            <Box width={'35%'}>
+            <Box width={isMobile?'100%':'35%'}>
                 <PaperBox height={340}>
                     <DinamicChart option={barOption} />
                 </PaperBox>
@@ -56,8 +58,8 @@ const Dashboard = () =>(
             <CustomizedTable />
         </PaperBox>
 
-        <Flex width="100%" gap={5}>
-            <FlexColumn width={'30%'}>
+        <Flex width="100%" gap={5} flexWrap={isMobile?'wrap':'nowrap'}>
+            <FlexColumn width={isMobile?'100%':'30%'}>
                 <PaperBox justifyContent={'space-between'}>
                     <Box width={100}>
                         <DinamicChart option={pieOption} />
@@ -101,7 +103,7 @@ const Dashboard = () =>(
                 </PaperBox>
             </FlexColumn>
 
-            <FlexColumn width={'30%'}>
+            <FlexColumn width={isMobile?'100%':'30%'}>
                 <PaperBox p={2} flexDirection={'column'}>
                     <Typography>Twitter Feed</Typography>
                     <TextArea placeholder="Enter here for tweet..." rows={6} />
@@ -118,7 +120,7 @@ const Dashboard = () =>(
                 </PaperBox>
             </FlexColumn>
 
-            <FlexColumn width={'40%'}>
+            <FlexColumn width={isMobile?'100%':'40%'}>
                 <PaperBox p={3} flexDirection={'column'} gap={2}>
                     <Typography>Social Counter</Typography>
                     {socialData.map(item => {
@@ -148,5 +150,6 @@ const Dashboard = () =>(
     </FlexColumn>
     </>
 )
+}
 
 export default Dashboard

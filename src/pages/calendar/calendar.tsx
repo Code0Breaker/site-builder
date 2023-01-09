@@ -7,16 +7,17 @@ import { useState } from "react";
 import { Flex, FlexColumn, PaperBox, SpaceBetween } from "../../models/boxes";
 import { Box } from "@mui/system";
 import avatarImg from '../../assets/user.png'
-import { Avatar, AvatarGroup, Divider, LinearProgress, Typography } from "@mui/material";
+import { Avatar, AvatarGroup, Divider, LinearProgress, Typography, useMediaQuery } from "@mui/material";
 import { tData } from "../../mockedData";
 const Calendar = () =>{
+    const isMobile = useMediaQuery('(max-width:1024px)')
     const [state, setState] = useState({
         weekendsVisible: true,
         currentEvents: []
     })
     return(
-        <Flex gap={3}>
-            <Box width={'70%'}>
+        <Flex gap={3} flexWrap={isMobile?'wrap':'nowrap'}>
+            <Box width={isMobile?'100%':'70%'}>
                 <PaperBox>
                     <FullCalendar
                     plugins={[dayGridPlugin, listPlugin, timeGridPlugin, interactionPlugin]}
@@ -34,7 +35,7 @@ const Calendar = () =>{
                       />
                 </PaperBox>
             </Box>
-            <Box width={'30%'}>
+            <Box width={isMobile?'100%':'30%'}>
                 <PaperBox>
                     <FlexColumn gap={2} width={'100%'} alignItems={'center'}>
                         <img 

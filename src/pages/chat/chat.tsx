@@ -7,14 +7,15 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import VideoChatIcon from '@mui/icons-material/VideoChat';
 import SettingsIcon from '@mui/icons-material/Settings';
 import HelpCenterIcon from '@mui/icons-material/HelpCenter';
-import { TextField } from "@mui/material"
+import { TextField, useMediaQuery } from "@mui/material"
 import { TextArea } from "../../models/textfields"
 
 const Chat = () =>{
+    const isMobile = useMediaQuery('(max-width:860px)')
     return(
         <>
-            <PaperBox>
-                <FlexColumn width={'80%'} borderRight={'1px solid rgba(0, 0, 0, 0.12)'}>
+            <PaperBox flexWrap={isMobile?'wrap':'nowrap'}>
+                <FlexColumn width={isMobile?'100%':'80%'} borderRight={'1px solid rgba(0, 0, 0, 0.12)'}>
                     <SpaceBetween p={'15px 20px'}>
                         <Flex gap={1}> 
                             <Box>
@@ -84,7 +85,7 @@ const Chat = () =>{
                     <TextArea placeholder="Enter text here" rows={4}/>
                 </FlexColumn>
                 </FlexColumn>
-                <Box width={'15%'} p={'20px'}>
+                {!isMobile&&<Box width={'15%'} p={'20px'}>
                     <TextField placeholder="Search..." variant="outlined" fullWidth/>
                     <FlexColumn gap={3} mt={3}>
                         {
@@ -101,7 +102,7 @@ const Chat = () =>{
                             })
                         }
                     </FlexColumn>
-                </Box>
+                </Box>}
             </PaperBox>
         </>
     )

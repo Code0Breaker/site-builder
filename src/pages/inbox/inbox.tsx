@@ -1,13 +1,14 @@
-import { Avatar, Box, Button, Checkbox, Divider, IconButton, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, Checkbox, Divider, IconButton, TextField, Typography, useMediaQuery } from "@mui/material"
 import { inboxData, labelsData } from "../../mockedData"
-import { FlexColumn, PaperBox } from "../../models/boxes"
+import { Flex, FlexAlignCenter, FlexColumn, PaperBox, SpaceBetween } from "../../models/boxes"
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 
 const Inbox = () =>{
+    const isMobile = useMediaQuery('(max-width:1024px)')
     return(
         <>
         <PaperBox>
-        <Box width={'15%'} p={'20px'}>
+        {!isMobile&&<Box width={'15%'} p={'20px'}>
                 <Button fullWidth variant="contained" color="error" sx={{height:'35px'}}>Compose</Button>
                 <FlexColumn gap={3} mt={3} alignItems={'flex-start'}>
                     {
@@ -40,26 +41,26 @@ const Inbox = () =>{
                         })
                     }
                 </FlexColumn>
-            </Box>
+            </Box>}
             <FlexColumn width={'80%'} borderLeft={'1px solid rgba(0, 0, 0, 0.12)'}>
-                <Box p={'15px 20px'} display={'flex'} width={'100%'} justifyContent={'space-between'}>
-                    <Box display={'flex'} gap={1} alignItems={'center'}> 
+                <SpaceBetween p={'15px 20px'} flexWrap={'wrap'}>
+                    <FlexAlignCenter> 
                         <Box>
                             <Checkbox/>
                         </Box>
-                        <Box display={'flex'}>
+                        <Flex>
                             <Button variant="outlined" sx={{height:'31px',padding:1,borderRadius:0, borderColor:'#eee', color:'#777'}} color="inherit">Refresh</Button>
                             <Button variant="outlined" sx={{height:'31px',padding:1,borderRadius:0, borderColor:'#eee', color:'#777'}} color="inherit">Archive</Button>
                             <Button variant="outlined" sx={{height:'31px',padding:1,borderRadius:0, borderColor:'#eee', color:'#777'}} color="inherit">Trash</Button>
-                        </Box>
-                    </Box>
-                    <Box display={'flex'} alignItems={'center'}>
+                        </Flex>
+                    </FlexAlignCenter>
+                    <FlexAlignCenter>
                         <Box marginRight={2}>
                             <Typography>1-50/295</Typography>
                         </Box>
                         <Button variant="outlined" sx={{height:'31px',width:'27px',borderRadius:0, borderColor:'#eee', color:'#777'}} color="inherit">{"<"}</Button>
                         <Button variant="outlined" sx={{height:'31px',width:'27px',borderRadius:0, borderColor:'#eee', color:'#777'}} color="inherit">{">"}</Button>
-                    </Box>
+                    </FlexAlignCenter>
                     {/* <Box display={'flex'} gap={2}>
                         <Box sx={{background:'#ffc107'}} p={'6px 12px'} display={'flex'} alignItems={'center'} borderRadius={1}>
                             <CameraAltIcon sx={{color:'white'}}/>
@@ -75,7 +76,7 @@ const Inbox = () =>{
                         </Box>
                         
                     </Box> */}
-                </Box>
+                </SpaceBetween>
             <Divider/>
                 {
                     Array.from(Array(10)).map((item,i)=>{

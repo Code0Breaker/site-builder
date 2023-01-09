@@ -1,11 +1,14 @@
+import { useMediaQuery } from '@mui/material'
 import Box from '@mui/material/Box'
 import GaugeChart from 'react-gauge-chart'
 import { Flex, FlexColumn, FullCenteredIn, PaperBox } from '../../models/boxes'
 
-const Gauges = () =>(
+const Gauges = () =>{
+    const isMobile = useMediaQuery('(max-width:820px)')
+    return(
     <FlexColumn>
-        <Flex width={'100%'} gap={3}>
-            <Box width={'50%'}>
+        <Flex width={'100%'} gap={3} flexWrap={isMobile?'wrap':'nowrap'}>
+            <Box width={isMobile?'100%':'50%'}>
                 <PaperBox height={300}>
                     <FullCenteredIn>
                         <GaugeChart
@@ -18,7 +21,7 @@ const Gauges = () =>(
                     </FullCenteredIn>
                 </PaperBox>
             </Box>
-            <Box width={'50%'}>
+            <Box width={isMobile?'100%':'50%'}>
                 <PaperBox height={300}>
                     <FullCenteredIn>
                         <GaugeChart
@@ -32,8 +35,8 @@ const Gauges = () =>(
                 </PaperBox>
             </Box>
         </Flex>
-        <Flex width={'100%'} gap={3}>
-            <Box width={'50%'}>
+        <Flex width={'100%'} gap={3} flexWrap={isMobile?'wrap':'nowrap'}>
+            <Box width={isMobile?'100%':'50%'}>
                 <PaperBox height={300}>
                     <FullCenteredIn>
                         <GaugeChart
@@ -45,7 +48,7 @@ const Gauges = () =>(
                     </FullCenteredIn>
                 </PaperBox>
             </Box>
-            <Box width={'50%'}>
+            <Box width={isMobile?'100%':'50%'}>
                 <PaperBox height={300}>
                     <FullCenteredIn>
                         <GaugeChart
@@ -61,5 +64,6 @@ const Gauges = () =>(
         </Flex>
     </FlexColumn>
 )
+}
 
 export default Gauges
