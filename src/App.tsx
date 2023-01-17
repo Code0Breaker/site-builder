@@ -22,9 +22,11 @@ import Summernote from './pages/summernote/summernote'
 import TypographySection from './pages/typography/typography'
 
 function App() {
-   const routes = useRoutes([
+  const routes = useRoutes([
+     {path:'',element:<Login/>},
+     {path:'register',element:<Register/>},
     {
-      path:'', 
+      path:'dashboard', 
       element:<MainLayout/>,
       children:[
         {path:'', element:<Dashboard/>},
@@ -47,8 +49,6 @@ function App() {
         {path:'helper-classes', element:<HelperClasses/>},
       ],
     },
-    {path:'login',element:<Login/>},
-    {path:'register',element:<Register/>}
    ])
 
   return routes

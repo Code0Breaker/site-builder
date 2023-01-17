@@ -287,7 +287,7 @@ export default function MainLayout() {
               </AccordionSummary>
               <AccordionDetails>
                 <FlexColumn>
-                  <StyledSubNavLink to={'/login'}>-- Login</StyledSubNavLink>
+                  <StyledSubNavLink to={'/'}>-- Login</StyledSubNavLink>
                   <StyledSubNavLink to={'/register'}>-- Register</StyledSubNavLink>
                 </FlexColumn>
               </AccordionDetails>

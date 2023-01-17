@@ -21,6 +21,7 @@
     "@lourenci/react-kanban": "^2.1.0",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.1",
+    "axios": "^1.2.2",
     "build-ui": "^0.1.0-alpha.16",
     "chart.js": "^4.1.1",
     "echarts": "^5.4.1",

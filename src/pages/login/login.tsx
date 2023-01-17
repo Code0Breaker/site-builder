@@ -1,13 +1,44 @@
 import { Button, Checkbox, Divider, FormControlLabel, OutlinedInput, TextField, Typography, useMediaQuery } from "@mui/material"
 import { Box } from "@mui/system"
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import { Flex, FlexAlignCenter, FlexCenter, FlexColumn, SpaceBetween } from "../../models/boxes"
 import logo from '../../assets/icon-light.svg'
 import { AuthLinks } from "../../models/buttons"
+import { useEffect, useState } from "react"
+import { loginApi } from "../../api/authApi"
+import ForgotPassword from "../../components/forgotPassword/forgotPassword"
+import ResetPassword from "../../components/resetPassword/resetPassword"
+import CustomizedSnackbars from "../../components/messageHandling/messagehandling"
+
 const Login = () =>{
+    const [state, setState] = useState({email:"",password:""})
+    const [open, setOpen] = useState(false)
+    const [openSnacBar, setOpenSnacBar] = useState(false)
+    const [resetOpen, setResetOpen] = useState(false)
     const isMobile = useMediaQuery('(max-width:820px)')
+    const navigate = useNavigate()
+
+    useEffect(()=>{
+        const query = window.location.search.slice(1, window.location.search.length-1).split('&')
+        if(query.includes('token') && query.includes('email')){
+            setResetOpen(true)
+        }
+    },[])
+
+    const login = async() => {
+        const data = await loginApi(state)
+        console.log(data);
+        if(data.error_code === 0){
+            setOpenSnacBar(true)
+        }
+        // navigate('/dashboard')
+    }
+
     return(
         <Flex width={'100vw'} height={'100vh'} position={'relative'}>
+            <CustomizedSnackbars open={openSnacBar} setOpen={setOpenSnacBar}/>
+            <ForgotPassword open={open} setOpen={setOpen} next={setResetOpen}/>
+            <ResetPassword open={resetOpen} setOpen={setResetOpen}/>
             <FlexCenter width={'100%'} position={'absolute'} top={100}>
                 <FlexColumn width={'70%'}>
                     <SpaceBetween mb={2}>
@@ -38,16 +69,16 @@ const Login = () =>{
                         <FlexColumn p={'20px'} sx={{background:'white'}} gap={5}>
                             <Typography color={'black'}>Login to your account</Typography>
                             <FlexColumn gap={2}>
-                                <OutlinedInput sx={{border:'1px solid #ced4da', borderRadius:'5px',height:'35px',color:'white',width:"308px"}} placeholder="Email"/>
-                                <OutlinedInput sx={{border:'1px solid #ced4da', borderRadius:'5px',height:'35px',color:'white',width:"308px"}} placeholder="Password"/>
+                                <OutlinedInput value={state.email} onChange={e=>setState({...state,email:e.target.value})} sx={{border:'1px solid #ced4da', borderRadius:'5px',height:'35px',color:'gray',width:"308px"}} placeholder="Email"/>
+                                <OutlinedInput value={state.password} onChange={e=>setState({...state,password:e.target.value})} sx={{border:'1px solid #ced4da', borderRadius:'5px',height:'35px',color:'gray',width:"308px"}} placeholder="Password"/>
                                 <FormControlLabel
                                 sx={{color:'black'}}
                                 label="Remember me"
                                 control={<Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />} />
                             </FlexColumn>
-                            <Button fullWidth variant="contained">Log in</Button>
+                            <Button fullWidth variant="contained" onClick={login}>Log in</Button>
                             <FlexColumn alignItems={'center'}>
-                                <Link to={'/'}>Forgot password?</Link>
+                                <Button onClick={()=>setOpen(true)}>Forgot password?</Button>
                                 <Flex>
                                     <Typography color={'black'}>Don't have an account? </Typography>
                                     <Link to={'/'}>Register</Link>
@@ -57,12 +88,9 @@ const Login = () =>{
                     </SpaceBetween>
                 </FlexColumn>
             </FlexCenter>
-            <Box width={'70%'} height={'100%'} sx={{background:'#feb800'}}>
-
-            </Box>
-            <Box width={'30%'} height={'100%'} sx={{background:'#380e47'}}>
-
-            </Box>
+            <Box width={'70%'} height={'100%'} sx={{background:'#feb800'}}/>
+            <Box width={'30%'} height={'100%'} sx={{background:'#380e47'}}/>
+            
         </Flex>
     )
 }

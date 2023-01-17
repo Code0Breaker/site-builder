@@ -19,8 +19,8 @@ const Register = () =>{
                             <Typography variant="h5" color={'white'}>HexaBit</Typography>
                         </FlexAlignCenter>
                         <FlexAlignCenter gap={2}>
-                            <AuthLinks to={'/'}>Documentation</AuthLinks>
-                            <AuthLinks to={'/login'}>Sign In</AuthLinks>
+                            <AuthLinks to={'/dashboard'}>Documentation</AuthLinks>
+                            <AuthLinks to={'/'}>Sign In</AuthLinks>
                         </FlexAlignCenter>
                     </SpaceBetween>
                     <Divider sx={{borderColor:'rgba(255,255,255,0.14)'}}/>
