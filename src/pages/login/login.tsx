@@ -1,6 +1,6 @@
 import { Button, Checkbox, Divider, FormControlLabel, OutlinedInput, TextField, Typography, useMediaQuery } from "@mui/material"
 import { Box } from "@mui/system"
-import { Link, useNavigate, useSearchParams } from "react-router-dom"
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { Flex, FlexAlignCenter, FlexCenter, FlexColumn, SpaceBetween } from "../../models/boxes"
 import logo from '../../assets/icon-light.svg'
 import { AuthLinks } from "../../models/buttons"
@@ -16,22 +16,22 @@ const Login = () =>{
     const [openSnacBar, setOpenSnacBar] = useState(false)
     const [resetOpen, setResetOpen] = useState(false)
     const isMobile = useMediaQuery('(max-width:820px)')
+    const {search} = useLocation()
     const navigate = useNavigate()
 
     useEffect(()=>{
-        const query = window.location.search.slice(1, window.location.search.length-1).split('&')
-        if(query.includes('token') && query.includes('email')){
+        if(search.includes('token') && search.includes('email')){
             setResetOpen(true)
         }
     },[])
 
     const login = async() => {
         const data = await loginApi(state)
-        console.log(data);
         if(data.error_code === 0){
             setOpenSnacBar(true)
+        }else{
+            navigate('/home')
         }
-        // navigate('/dashboard')
     }
 
     return(

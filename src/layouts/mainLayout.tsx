@@ -13,7 +13,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import { StyledMenuAccordion, StyledNavLink, StyledSubNavLink } from '../models/buttons';
-import { Flex, FlexAlignCenter, FlexColumn, PaperBox, ProgressWitgetBox, SpaceBetween } from '../models/boxes';
+import { Flex, FlexAlignCenter, FlexCenter, FlexColumn, PaperBox, ProgressWitgetBox, SpaceBetween } from '../models/boxes';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
@@ -43,7 +43,11 @@ import LanguageIcon from '@mui/icons-material/Language';
 import MapIcon from '@mui/icons-material/Map';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import { useState } from 'react';
-
+import { IMenu } from './types';
+import ruIcon from './ru.jpg'
+import enIcon from './en.jpg'
+import { getMenus } from '../api/pagesApi';
+import CustomizedSnackbars from '../components/messageHandling/messagehandling';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -105,7 +109,18 @@ export default function MainLayout() {
   const isMobile = useMediaQuery('(max-width:820px)')
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [menuTranslations, setMenuTranslations] = useState<null | IMenu[]>(null)
+  const [openSnacBar, setOpenSnacBar] = useState<boolean>(false)
   const menuOpen = Boolean(anchorEl);
+  const [lang, setLang] = useState<'en'|'ru'>('en')
+  React.useEffect(()=>{
+    (async()=>{
+      const data = await getMenus()
+      setMenuTranslations(data.data);
+    })()
+  },[])
+console.log(menuTranslations);
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -119,6 +134,7 @@ export default function MainLayout() {
 
   return (
     <Box sx={{ display: 'flex' }}>
+      <CustomizedSnackbars open={openSnacBar} setOpen={setOpenSnacBar}/>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -186,10 +202,10 @@ export default function MainLayout() {
         <Divider sx={{mb:5}}/>
         <FlexColumn alignItems={'center'}>
             <Box borderRadius={100}>
-                <img src={userImg} width="140" height="140" style={{objectFit:'contain', borderRadius:100}}/>
+                <img src={`https://xcode.maghun.in${localStorage.userImage}`} width="140" height="140" style={{objectFit:'contain', borderRadius:100}}/>
             </Box>
             <Typography>Welcome,</Typography>
-            <Button color={'secondary'} onClick={handleClick}>Christy Wert</Button>
+            <Button color={'secondary'} onClick={handleClick}>{localStorage.userName}</Button>
             <Menu
               id="basic-menu"
               anchorEl={anchorEl}
@@ -199,13 +215,28 @@ export default function MainLayout() {
                 'aria-labelledby': 'basic-button',
               }}
             >
+              <FlexCenter>
+                <IconButton onClick={()=>setLang('ru')}>
+                  <img src={ruIcon} width={40} height={40} style={{objectFit:'contain'}}/>
+                </IconButton>
+                <IconButton onClick={()=>setLang('en')}>
+                  <img src={enIcon} width={40} height={40} style={{objectFit:'contain'}}/>
+                </IconButton>
+              </FlexCenter>
               <MenuItem>Profile</MenuItem>
               <MenuItem>My account</MenuItem>
               <MenuItem>Logout</MenuItem>
             </Menu>
         </FlexColumn>
         <FlexColumn mt={2} gap={'5px'} width={'100%'} alignItems={'center'}>
-            <StyledNavLink to={'/'}><HomeOutlinedIcon/>Dashboard</StyledNavLink>
+            {
+              menuTranslations?.map(item=>{
+                return(
+                  <StyledNavLink to={item.url} key={item.id} end>{item.translates.find(translate=>translate.language.short_code === lang)?.title}</StyledNavLink>
+                )
+              })
+            }
+            {/* <StyledNavLink to={'/'}><HomeOutlinedIcon/>Dashboard</StyledNavLink>
             <StyledNavLink to={'/inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
             <StyledNavLink to={'/chat'}><ForumIcon/>Chat</StyledNavLink>
             <StyledNavLink to={'/taskboard'}><ListIcon/>Taskboard</StyledNavLink>
@@ -348,12 +379,12 @@ export default function MainLayout() {
                   <StyledSubNavLink to={'/maps'}>-- jVector Map</StyledSubNavLink>
                 </FlexColumn>
               </AccordionDetails>
-            </StyledMenuAccordion>
+            </StyledMenuAccordion> */}
         </FlexColumn>
 
       </Drawer>
       <Main open={open} isMobile={isMobile}>
-        <Outlet/>
+        <Outlet context={{setOpenSnacBar}}/>
       </Main>
     </Box>
   );

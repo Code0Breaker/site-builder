@@ -19,7 +19,7 @@ const Register = () =>{
                             <Typography variant="h5" color={'white'}>HexaBit</Typography>
                         </FlexAlignCenter>
                         <FlexAlignCenter gap={2}>
-                            <AuthLinks to={'/dashboard'}>Documentation</AuthLinks>
+                            <AuthLinks to={'/home'}>Documentation</AuthLinks>
                             <AuthLinks to={'/'}>Sign In</AuthLinks>
                         </FlexAlignCenter>
                     </SpaceBetween>

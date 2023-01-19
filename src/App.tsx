@@ -13,11 +13,14 @@ import Gauges from './pages/gauges/gauges'
 import HelperClasses from './pages/helperClasses/helperClasses'
 import ImageGallery from './pages/imageGallery/imageGallery'
 import Inbox from './pages/inbox/inbox'
+import Languages from './pages/languages/languages'
 import Login from './pages/login/login'
 import Maps from './pages/maps/maps'
 import NewPost from './pages/newPost/newPost'
+import Pages from './pages/pages/pages'
 import Register from './pages/register/register'
 import SearchResults from './pages/searchResults/searchResults'
+import Social from './pages/social/social'
 import Summernote from './pages/summernote/summernote'
 import TypographySection from './pages/typography/typography'
 
@@ -26,10 +29,13 @@ function App() {
      {path:'',element:<Login/>},
      {path:'register',element:<Register/>},
     {
-      path:'dashboard', 
+      path:'home', 
       element:<MainLayout/>,
       children:[
         {path:'', element:<Dashboard/>},
+        {path:'languages', element:<Languages/>},
+        {path:'social', element:<Social/>},
+        {path:'pages', element:<Pages/>},
         {path:'inbox', element:<Inbox/>},
         {path:'chat', element:<Chat/>},
         {path:'contacts', element:<Contacts/>},
