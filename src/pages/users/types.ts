@@ -10,7 +10,7 @@ export interface IUsers{
         id: number,
         name: string
         path: string
-        url:  number,
+        url:  string,
         type:string
         is_default: number,
         created_at: string|null,
