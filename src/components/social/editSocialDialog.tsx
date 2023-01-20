@@ -9,6 +9,7 @@ import { useState } from "react"
 import { createLanguage } from "../../api/languages"
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput"
 import { editMenu } from "../../api/pagesApi"
+import { editSocial } from "../../api/socialApi"
 
 interface IProps{
     id:number
@@ -21,18 +22,16 @@ interface IProps{
     status:number
     _method:string
 }
-export const EditPageDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
-    const [page, setPage] = useState({en:'', ru:''})
+export const EditSocialDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
+    const [page, setPage] = useState({title:'', class_name:''})
  
-    const dataToSave = {
-        translates:{en:{title: page.en}, ru:{title:page.ru}},
-        uri:`#pages/${page.en.split(' ')[0].toLowerCase()}`,
-        url:`/home/${page.en.split(' ')[0].toLowerCase()}`,
-        status:1,
-        _method:'put'
-    }
     const save = async() =>{
-       const data = await editMenu(dataToSave, id)
+      const form = new FormData()
+        form.append('title',page.title)
+        form.append('url','http://facebook.com/test.profile')
+        form.append('class_name',page.class_name)
+        form.append('_method','put')
+       const data = await editSocial(form, id)
        if(data.success === true){
         window.location.reload()
        }
@@ -46,11 +45,11 @@ export const EditPageDialog = ({open, setOpen, id}:{id:number, open:boolean, set
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Create language"}
+          {"Edit Social link"}
         </DialogTitle>
         <DialogContent sx={{display:'flex',gap:3}}>
-          <OutlinedInput placeholder="Page name en" value={page.en} onChange={e=>setPage({...page,en:e.target.value})}/>
-          <OutlinedInput placeholder="Page name ru" value={page.ru} onChange={e=>setPage({...page,ru:e.target.value})}/>
+        <OutlinedInput placeholder="Social name" value={page.title} onChange={e=>setPage({...page, title:e.target.value})}/>
+          <OutlinedInput placeholder="Social class name" value={page.class_name} onChange={e=>setPage({...page, class_name:e.target.value})}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={()=>setOpen(false)}>Cancel</Button>

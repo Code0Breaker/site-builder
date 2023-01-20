@@ -8,6 +8,7 @@ import { Box } from "@mui/system"
 import { useState } from "react"
 import { createLanguage } from "../../api/languages"
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput"
+import { FlexAlignCenter } from "../../models/boxes"
 3
 
 export const CreateLanguageDialog = ({open, setOpen}:{open:boolean, setOpen:(state:boolean)=>void}) =>{
@@ -32,10 +33,10 @@ export const CreateLanguageDialog = ({open, setOpen}:{open:boolean, setOpen:(sta
           {"Create language"}
         </DialogTitle>
         <DialogContent>
-          <label htmlFor="upload-flag">
-            <Box sx={{cursor:'pointer'}}>
-                <InsertPhotoIcon/>
-            </Box>
+        <label htmlFor="upload-flag">
+            <FlexAlignCenter justifyContent={'center'} sx={{cursor:'pointer'}} width={100} height={100}>
+                {language.image?<img src={language.image&&URL.createObjectURL(language.image)} width={'100%'} height={"100%"} style={{objectFit:'contain'}}/>:<InsertPhotoIcon/>}
+            </FlexAlignCenter>
             <input onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setLanguage({...language, image:e?.target?.files?.[0]})} type='file' accept="image/png, image/gif, image/jpeg" hidden id="upload-flag"/>
           </label>
           <OutlinedInput placeholder="Language name" value={language.title} onChange={e=>setLanguage({...language, title:e.target.value})}/>

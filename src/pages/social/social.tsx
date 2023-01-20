@@ -12,6 +12,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { getSocials, removeSocial } from "../../api/socialApi"
 import { ISocial } from "./types"
 import { CreateSocialDialog } from "../../components/social/createSocialDialog"
+import { EditSocialDialog } from "../../components/social/editSocialDialog"
 const Social = () =>{
     const [socials, setSocials] = useState<ISocial[]|null>(null)
     const [open, setOpen] = useState(false)
@@ -32,13 +33,14 @@ const Social = () =>{
 
     const remove = async(id:number) =>{
         const data = await removeSocial(id)
-        if(data.data.success === true){
+        if(data.success === true){
             window.location.reload()
         }
     }
     return(
         <FlexColumn>
             <CreateSocialDialog open={open} setOpen={setOpen}/>
+            {selectedSocial&&<EditSocialDialog id={selectedSocial} open={openSocials} setOpen={setOpenSocials}/>}
             {/* <CreatePageDialog open={open} setOpen={setOpen}/>
             {selectedSocial&&<EditPageDialog open={openSocials} setOpen={setOpenSocials} id={selectedSocial}/>} */}
             <Box mb={3}>

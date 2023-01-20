@@ -8,40 +8,42 @@ import { Box } from "@mui/system"
 import { useState } from "react"
 import { createLanguage } from "../../api/languages"
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput"
-import { createMenu } from "../../api/pagesApi"
-import { createSocial } from "../../api/socialApi"
 import { useOutletContext } from "react-router-dom"
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { FlexAlignCenter, FlexCenter } from "../../models/boxes"
+import { createUsers } from "../../api/usersApi"
 
 
-export const CreateSocialDialog = ({open, setOpen}:{open:boolean, setOpen:(state:boolean)=>void}) =>{
+export const CreateUserDialog = ({open, setOpen}:{open:boolean, setOpen:(state:boolean)=>void}) =>{
   const {setOpenSnacBar} = useSnackbar();
-  const [social, setSocial] = useState<{
-      title:string,
-      url:string,
-      class_name:string,
-      image:any
+  const [user, setUser] = useState<{
+    name:string,
+    email:string,
+    password:string,
+    password_confirmation:any,
+    image:any
     }>({
-      title:'',
-      url:'http://facebook.com/test.profile',
-      class_name:'',
-      image:null
+      name:'',
+      email:'',
+      password:'',
+      image:null,
+      password_confirmation:''
     })
      
     const create = async() =>{
       const form = new FormData()
 
-      if(social.image){
-        form.append('image',social.image)
+      if(user.image){
+        form.append('image',user.image)
       }
 
-      form.append('title',social.title)
-      form.append('class_name',social.class_name)
-      form.append('url',social.url)
+      form.append('name',user.name)
+      form.append('email',user.email)
+      form.append('password',user.password)
+      form.append('password_confirmation',user.password_confirmation)
       
 
-       const data = await createSocial(form)
+       const data = await createUsers(form)
        if(data.success === true){
         window.location.reload()
        }else{
@@ -57,19 +59,21 @@ export const CreateSocialDialog = ({open, setOpen}:{open:boolean, setOpen:(state
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Create social icon"}
+          {"Create user"}
         </DialogTitle>
         <FlexCenter>
         <label htmlFor="upload-flag">
             <FlexAlignCenter justifyContent={'center'} sx={{cursor:'pointer'}} width={100} height={100}>
-                {social.image?<img src={social.image&&URL.createObjectURL(social.image)} width={'100%'} height={"100%"} style={{objectFit:'contain'}}/>:<InsertPhotoIcon/>}
+                {user.image?<img src={user.image&&URL.createObjectURL(user.image)} width={'100%'} height={"100%"} style={{objectFit:'contain'}}/>:<InsertPhotoIcon/>}
             </FlexAlignCenter>
-            <input onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setSocial({...social, image:e?.target?.files?.[0]})} type='file' accept="image/png, image/gif, image/jpeg" hidden id="upload-flag"/>
+            <input onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setUser({...user, image:e?.target?.files?.[0]})} type='file' accept="image/png, image/gif, image/jpeg" hidden id="upload-flag"/>
           </label>
         </FlexCenter>
-        <DialogContent sx={{display:'flex',gap:3}}>
-          <OutlinedInput placeholder="Social name" value={social.title} onChange={e=>setSocial({...social, title:e.target.value})}/>
-          <OutlinedInput placeholder="Social class name" value={social.class_name} onChange={e=>setSocial({...social, class_name:e.target.value})}/>
+        <DialogContent sx={{display:'flex',gap:3, flexDirection:'column'}}>
+          <OutlinedInput fullWidth placeholder="Full name" value={user.name} onChange={e=>setUser({...user, name:e.target.value})}/>
+          <OutlinedInput fullWidth placeholder="Email" value={user.email} onChange={e=>setUser({...user, email:e.target.value})}/>
+          <OutlinedInput fullWidth placeholder="Password" value={user.password} onChange={e=>setUser({...user, password:e.target.value})}/>
+          <OutlinedInput fullWidth placeholder="Confirm password" value={user.password_confirmation} onChange={e=>setUser({...user, password_confirmation:e.target.value})}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={()=>setOpen(false)}>Cancel</Button>

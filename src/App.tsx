@@ -23,6 +23,7 @@ import SearchResults from './pages/searchResults/searchResults'
 import Social from './pages/social/social'
 import Summernote from './pages/summernote/summernote'
 import TypographySection from './pages/typography/typography'
+import Users from './pages/users/users'
 
 function App() {
   const routes = useRoutes([
@@ -34,6 +35,8 @@ function App() {
       children:[
         {path:'', element:<Dashboard/>},
         {path:'languages', element:<Languages/>},
+        {path:'social', element:<Social/>},
+        {path:'users', element:<Users/>},
         {path:'social', element:<Social/>},
         {path:'pages', element:<Pages/>},
         {path:'inbox', element:<Inbox/>},

@@ -35,7 +35,7 @@ export const CreatePageDialog = ({open, setOpen}:{open:boolean, setOpen:(state:b
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {"Create language"}
+          {"Create page"}
         </DialogTitle>
         <DialogContent sx={{display:'flex',gap:3}}>
           <OutlinedInput placeholder="Page name en" value={page.en} onChange={e=>setPage({...page, en:e.target.value})}/>

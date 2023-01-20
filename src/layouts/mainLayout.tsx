@@ -202,7 +202,7 @@ console.log(menuTranslations);
         <Divider sx={{mb:5}}/>
         <FlexColumn alignItems={'center'}>
             <Box borderRadius={100}>
-                <img src={`https://xcode.maghun.in${localStorage.userImage}`} width="140" height="140" style={{objectFit:'contain', borderRadius:100}}/>
+                <img src={localStorage.userImage} width="140" height="140" style={{objectFit:'contain', borderRadius:100}}/>
             </Box>
             <Typography>Welcome,</Typography>
             <Button color={'secondary'} onClick={handleClick}>{localStorage.userName}</Button>
