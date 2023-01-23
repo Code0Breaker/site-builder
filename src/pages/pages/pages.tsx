@@ -30,7 +30,7 @@ const Languages = () =>{
 
     const remove = async(id:number) =>{
         const data = await removeMenu(id)
-        if(data.data.success === true){
+        if(data.success === true){
             window.location.reload()
         }
     }

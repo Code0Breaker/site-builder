@@ -37,7 +37,6 @@ function App() {
         {path:'languages', element:<Languages/>},
         {path:'social', element:<Social/>},
         {path:'users', element:<Users/>},
-        {path:'social', element:<Social/>},
         {path:'pages', element:<Pages/>},
         {path:'inbox', element:<Inbox/>},
         {path:'chat', element:<Chat/>},

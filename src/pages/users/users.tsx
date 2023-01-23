@@ -73,7 +73,7 @@ const Users = () =>{
                                 </Typography>
                               </CardContent>
                               <CardActions>
-                                <Button size="small" onClick={()=>remove(item.id)}>Remove</Button>
+                                <Button size="small" onClick={()=>remove(item.id)} disabled={localStorage.userName===item.name}>Remove</Button>
                                 <Button size="small" onClick={()=>openEditModal(item.id)}>Edit</Button>
                               </CardActions>
                             </Card>
