@@ -9,6 +9,7 @@ import { useState } from "react"
 import { createLanguage } from "../../api/languages"
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput"
 import { editMenu } from "../../api/pagesApi"
+import { useSnackbar } from "../../types/outletTypes/outletTypes"
 
 interface IProps{
     id:number
@@ -23,7 +24,7 @@ interface IProps{
 }
 export const EditPageDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
     const [page, setPage] = useState({en:'', ru:''})
- 
+    const {setOpenSnacBar} = useSnackbar();
     const dataToSave = {
         translates:{en:{title: page.en}, ru:{title:page.ru}},
         uri:`#pages/${page.en.split(' ')[0].toLowerCase()}`,
@@ -32,9 +33,13 @@ export const EditPageDialog = ({open, setOpen, id}:{id:number, open:boolean, set
         _method:'put'
     }
     const save = async() =>{
-       const data = await editMenu(dataToSave, id)
+       try {
+        const data = await editMenu(dataToSave, id)
        if(data.success === true){
         window.location.reload()
+       }
+       } catch (error) {
+        setOpenSnacBar(true)
        }
     }
 

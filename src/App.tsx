@@ -3,6 +3,8 @@ import Taskboard from './components/taskboard/taskboard'
 import MainLayout from './layouts/mainLayout'
 import BlogList from './pages/blogList/blogList'
 import Calendar from './pages/calendar/calendar'
+import BlogCategories from './pages/categories/blogCategory'
+import BlogTags from './pages/categories/blogTags'
 import Chartjs from './pages/chartjs/chartjs'
 import Chat from './pages/chat/chat'
 import Contacts from './pages/contacts/contacts'
@@ -51,6 +53,8 @@ function App() {
         {path:'faq', element:<Faq/>},
         {path:'summernote', element:<Summernote/>},
         {path:'new-post', element:<NewPost/>},
+        {path:'blog-tags', element:<BlogTags/>},
+        {path:'categories', element:<BlogCategories/>},
         {path:'typography', element:<TypographySection/>},
         {path:'maps', element:<Maps/>},
         {path:'blog-list', element:<BlogList/>},

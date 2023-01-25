@@ -11,7 +11,7 @@ import ResetPassword from "../../components/resetPassword/resetPassword"
 import CustomizedSnackbars from "../../components/messageHandling/messagehandling"
 
 const Login = () =>{
-    const [state, setState] = useState({email:"",password:""})
+    const [state, setState] = useState({email:"xcode_admin@gmail.com",password:"Xcode123!"})
     const [open, setOpen] = useState(false)
     const [openSnacBar, setOpenSnacBar] = useState(false)
     const [resetOpen, setResetOpen] = useState(false)

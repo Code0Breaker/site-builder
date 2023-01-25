@@ -7,19 +7,28 @@ import DialogTitle from "@mui/material/DialogTitle/DialogTitle"
 import { Box } from "@mui/system"
 import { useState } from "react"
 import { createLanguage } from "../../api/languages"
-import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput"
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput"
 import { FlexAlignCenter } from "../../models/boxes"
-3
+import { useSnackbar } from "../../types/outletTypes/outletTypes"
+
 
 export const CreateLanguageDialog = ({open, setOpen}:{open:boolean, setOpen:(state:boolean)=>void}) =>{
+  const {setOpenSnacBar} = useSnackbar();
     const [language, setLanguage] = useState<{title:string,image:any}>({
         title:'',
         image:null
     })
 
     const create = async() =>{
-       const data = await createLanguage(language)
-       console.log(data);
+       try {
+        const data = await createLanguage(language)
+       if(data.success === true){
+        window.location.reload()
+       }
+       } catch (error) {
+        setOpenSnacBar(true)
+       }
     }
 
     return(

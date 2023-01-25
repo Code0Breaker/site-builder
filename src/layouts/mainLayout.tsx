@@ -43,11 +43,12 @@ import LanguageIcon from '@mui/icons-material/Language';
 import MapIcon from '@mui/icons-material/Map';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import { useState } from 'react';
-import { IMenu } from './types';
+import { IMenu, IMenuLanguages } from './types';
 import ruIcon from './ru.jpg'
 import enIcon from './en.jpg'
 import { getMenus } from '../api/pagesApi';
 import CustomizedSnackbars from '../components/messageHandling/messagehandling';
+import { getLanguages } from '../api/languages';
 const drawerWidth = 240;
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
@@ -109,14 +110,19 @@ export default function MainLayout() {
   const isMobile = useMediaQuery('(max-width:820px)')
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [languages, setLanguages] = useState<IMenuLanguages[]|null>(null)
   const [menuTranslations, setMenuTranslations] = useState<null | IMenu[]>(null)
   const [openSnacBar, setOpenSnacBar] = useState<boolean>(false)
   const menuOpen = Boolean(anchorEl);
-  const [lang, setLang] = useState<'en'|'ru'>('en')
+
+  const [lang, setLang] = useState<string>('')
   React.useEffect(()=>{
     (async()=>{
       const data = await getMenus()
       setMenuTranslations(data.data);
+      const langs = await getLanguages()
+      setLanguages(langs.data)
+      setLang(langs.data[0].short_code)
     })()
   },[])
 console.log(menuTranslations);
@@ -216,12 +222,15 @@ console.log(menuTranslations);
               }}
             >
               <FlexCenter>
-                <IconButton onClick={()=>setLang('ru')}>
-                  <img src={ruIcon} width={40} height={40} style={{objectFit:'contain'}}/>
-                </IconButton>
-                <IconButton onClick={()=>setLang('en')}>
-                  <img src={enIcon} width={40} height={40} style={{objectFit:'contain'}}/>
-                </IconButton>
+                {
+                  languages?.map(item=>{
+                    return(
+                      <IconButton onClick={()=>setLang(item.short_code)}>
+                      <img src={item.image.url} width={40} height={40} style={{objectFit:'contain'}}/>
+                    </IconButton>
+                    )
+                  })
+                }
               </FlexCenter>
               <MenuItem>Profile</MenuItem>
               <MenuItem>My account</MenuItem>
@@ -236,6 +245,27 @@ console.log(menuTranslations);
                 )
               })
             }
+
+          <StyledMenuAccordion>
+              <AccordionSummary
+              sx={{padding:0}}
+                // expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+              >
+                <FlexAlignCenter gap={2}>
+                  <LanguageIcon/>
+                  Blog
+                </FlexAlignCenter>
+              </AccordionSummary>
+              <AccordionDetails>
+                <FlexColumn>
+                  <StyledSubNavLink to={'/home/new-post'}>-- new Post</StyledSubNavLink>
+                  <StyledSubNavLink to={'/home/categories'}>-- Categories</StyledSubNavLink>
+                  <StyledSubNavLink to={'/home/blog-tags'}>-- Tags</StyledSubNavLink>
+                </FlexColumn>
+              </AccordionDetails>
+            </StyledMenuAccordion>
             {/* <StyledNavLink to={'/'}><HomeOutlinedIcon/>Dashboard</StyledNavLink>
             <StyledNavLink to={'/inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
             <StyledNavLink to={'/chat'}><ForumIcon/>Chat</StyledNavLink>
@@ -343,24 +373,7 @@ console.log(menuTranslations);
               </AccordionDetails>
             </StyledMenuAccordion>
 
-            <StyledMenuAccordion>
-              <AccordionSummary
-              sx={{padding:0}}
-                // expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <FlexAlignCenter gap={2}>
-                  <LanguageIcon/>
-                  Blog
-                </FlexAlignCenter>
-              </AccordionSummary>
-              <AccordionDetails>
-                <FlexColumn>
-                  <StyledSubNavLink to={'/new-post'}>-- new Post</StyledSubNavLink>
-                </FlexColumn>
-              </AccordionDetails>
-            </StyledMenuAccordion>
+
 
             <StyledMenuAccordion>
               <AccordionSummary
