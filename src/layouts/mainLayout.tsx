@@ -238,6 +238,8 @@ console.log(menuTranslations);
             </Menu>
         </FlexColumn>
         <FlexColumn mt={2} gap={'5px'} width={'100%'} alignItems={'center'}>
+        <StyledNavLink to={'/home/pages'} end>Menus</StyledNavLink>
+        <StyledNavLink to={'inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
             {
               menuTranslations?.map(item=>{
                 return(
@@ -267,8 +269,7 @@ console.log(menuTranslations);
                 </FlexColumn>
               </AccordionDetails>
             </StyledMenuAccordion>
-            {/* <StyledNavLink to={'/'}><HomeOutlinedIcon/>Dashboard</StyledNavLink>
-            <StyledNavLink to={'/inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
+            {/*<StyledNavLink to={'/inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
             <StyledNavLink to={'/chat'}><ForumIcon/>Chat</StyledNavLink>
             <StyledNavLink to={'/taskboard'}><ListIcon/>Taskboard</StyledNavLink>
             <StyledNavLink to={'/calendar'}><CalendarMonthIcon/>Calendar</StyledNavLink>

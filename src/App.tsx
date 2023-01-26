@@ -24,8 +24,10 @@ import Post from './pages/posts/post'
 import Posts from './pages/posts/posts'
 import Register from './pages/register/register'
 import SearchResults from './pages/searchResults/searchResults'
+import Settings from './pages/settings/settings'
 import Social from './pages/social/social'
 import Summernote from './pages/summernote/summernote'
+import Team from './pages/team/team'
 import TypographySection from './pages/typography/typography'
 import Users from './pages/users/users'
 
@@ -53,9 +55,11 @@ function App() {
         {path:'search-results', element:<SearchResults/>},
         {path:'image-gallery', element:<ImageGallery/>},
         {path:'faq', element:<Faq/>},
+        {path:'team', element:<Team/>},
         {path:'posts', element:<Posts/>},
         {path:'post/:id', element:<Post type='read'/>},
         {path:'post/edit/:id', element:<Post type='edit'/>},
+        {path:'settings', element:<Settings/>},
         {path:'summernote', element:<Summernote/>},
         {path:'new-post', element:<NewPost/>},
         {path:'blog-tags', element:<BlogTags/>},

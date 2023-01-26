@@ -2,17 +2,8 @@ import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@
 import Box from "@mui/material/Box/Box"
 import IconButton from "@mui/material/IconButton/IconButton"
 import { useEffect, useState } from "react"
-import { Flex, FlexAlignCenter, FlexCenter, FlexColumn, PaperBox } from "../../models/boxes"
+import { Flex, FlexColumn, PaperBox } from "../../models/boxes"
 import AddIcon from '@mui/icons-material/Add';
-import { CreatePageDialog } from "../../components/languages/createPageDialog"
-import EditIcon from '@mui/icons-material/Edit';
-
-import { EditPageDialog } from "../../components/languages/editPageDialog"
-import DeleteIcon from '@mui/icons-material/Delete';
-import { getSocials, removeSocial } from "../../api/socialApi"
- 
-import { CreateSocialDialog } from "../../components/social/createSocialDialog"
-import { EditSocialDialog } from "../../components/social/editSocialDialog"
 import { IPosts } from "./types"
 import { getPosts, removePost } from "../../api/blogApi"
 import { useNavigate } from "react-router-dom"
@@ -29,12 +20,6 @@ const Posts = () =>{
             setPosts(data.data.data)
         })()
     },[])
-console.log(posts);
-
-    const openEditModal = (id:number) =>{
-        setSelectedUser(id)
-        setOpenEdit(true)
-    }
 
     const remove = async(id:number) =>{
         const data = await removePost(id)

@@ -54,7 +54,7 @@ const Post = ({type}:{type:'edit'|'read'}) =>{
         form.append('_method','put') 
         
 
-        selectedCategories.map(item=>{
+        selectedCategories.map((item,index)=>{
             form.append(`categories[${item}]`, item) 
         })
         selectedTags.map(item=>{

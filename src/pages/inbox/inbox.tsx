@@ -2,13 +2,37 @@ import { Avatar, Box, Button, Checkbox, Divider, IconButton, TextField, Typograp
 import { inboxData, labelsData } from "../../mockedData"
 import { Flex, FlexAlignCenter, FlexColumn, PaperBox, SpaceBetween } from "../../models/boxes"
 import AddCircleIcon from '@mui/icons-material/AddCircle';
+import { useEffect, useState } from "react";
+import { IInbox } from "./types";
+import { getMessages, markMessage, removeMessage } from "../../api/messages";
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Inbox = () =>{
     const isMobile = useMediaQuery('(max-width:1024px)')
+    const [messages, setMessages] = useState<IInbox[]|null>(null)
+    useEffect(()=>{
+        (async()=>{
+            const {data} = await getMessages()
+            setMessages(data.data)
+            console.log(data);
+            
+        })()
+    },[])
+
+    const markAsSeen = async(id:number) =>{
+        await markMessage(id)
+        window.location.reload()
+    }
+
+    const remove = async(id:number) => {
+        await removeMessage(id)
+        window.location.reload()
+    }
     return(
         <>
         <PaperBox>
-        {!isMobile&&<Box width={'15%'} p={'20px'}>
+        {/* {!isMobile&&<Box width={'15%'} p={'20px'}>
                 <Button fullWidth variant="contained" color="error" sx={{height:'35px'}}>Compose</Button>
                 <FlexColumn gap={3} mt={3} alignItems={'flex-start'}>
                     {
@@ -41,9 +65,9 @@ const Inbox = () =>{
                         })
                     }
                 </FlexColumn>
-            </Box>}
-            <FlexColumn width={'80%'} borderLeft={'1px solid rgba(0, 0, 0, 0.12)'}>
-                <SpaceBetween p={'15px 20px'} flexWrap={'wrap'}>
+            </Box>} */}
+            <FlexColumn width={'100%'} borderLeft={'1px solid rgba(0, 0, 0, 0.12)'}>
+                {/* <SpaceBetween p={'15px 20px'} flexWrap={'wrap'}>
                     <FlexAlignCenter> 
                         <Box>
                             <Checkbox/>
@@ -61,7 +85,7 @@ const Inbox = () =>{
                         <Button variant="outlined" sx={{height:'31px',width:'27px',borderRadius:0, borderColor:'#eee', color:'#777'}} color="inherit">{"<"}</Button>
                         <Button variant="outlined" sx={{height:'31px',width:'27px',borderRadius:0, borderColor:'#eee', color:'#777'}} color="inherit">{">"}</Button>
                     </FlexAlignCenter>
-                    {/* <Box display={'flex'} gap={2}>
+                    <Box display={'flex'} gap={2}>
                         <Box sx={{background:'#ffc107'}} p={'6px 12px'} display={'flex'} alignItems={'center'} borderRadius={1}>
                             <CameraAltIcon sx={{color:'white'}}/>
                         </Box>
@@ -75,21 +99,30 @@ const Inbox = () =>{
                             <HelpCenterIcon sx={{color:'white'}}/>
                         </Box>
                         
-                    </Box> */}
-                </SpaceBetween>
+                    </Box>
+                </SpaceBetween> */}
             <Divider/>
                 {
-                    Array.from(Array(10)).map((item,i)=>{
+                    messages?.map((item,i)=>{
                         return(
-                            <FlexColumn key={i} padding={2} gap={2} width={'100%'} borderBottom={'1px solid rgba(0, 0, 0, 0.12)'}>
+                            <FlexColumn key={i} padding={2} gap={2} width={'100%'} borderBottom={'1px solid rgba(0, 0, 0, 0.12)'} sx={{cursor:'pointer', background:item.status === 0?'#e2e0e0':'white'}}>
                                 <Box display={'flex'} width={'100%'} gap={2}>
-                                     <Checkbox/>
+                                     <FlexColumn>
+                                        <IconButton onClick={()=>markAsSeen(item.id)}>
+                                            <RemoveRedEyeIcon/>
+                                        </IconButton>
+                                        <IconButton onClick={()=>remove(item.id)}>
+                                            <DeleteIcon/>
+                                        </IconButton>
+                                     </FlexColumn>
                                      <FlexColumn width={'100%'} gap={1}>
                                         <Box display={'flex'} width={'100%'} justifyContent={'space-between'}>
-                                            <Typography>Wendy Abbott</Typography>
-                                            <Typography>23 Jun</Typography>
+                                            <Typography variant="h4">{item.name}</Typography>
+                                            <Typography>{new Date(item.created_at).toLocaleDateString()}</Typography>
                                         </Box>
-                                        <Typography>[ThemeForest]Lorem Ipsum is simply dumm dummy text of the printing and typesetting industry.</Typography>
+                                        <Typography>{item.email}</Typography>
+                                        <Typography>{item.phone}</Typography>
+                                        <Typography>{item.message}</Typography>
                                      </FlexColumn>
                                 </Box>
                             </FlexColumn>
