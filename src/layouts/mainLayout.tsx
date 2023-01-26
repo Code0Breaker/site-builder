@@ -260,6 +260,7 @@ console.log(menuTranslations);
               </AccordionSummary>
               <AccordionDetails>
                 <FlexColumn>
+                  <StyledSubNavLink to={'/home/posts'}>-- Posts</StyledSubNavLink>
                   <StyledSubNavLink to={'/home/new-post'}>-- new Post</StyledSubNavLink>
                   <StyledSubNavLink to={'/home/categories'}>-- Categories</StyledSubNavLink>
                   <StyledSubNavLink to={'/home/blog-tags'}>-- Tags</StyledSubNavLink>

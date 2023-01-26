@@ -20,6 +20,8 @@ import Login from './pages/login/login'
 import Maps from './pages/maps/maps'
 import NewPost from './pages/newPost/newPost'
 import Pages from './pages/pages/pages'
+import Post from './pages/posts/post'
+import Posts from './pages/posts/posts'
 import Register from './pages/register/register'
 import SearchResults from './pages/searchResults/searchResults'
 import Social from './pages/social/social'
@@ -51,6 +53,9 @@ function App() {
         {path:'search-results', element:<SearchResults/>},
         {path:'image-gallery', element:<ImageGallery/>},
         {path:'faq', element:<Faq/>},
+        {path:'posts', element:<Posts/>},
+        {path:'post/:id', element:<Post type='read'/>},
+        {path:'post/edit/:id', element:<Post type='edit'/>},
         {path:'summernote', element:<Summernote/>},
         {path:'new-post', element:<NewPost/>},
         {path:'blog-tags', element:<BlogTags/>},

@@ -3,7 +3,7 @@ import Button from "@mui/material/Button"
 import OutlinedInput from "@mui/material/OutlinedInput"
 import { useState, useEffect } from "react"
 import FroalaEditor from "react-froala-wysiwyg"
-import { getBlogTag } from "../../api/blogApi"
+import { createPost, getBlogTag } from "../../api/blogApi"
 import { getBlogCategory } from "../../api/categoryApi"
 import { FlexAlignCenter, FlexCenter, FlexColumn, PaperBox } from "../../models/boxes"
 import { IBlogCategories } from "../categories/types"
@@ -31,7 +31,7 @@ const NewPost = () =>{
     }, [])
 
 
-    const create = () =>{
+    const create = async() =>{
         try {
             const form = new FormData()
 
@@ -51,6 +51,9 @@ const NewPost = () =>{
         selectedTags.map(item=>{
             form.append(`tags[${item}]`, item) 
         })
+
+        await createPost(form)
+        window.location.reload()
         } catch (error) {
             setOpenSnacBar(true)
         }
@@ -59,7 +62,6 @@ const NewPost = () =>{
 
     return(
         <PaperBox>
-                
                 <FlexColumn width={'100%'} gap={3}>
                 <FlexCenter>
                     <label htmlFor="upload-flag">
