@@ -5,6 +5,11 @@ export const getAllPages = async() =>{
     return data
 }
 
+export const getAllPage = async(id:string) =>{
+    const {data} = await Api.get('admin/page/'+id,{headers:{Authorization:`Bearer ${localStorage.token}`}})
+    return data
+}
+
 export const createAllPage = async (state:any) => {
     const {data} = await Api.post('admin/page', state, {headers:{Authorization:`Bearer ${localStorage.token}`}})
     return data

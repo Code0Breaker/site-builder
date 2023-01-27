@@ -1,6 +1,8 @@
 import { useRoutes } from 'react-router-dom'
 import Taskboard from './components/taskboard/taskboard'
 import MainLayout from './layouts/mainLayout'
+import AllPage from './pages/allPages/allPage'
+import AllPages from './pages/allPages/allPages'
 import BlogList from './pages/blogList/blogList'
 import Calendar from './pages/calendar/calendar'
 import BlogCategories from './pages/categories/blogCategory'
@@ -44,6 +46,8 @@ function App() {
         {path:'social', element:<Social/>},
         {path:'users', element:<Users/>},
         {path:'pages', element:<Pages/>},
+        {path:'site', element:<AllPages/>},
+        {path:'site/:id', element:<AllPage/>},
         {path:'inbox', element:<Inbox/>},
         {path:'chat', element:<Chat/>},
         {path:'contacts', element:<Contacts/>},

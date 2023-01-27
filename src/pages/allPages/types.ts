@@ -7,7 +7,16 @@ export interface IAllPages{
     status: number,
     created_at: string,
     updated_at: string,
-    image: string,
+    image: {
+        id: number,
+        name: string
+        path: string
+        url: string
+        type: number,
+        is_default: number,
+        created_at: string
+        updated_at: string
+    },
     translates: {
             id: number,
             header_title: string,

@@ -212,7 +212,7 @@ console.log(menuTranslations);
             </Box>
             <Typography>Welcome,</Typography>
             <Button color={'secondary'} onClick={handleClick}>{localStorage.userName}</Button>
-            <Menu
+            {/* <Menu
               id="basic-menu"
               anchorEl={anchorEl}
               open={menuOpen}
@@ -235,11 +235,11 @@ console.log(menuTranslations);
               <MenuItem>Profile</MenuItem>
               <MenuItem>My account</MenuItem>
               <MenuItem>Logout</MenuItem>
-            </Menu>
+            </Menu> */}
         </FlexColumn>
         <FlexColumn mt={2} gap={'5px'} width={'100%'} alignItems={'center'}>
         <StyledNavLink to={'/home/pages'} end>Menus</StyledNavLink>
-        <StyledNavLink to={'inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
+        <StyledNavLink to={'inbox'}>Inbox</StyledNavLink>
             {
               menuTranslations?.map(item=>{
                 return(
