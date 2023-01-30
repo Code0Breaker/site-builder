@@ -97,7 +97,7 @@ export interface IAllPages{
                             updated_at: string
                         }
                     }
-                }
+                }[]
             
         }[]
 }
