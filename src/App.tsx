@@ -70,7 +70,6 @@ function App() {
         {path:'categories', element:<BlogCategories/>},
         {path:'typography', element:<TypographySection/>},
         {path:'maps', element:<Maps/>},
-        {path:'blog-list', element:<BlogList/>},
         {path:'helper-classes', element:<HelperClasses/>},
       ],
     },

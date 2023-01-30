@@ -238,15 +238,21 @@ console.log(menuTranslations);
             </Menu> */}
         </FlexColumn>
         <FlexColumn mt={2} gap={'5px'} width={'100%'} alignItems={'center'}>
-        <StyledNavLink to={'/home/pages'} end>Menus</StyledNavLink>
+        <StyledNavLink to={'site'} end>Pages</StyledNavLink>
         <StyledNavLink to={'inbox'}>Inbox</StyledNavLink>
-            {
+        <StyledNavLink to={'team'}>Team</StyledNavLink>
+        <StyledNavLink to={'settings'}>Settings</StyledNavLink>
+        <StyledNavLink to={'users'}>Users</StyledNavLink>
+        <StyledNavLink to={'social'}>Social links</StyledNavLink>
+        <StyledNavLink to={'languages'}>Languages</StyledNavLink>
+        
+            {/* {
               menuTranslations?.map(item=>{
                 return(
                   <StyledNavLink to={item.url} key={item.id} end>{item.translates.find(translate=>translate.language.short_code === lang)?.title}</StyledNavLink>
                 )
               })
-            }
+            } */}
 
           <StyledMenuAccordion>
               <AccordionSummary
@@ -269,7 +275,7 @@ console.log(menuTranslations);
                 </FlexColumn>
               </AccordionDetails>
             </StyledMenuAccordion>
-            {/*<StyledNavLink to={'/inbox'}><MailOutlinedIcon/>Inbox</StyledNavLink>
+            {/*
             <StyledNavLink to={'/chat'}><ForumIcon/>Chat</StyledNavLink>
             <StyledNavLink to={'/taskboard'}><ListIcon/>Taskboard</StyledNavLink>
             <StyledNavLink to={'/calendar'}><CalendarMonthIcon/>Calendar</StyledNavLink>

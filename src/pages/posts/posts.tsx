@@ -35,7 +35,7 @@ const Posts = () =>{
                 </IconButton>
             </Box>
             <PaperBox>
-                <Flex flexWrap={'wrap'} width={'100%'} gap={3}>
+                <Flex flexWrap={'wrap'} gap={3}>
                 {
                     posts?.map(item=>{
                         return(
