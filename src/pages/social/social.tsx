@@ -17,7 +17,7 @@ const Social = () =>{
     const [socials, setSocials] = useState<ISocial[]|null>(null)
     const [open, setOpen] = useState(false)
     const [openSocials, setOpenSocials] = useState(false)
-    const [selectedSocial, setSelectedSocial] = useState<number|null>(null)
+    const [selectedSocial, setSelectedSocial] = useState<ISocial|null>(null)
     
     useEffect(()=>{
         (async()=>{
@@ -26,7 +26,7 @@ const Social = () =>{
         })()
     },[])
 
-    const openEditModal = (id:number) =>{
+    const openEditModal = (id:ISocial) =>{
         setSelectedSocial(id)
         setOpenSocials(true)
     }
@@ -55,7 +55,7 @@ const Social = () =>{
                         return(
                             <FlexAlignCenter width={200} height={50} sx={{cursor:'pointer'}}>
                                 <Typography>{item.title}</Typography>
-                                <IconButton onClick={()=>openEditModal(item.id)}>
+                                <IconButton onClick={()=>openEditModal(item)}>
                                     <EditIcon/>
                                 </IconButton>
                                 <IconButton onClick={()=>remove(item.id)}>

@@ -12,10 +12,11 @@ import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { FlexAlignCenter, FlexCenter } from "../../models/boxes"
 import { useParams } from "react-router-dom"
 import { editItem } from "../../api/portfolio"
+import { IAllPagesItems } from "../../pages/allPages/types"
 
 
-export const EditGlobalitemDialog = ({open, setOpen, itemId}:{itemId:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
-    const {setOpenSnacBar} = useSnackbar();
+export const EditGlobalitemDialog = ({open, setOpen, itemId}:{itemId:IAllPagesItems, open:boolean, setOpen:(state:boolean)=>void}) =>{
+    const {setOpenSnacBar,setErrorText} = useSnackbar();
     const {id} = useParams() 
   const [item, setItem] = useState<{
     title:string,
@@ -23,10 +24,10 @@ export const EditGlobalitemDialog = ({open, setOpen, itemId}:{itemId:number, ope
     content:string,
     image:any,
     }>({
-        title:'',
-        title_content:'',
+        title:itemId.translates?.[0]?.title,
+        title_content:itemId.translates?.[0]?.title_content,
         image:null,
-        content:'',
+        content:itemId.translates?.[0]?.content,
     })
      
     const save = async() =>{
@@ -44,14 +45,19 @@ export const EditGlobalitemDialog = ({open, setOpen, itemId}:{itemId:number, ope
             form.append('_method','put')
             
       
-             const data = await editItem(id as unknown as number, itemId, form )
+             const data = await editItem(id as unknown as number, itemId.id, form )
              if(data.success === true){
               window.location.reload()
              }else{
               setOpenSnacBar(true)
              }
-        } catch (error) {
-            setOpenSnacBar(true)
+        } catch (error:any) {
+          let errors:any[] = Object.values(error.response.data.errors).flat(1)
+          for(let err of errors){
+            setErrorText(err)
+            break
+          }
+          setOpenSnacBar(true)
         }
     }
 

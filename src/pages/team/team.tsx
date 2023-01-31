@@ -1,4 +1,4 @@
-import { Button, Card, CardActions, CardContent, CardMedia, Typography } from "@mui/material"
+import { Button, Card, CardActions, CardContent, CardMedia, Switch, Typography } from "@mui/material"
 import Box from "@mui/material/Box/Box"
 import IconButton from "@mui/material/IconButton/IconButton"
 import { useEffect, useState } from "react"
@@ -17,15 +17,17 @@ import { getUsers, removeUsers } from "../../api/usersApi"
 import { CreateUserDialog } from "../../components/users/createUserDialog"
 import { EditUserDialog } from "../../components/users/editUserDialog"
 import { ITeam } from "./types"
-import { getTeam, removeTeam } from "../../api/team"
+import { editTeam, getTeam, removeTeam } from "../../api/team"
 import { CreateTeamDialog } from "../../components/team/createTeam"
 import { EditTeamDialog } from "../../components/team/editTeam"
+import { useSnackbar } from "../../types/outletTypes/outletTypes"
+
 const Team = () =>{
     const [team, setTeam] = useState<ITeam[]|null>(null)
     const [openTeam, setOpenTeam] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
-    const [selectedUser, setSelectedUser] = useState<number|null>(null)
-    
+    const [selectedUser, setSelectedUser] = useState<ITeam|null>(null)
+    const {setOpenSnacBar,setErrorText} = useSnackbar();
     useEffect(()=>{
         (async()=>{
             const {data} = await getTeam()
@@ -33,17 +35,49 @@ const Team = () =>{
         })()
     },[])
 
-    const openEditModal = (id:number) =>{
+    const openEditModal = (id:ITeam) =>{
         setSelectedUser(id)
         setOpenEdit(true)
     }
 
     const remove = async(id:number) =>{
-        const data = await removeTeam(id)
+        try {
+            const data = await removeTeam(id)
         if(data.success === true){
             window.location.reload()
         }
+    } catch (error:any) {
+        let errors:any[] = Object.values(error.response.data.errors).flat(1)
+        for(let err of errors){
+          setErrorText(err)
+          break
+        }
+        setOpenSnacBar(true)
     }
+    }
+
+    const setSwitcher = async(member:ITeam, checked:string) =>{
+        try {
+            const form = new FormData()
+            form.append('translates[en][name]',member.translates[0].name)
+            form.append('translates[ru][name]',member.translates[1].name)
+            form.append('translates[en][position]',member.translates[0].position)
+            form.append('translates[ru][position]',member.translates[1].position)
+            form.append('status',checked?'0':'1')
+            form.append('_method','put')
+            await editTeam(form, member.id)
+            window.location.reload()
+        } catch (error:any) {
+            let errors:any[] = Object.values(error.response.data.errors).flat(1)
+            for(let err of errors){
+              setErrorText(err)
+              break
+            }
+            setOpenSnacBar(true)
+        }
+       
+    }
+
     return(
         <FlexColumn>
             <CreateTeamDialog open={openTeam} setOpen={setOpenTeam}/>
@@ -74,10 +108,11 @@ const Team = () =>{
                                 <Typography variant="body2" color="text.secondary">
                                   <>Verified at {new Date(item.created_at).toLocaleDateString()}</>
                                 </Typography>
+                                <Switch checked={Boolean(+item.status)} onChange={e=>setSwitcher(item, Number(e.target.checked).toString())}/>
                               </CardContent>
                               <CardActions>
                                 <Button size="small" onClick={()=>remove(item.id)}>Remove</Button>
-                                <Button size="small" onClick={()=>openEditModal(item.id)}>Edit</Button>
+                                <Button size="small" onClick={()=>openEditModal(item)}>Edit</Button>
                               </CardActions>
                             </Card>
                         )

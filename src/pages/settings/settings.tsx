@@ -18,7 +18,7 @@ const Settings = () =>{
     const [settings, setSettings] = useState<ISettings[]|null>(null)
     const [open, setOpen] = useState(false)
     const [openSetting, setOpenSetting] = useState(false)
-    const [selectedSetting, setSelectedSetting] = useState<number|null>(null)
+    const [selectedSetting, setSelectedSetting] = useState<ISettings|null>(null)
     
     useEffect(()=>{
         (async()=>{
@@ -27,7 +27,7 @@ const Settings = () =>{
         })()
     },[])
 
-    const openEditModal = (id:number) =>{
+    const openEditModal = (id:ISettings) =>{
         setSelectedSetting(id)
         setOpenSetting(true)
     }
@@ -54,7 +54,7 @@ const Settings = () =>{
                         return(
                             <FlexAlignCenter maxWidth={400} height={50} sx={{cursor:'pointer'}}>
                                 <Typography>{item.key}: {item.translates[0].content}</Typography>
-                                <IconButton onClick={()=>openEditModal(item.id)}>
+                                <IconButton onClick={()=>openEditModal(item)}>
                                     <EditIcon/>
                                 </IconButton>
                                 <IconButton onClick={()=>remove(item.id)}>

@@ -13,8 +13,9 @@ import { editSocial } from "../../api/socialApi"
 import { FlexAlignCenter, FlexCenter } from "../../models/boxes"
 import { editUsers } from "../../api/usersApi"
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
+import { IUsers } from "../../pages/users/types"
 
-export const EditUserDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
+export const EditUserDialog = ({open, setOpen, id}:{id:IUsers, open:boolean, setOpen:(state:boolean)=>void}) =>{
     const {setOpenSnacBar} = useSnackbar();
     const [user, setUser] = useState<{
         name:string,
@@ -23,8 +24,8 @@ export const EditUserDialog = ({open, setOpen, id}:{id:number, open:boolean, set
         password_confirmation:any,
         image:any
         }>({
-          name:'',
-          email:'',
+          name:id?.name||'',
+          email:id?.email||'',
           password:'',
           image:null,
           password_confirmation:''
@@ -43,7 +44,7 @@ export const EditUserDialog = ({open, setOpen, id}:{id:number, open:boolean, set
         form.append('password_confirmation',user.password_confirmation)
         form.append('_method','put')
   
-         const data = await editUsers(form, id)
+         const data = await editUsers(form, id.id)
          if(data.success === true){
           window.location.reload()
          }else{

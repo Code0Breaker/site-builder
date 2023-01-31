@@ -21,7 +21,7 @@ const Users = () =>{
     const [users, setUsers] = useState<IUsers[]|null>(null)
     const [openUsers, setOpenUsers] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
-    const [selectedUser, setSelectedUser] = useState<number|null>(null)
+    const [selectedUser, setSelectedUser] = useState<IUsers|null>(null)
     
     useEffect(()=>{
         (async()=>{
@@ -30,7 +30,7 @@ const Users = () =>{
         })()
     },[])
 
-    const openEditModal = (id:number) =>{
+    const openEditModal = (id:IUsers) =>{
         setSelectedUser(id)
         setOpenEdit(true)
     }
@@ -74,7 +74,7 @@ const Users = () =>{
                               </CardContent>
                               <CardActions>
                                 <Button size="small" onClick={()=>remove(item.id)} disabled={localStorage.userName===item.name}>Remove</Button>
-                                <Button size="small" onClick={()=>openEditModal(item.id)}>Edit</Button>
+                                <Button size="small" onClick={()=>openEditModal(item)}>Edit</Button>
                               </CardActions>
                             </Card>
                         )

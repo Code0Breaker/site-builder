@@ -14,7 +14,7 @@ import { useSnackbar } from "../../types/outletTypes/outletTypes"
 
 
 export const CreateLanguageDialog = ({open, setOpen}:{open:boolean, setOpen:(state:boolean)=>void}) =>{
-  const {setOpenSnacBar} = useSnackbar();
+  const {setOpenSnacBar,setErrorText} = useSnackbar();
     const [language, setLanguage] = useState<{title:string,image:any}>({
         title:'',
         image:null
@@ -26,7 +26,12 @@ export const CreateLanguageDialog = ({open, setOpen}:{open:boolean, setOpen:(sta
        if(data.success === true){
         window.location.reload()
        }
-       } catch (error) {
+       } catch (error:any) {
+        let errors:any[] = Object.values(error.response.data.errors).flat(1)
+        for(let err of errors){
+          setErrorText(err)
+          break
+        }
         setOpenSnacBar(true)
        }
     }

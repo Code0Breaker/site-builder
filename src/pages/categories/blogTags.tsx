@@ -13,7 +13,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { createBlogTag, editBlogTag, getBlogTag, removeBlogTag } from "../../api/blogApi"
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
 const BlogTags = () =>{
-    const {setOpenSnacBar} = useSnackbar()
+    const {setOpenSnacBar,setErrorText} = useSnackbar()
     const [tags, setTags] = useState<{created_at:string|null,id:number,name:string,updated_at:string|null}[]|null>(null)
     const [open, setOpen] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
@@ -40,7 +40,12 @@ const BlogTags = () =>{
         if(data.success === true){
             window.location.reload()
         }
-        } catch (error) {
+        } catch (error:any) {
+            let errors:any[] = Object.values(error.response.data.errors).flat(1)
+            for(let err of errors){
+              setErrorText(err)
+              break
+            }
             setOpenSnacBar(true)
         }
     }
@@ -51,7 +56,12 @@ const BlogTags = () =>{
             if(data.success === true){
                 window.location.reload()
             }
-        } catch (error) {
+        } catch (error:any) {
+            let errors:any[] = Object.values(error.response.data.errors).flat(1)
+            for(let err of errors){
+              setErrorText(err)
+              break
+            }
             setOpenSnacBar(true)
         }
     }
@@ -62,9 +72,14 @@ const BlogTags = () =>{
         if(data.success === true){
             window.location.reload()
         }
-        } catch (error) {
-            setOpenSnacBar(true)
+    } catch (error:any) {
+        let errors:any[] = Object.values(error.response.data.errors).flat(1)
+        for(let err of errors){
+          setErrorText(err)
+          break
         }
+        setOpenSnacBar(true)
+    }
     }
     
     return(

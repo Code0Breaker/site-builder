@@ -20,7 +20,7 @@ const NewPost = () =>{
     const [selectedTags,setSelectedTags] = useState<string[]>([])
     const [tags, setTags] = useState<{created_at:string|null,id:number,name:string,updated_at:string|null}[]|null>(null)
     const [image, setImage] = useState<any>(null)
-    const {setOpenSnacBar} = useSnackbar();
+    const {setOpenSnacBar,setErrorText} = useSnackbar();
     useEffect(() => {
       (async()=>{
         const fetchCategory = await getBlogCategory()
@@ -54,9 +54,14 @@ const NewPost = () =>{
 
         await createPost(form)
         window.location.reload()
-        } catch (error) {
-            setOpenSnacBar(true)
+    } catch (error:any) {
+        let errors:any[] = Object.values(error.response.data.errors).flat(1)
+        for(let err of errors){
+          setErrorText(err)
+          break
         }
+        setOpenSnacBar(true)
+    }
         
     }
 

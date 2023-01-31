@@ -20,7 +20,7 @@ const Post = ({type}:{type:'edit'|'read'}) =>{
     const [selectedTags,setSelectedTags] = useState<string[]>([])
     const [tags, setTags] = useState<{created_at:string|null,id:number,name:string,updated_at:string|null}[]|null>(null)
     const [image, setImage] = useState<any>(null)
-    const {setOpenSnacBar} = useSnackbar();
+    const {setOpenSnacBar,setErrorText} = useSnackbar();
     useEffect(() => {
       (async()=>{
         const fetchCategory = await getBlogCategory()
@@ -63,9 +63,14 @@ const Post = ({type}:{type:'edit'|'read'}) =>{
         })
         await editPost(form, id as string)
         navigate('/home/posts')
-        } catch (error) {
-            setOpenSnacBar(true)
+    } catch (error:any) {
+        let errors:any[] = Object.values(error.response.data.errors).flat(1)
+        for(let err of errors){
+          setErrorText(err)
+          break
         }
+        setOpenSnacBar(true)
+    }
         
     }
 
@@ -107,12 +112,12 @@ const Post = ({type}:{type:'edit'|'read'}) =>{
                     <input onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setImage(e?.target?.files?.[0])} type='file' accept="image/png, image/gif, image/jpeg" hidden id="upload-flag"/>
                   </label>
                 </FlexCenter>
-            <OutlinedInput sx={{height:'55px'}} placeholder="Enter Blog title" value={title} onChange={(e)=>setTitle(e.target.value)}/>
-            <OutlinedInput sx={{height:'55px'}} placeholder="Enter Blog description" value={description} onChange={(e)=>setDescription(e.target.value)}/>
+            <OutlinedInput sx={{height:'55px'}} placeholder="Enter Blog title" value={state?.translates[0].title||title} onChange={(e)=>setTitle(e.target.value)}/>
+            <OutlinedInput sx={{height:'55px'}} placeholder="Enter Blog description" value={state?.translates[0].description||description} onChange={(e)=>setDescription(e.target.value)}/>
             {categories&&<MultipleSelectCategories title={'Categories'} category={selectedCategories} setCategory={setSelectedCategories} names={categories}/>}
             {tags&&<MultipleSelectTags title={'Tags'} category={selectedTags} setCategory={setSelectedTags} names={tags}/>}
             {/* model={state?.translates[0].content} */}
-            <FroalaEditor  onModelChange={(e:string)=>setText(e)}/>
+            <FroalaEditor model={state?.translates[0].content||''} onModelChange={(e:string)=>setText(e)}/>
             <Button variant="contained" fullWidth onClick={edit}>Post</Button>
         </FlexColumn>
             }

@@ -10,11 +10,11 @@ import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { useNavigate } from "react-router-dom"
 
 const AllPages = () =>{
-    const {setOpenSnacBar} = useSnackbar();
+    const {setOpenSnacBar,setErrorText} = useSnackbar();
     const [allpages, setAllPages] = useState<IAllPages[]|null>(null)
     const [openPage, setOpenPage] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
-    const [selectedPage, setSelectedPage] = useState<null|number>(null)
+    const [selectedPage, setSelectedPage] = useState<null|IAllPages>(null)
     const navigate = useNavigate()
     useEffect(()=>{
         (async()=>{
@@ -27,12 +27,17 @@ const AllPages = () =>{
         try {
             await removeAllPage(id)
             window.location.reload()
-        } catch (error) {
+        } catch (error:any) {
+            let errors:any[] = Object.values(error.response.data.errors).flat(1)
+            for(let err of errors){
+              setErrorText(err)
+              break
+            }
             setOpenSnacBar(true)
         }
     }
 
-    const openEditModal = (id:number) => {
+    const openEditModal = (id:IAllPages) => {
         setOpenEdit(true)
         setSelectedPage(id)
     }
@@ -67,7 +72,7 @@ const AllPages = () =>{
                           </CardContent>
                           <CardActions>
                             <Button size="small" onClick={()=>remove(item.id)} disabled={localStorage.userName===item.name}>Remove</Button>
-                            <Button size="small" onClick={()=>openEditModal(item.id)}>Edit</Button>
+                            <Button size="small" onClick={()=>openEditModal(item)}>Edit</Button>
                             <Button size="small" onClick={()=>navigate('/home/site/'+item.id)}>Open</Button>
                           </CardActions>
                         </Card>

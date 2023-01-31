@@ -39,7 +39,7 @@ const Posts = () =>{
                 {
                     posts?.map(item=>{
                         return(
-                            <Card sx={{ minWidth: 245 }}>
+                            <Card sx={{ maxWidth: 245 }}>
                               <CardMedia
                                 image={item?.image?.url}
                                 sx={{ height: 140 }}

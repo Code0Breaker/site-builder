@@ -17,7 +17,7 @@ import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
 
 const BlogCategories = () =>{
-    const {setOpenSnacBar} = useSnackbar()
+    const {setOpenSnacBar,setErrorText} = useSnackbar()
     const [categories, setCategories] = useState<IBlogCategories[]|null>(null)
     const [open, setOpen] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
@@ -45,7 +45,12 @@ const BlogCategories = () =>{
         if(data.success === true){
             window.location.reload()
         }
-        } catch (error) {
+        } catch (error:any) {
+            let errors:any[] = Object.values(error.response.data.errors).flat(1)
+            for(let err of errors){
+              setErrorText(err)
+              break
+            }
             setOpenSnacBar(true)
         }
     }
@@ -65,8 +70,14 @@ const BlogCategories = () =>{
         if(data.success === true){
             window.location.reload()
         }
-        } catch (error) {
+        } catch (error:any) {
+            let errors:any[] = Object.values(error.response.data.errors).flat(1)
+            for(let err of errors){
+              setErrorText(err)
+              break
+            }
             setOpenSnacBar(true)
+        
         }
 
  
@@ -88,7 +99,12 @@ const BlogCategories = () =>{
         if(data.success === true){
             window.location.reload()
         }
-        } catch (error) {
+        } catch (error:any) {
+            let errors:any[] = Object.values(error.response.data.errors).flat(1)
+            for(let err of errors){
+              setErrorText(err)
+              break
+            }
             setOpenSnacBar(true)
         }
     }

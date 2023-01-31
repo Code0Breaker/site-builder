@@ -16,7 +16,7 @@ import { createTeam } from "../../api/team"
 
 
 export const CreateTeamDialog = ({open, setOpen}:{open:boolean, setOpen:(state:boolean)=>void}) =>{
-  const {setOpenSnacBar} = useSnackbar();
+  const {setOpenSnacBar, setErrorText} = useSnackbar();
   const [user, setUser] = useState<{
     name_en:string,
     name_ru:string,
@@ -32,7 +32,8 @@ export const CreateTeamDialog = ({open, setOpen}:{open:boolean, setOpen:(state:b
     })
      
     const create = async() =>{
-      const form = new FormData()
+      try {
+        const form = new FormData()
 
       if(user.image){
         form.append('image',user.image)
@@ -51,6 +52,14 @@ export const CreateTeamDialog = ({open, setOpen}:{open:boolean, setOpen:(state:b
        }else{
         setOpenSnacBar(true)
        }
+      } catch (error:any) {
+         // let errors:any[] = Object.values(error.response.data.errors).flat(1)
+            // for(let err of errors){
+              setErrorText(error.response.data.message)
+            //   break
+            // }
+            setOpenSnacBar(true)
+      }
     }
 
     return(

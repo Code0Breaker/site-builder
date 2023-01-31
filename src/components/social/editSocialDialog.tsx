@@ -10,6 +10,7 @@ import { createLanguage } from "../../api/languages"
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput"
 import { editMenu } from "../../api/pagesApi"
 import { editSocial } from "../../api/socialApi"
+import { ISocial } from "../../pages/social/types"
 
 interface IProps{
     id:number
@@ -22,8 +23,8 @@ interface IProps{
     status:number
     _method:string
 }
-export const EditSocialDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
-    const [page, setPage] = useState({title:'', class_name:''})
+export const EditSocialDialog = ({open, setOpen, id}:{id:ISocial, open:boolean, setOpen:(state:boolean)=>void}) =>{
+    const [page, setPage] = useState({title:id?.title||'', class_name:id?.class_name||''})
  
     const save = async() =>{
       const form = new FormData()
@@ -31,7 +32,7 @@ export const EditSocialDialog = ({open, setOpen, id}:{id:number, open:boolean, s
         form.append('url','http://facebook.com/test.profile')
         form.append('class_name',page.class_name)
         form.append('_method','put')
-       const data = await editSocial(form, id)
+       const data = await editSocial(form, id.id)
        if(data.success === true){
         window.location.reload()
        }

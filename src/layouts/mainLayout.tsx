@@ -113,6 +113,7 @@ export default function MainLayout() {
   const [languages, setLanguages] = useState<IMenuLanguages[]|null>(null)
   const [menuTranslations, setMenuTranslations] = useState<null | IMenu[]>(null)
   const [openSnacBar, setOpenSnacBar] = useState<boolean>(false)
+  const [errorText, setErrorText] = useState<string>('')
   const menuOpen = Boolean(anchorEl);
 
   const [lang, setLang] = useState<string>('')
@@ -140,7 +141,7 @@ console.log(menuTranslations);
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CustomizedSnackbars open={openSnacBar} setOpen={setOpenSnacBar}/>
+      <CustomizedSnackbars open={openSnacBar} setOpen={setOpenSnacBar} errorText={errorText}/>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
@@ -405,7 +406,7 @@ console.log(menuTranslations);
 
       </Drawer>
       <Main open={open} isMobile={isMobile}>
-        <Outlet context={{setOpenSnacBar}}/>
+        <Outlet context={{setOpenSnacBar, errorText, setErrorText}}/>
       </Main>
     </Box>
   );

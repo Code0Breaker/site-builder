@@ -9,7 +9,7 @@ import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { IBlogCategories } from "../categories/types"
 import { MultipleSelectCategories, MultipleSelectTags } from "../newPost/MultipleSelect"
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
-import { IAllPages } from "./types"
+import { IAllPages, IAllPagesItems } from "./types"
 import { getAllPage } from "../../api/allPages"
 import AddIcon from '@mui/icons-material/Add';
 import { removeItem } from "../../api/portfolio"
@@ -18,10 +18,10 @@ import { EditGlobalitemDialog } from "../../components/itemDialog/editItemDialog
 
 const AllPage = () =>{
     const [state, setState] = useState<IAllPages|null>(null)
-    const {setOpenSnacBar} = useSnackbar();
+    const {setOpenSnacBar, setErrorText} = useSnackbar();
     const [open, setOpen] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
-    const [selectedCategory, setSelectedCategory] = useState<number|null>(null)
+    const [selectedCategory, setSelectedCategory] = useState<IAllPagesItems|null>(null)
     const [image,setImage] = useState<any>(null)
     const {id} = useParams() 
     const navigate = useNavigate()
@@ -36,12 +36,17 @@ const AllPage = () =>{
     try {
         await removeItem(id as unknown as number,itemId)
         window.location.reload()
-    } catch (error) {
-        setOpenSnacBar(true)
+    } catch (error:any) {
+      let errors:any[] = Object.values(error.response.data.errors).flat(1)
+      for(let err of errors){
+        setErrorText(err)
+        break
+      }
+      setOpenSnacBar(true)
     }
   }
 
-  const openEditModal = (id:number) =>{
+  const openEditModal = (id:IAllPagesItems) =>{
     // const findOne = categories?.find(item=>item.id === id)
     setOpenEdit(true)
     setSelectedCategory(id)
@@ -93,7 +98,7 @@ const AllPage = () =>{
                         </CardContent>
                         <CardActions>
                           <Button size="small" onClick={()=>remove(item.id)}>Remove</Button>
-                          <Button size="small" onClick={()=>openEditModal(item.id)}>Edit</Button>
+                          <Button size="small" onClick={()=>openEditModal(item)}>Edit</Button>
                         </CardActions>
                       </Card>
                     )

@@ -18,7 +18,7 @@ import { createAllPage } from "../../api/allPages"
 
 
 export const CreateGlobalPageDialog = ({open, setOpen}:{open:boolean, setOpen:(state:boolean)=>void}) =>{
-  const {setOpenSnacBar} = useSnackbar();
+  const {setOpenSnacBar,setErrorText} = useSnackbar();
   const [page, setPage] = useState<{
     name:string,
     uri:string,
@@ -69,7 +69,13 @@ export const CreateGlobalPageDialog = ({open, setOpen}:{open:boolean, setOpen:(s
        }else{
         setOpenSnacBar(true)
        }
-      } catch (error) {
+      } catch (error:any) {
+        console.log(Object.values(error.response.data.errors).flat());
+        let errors:any[] = Object.values(error.response.data.errors).flat(1)
+        for(let err of errors){
+          setErrorText(err)
+          break
+        }
         setOpenSnacBar(true)
       }
     }

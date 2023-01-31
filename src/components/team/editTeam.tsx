@@ -14,9 +14,10 @@ import { FlexAlignCenter, FlexCenter } from "../../models/boxes"
 import { editUsers } from "../../api/usersApi"
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { editTeam } from "../../api/team"
+import { ITeam } from "../../pages/team/types"
 
-export const EditTeamDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
-    const {setOpenSnacBar} = useSnackbar();
+export const EditTeamDialog = ({open, setOpen, id}:{id:ITeam, open:boolean, setOpen:(state:boolean)=>void}) =>{
+    const {setOpenSnacBar,setErrorText} = useSnackbar();
     const [user, setUser] = useState<{
         name_en:string,
         name_ru:string,
@@ -24,15 +25,16 @@ export const EditTeamDialog = ({open, setOpen, id}:{id:number, open:boolean, set
         position_ru:string,
         image:any,
     }>({
-      name_en:'',
-      name_ru:'',
+      name_en:id.translates?.[0]?.name||'',
+      name_ru:id.translates?.[1]?.name||'',
       image:null,
-      position_en:'',
-      position_ru:''
+      position_en:id.translates?.[0]?.position||'',
+      position_ru:id.translates?.[1]?.position||''
     })
  
     const save = async() =>{
-        const form = new FormData()
+        try {
+          const form = new FormData()
 
         if(user.image){
           form.append('image',user.image)
@@ -45,12 +47,20 @@ export const EditTeamDialog = ({open, setOpen, id}:{id:number, open:boolean, set
         form.append('status','1')
         form.append('_method','put')
   
-         const data = await editTeam(form, id)
+         const data = await editTeam(form, id.id)
          if(data.success === true){
           window.location.reload()
          }else{
           setOpenSnacBar(true)
          }
+        } catch (error:any) {
+           // let errors:any[] = Object.values(error.response.data.errors).flat(1)
+            // for(let err of errors){
+              setErrorText(error.response.data.message)
+            //   break
+            // }
+            setOpenSnacBar(true)
+        }
     }
 
     return(

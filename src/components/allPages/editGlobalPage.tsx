@@ -11,10 +11,11 @@ import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';import OutlinedInp
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { FlexAlignCenter, FlexCenter } from "../../models/boxes"
 import { editAllPage } from "../../api/allPages"
+import { IAllPages } from "../../pages/allPages/types"
 
 
-export const EditGlobalPageDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
-  const {setOpenSnacBar} = useSnackbar();
+export const EditGlobalPageDialog = ({open, setOpen, id}:{id:IAllPages, open:boolean, setOpen:(state:boolean)=>void}) =>{
+  const {setOpenSnacBar, setErrorText} = useSnackbar();
   const [page, setPage] = useState<{
     name:string,
     uri:string,
@@ -28,15 +29,15 @@ export const EditGlobalPageDialog = ({open, setOpen, id}:{id:number, open:boolea
     image:any,
     }>({
       image:null,
-      content:'',
-      footer_description:'',
-      footer_title:'',
-      header_description:'',
-      header_title:'',
-      meta_data:'',
-      name:'',
-      uri:'',
-      url:''
+      content:id.translates?.[0]?.content||'',
+      footer_description:id.translates?.[0]?.footer_description||'',
+      footer_title:id.translates?.[0]?.footer_title||'',
+      header_description:id.translates?.[0]?.header_description||'',
+      header_title:id.translates?.[0]?.header_title||'',
+      meta_data:id.translates?.[0]?.meta_data||'',
+      name:id.name||'',
+      uri:id.uri||'',
+      url:id.url||''
     })
      
     const save = async() =>{
@@ -60,14 +61,19 @@ export const EditGlobalPageDialog = ({open, setOpen, id}:{id:number, open:boolea
             form.append('_method','put')
             
       
-             const data = await editAllPage(form, id)
+             const data = await editAllPage(form, id.id)
              if(data.success === true){
               window.location.reload()
              }else{
               setOpenSnacBar(true)
              }
-        } catch (error) {
-            setOpenSnacBar(true)
+        } catch (error:any) {
+          let errors:any[] = Object.values(error.response.data.errors).flat(1)
+          for(let err of errors){
+            setErrorText(err)
+            break
+          }
+          setOpenSnacBar(true)
         }
     }
 

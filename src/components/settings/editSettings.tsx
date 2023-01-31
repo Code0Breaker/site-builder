@@ -14,8 +14,9 @@ import { FlexAlignCenter, FlexCenter } from "../../models/boxes"
 import { editUsers } from "../../api/usersApi"
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { editSetting } from "../../api/settings"
+import { ISettings } from "../../pages/settings/types"
 
-export const EditSettingsDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
+export const EditSettingsDialog = ({open, setOpen, id}:{id:ISettings, open:boolean, setOpen:(state:boolean)=>void}) =>{
     const {setOpenSnacBar} = useSnackbar();
     const [user, setUser] = useState<{
         key:string,
@@ -23,10 +24,10 @@ export const EditSettingsDialog = ({open, setOpen, id}:{id:number, open:boolean,
         content_ru:string,
         image:any,
     }>({
-      key:'',
+      key:id?.key||'',
       image:null,
-      content_en:'',
-      content_ru:''
+      content_en:id?.translates?.[0]?.content||'',
+      content_ru:id?.translates?.[1]?.content||''
     })
  
     const save = async() =>{
@@ -41,7 +42,7 @@ export const EditSettingsDialog = ({open, setOpen, id}:{id:number, open:boolean,
         form.append('translates[ru][content]',user.content_ru)
         form.append('_method','put')
   
-         const data = await editSetting(form, id)
+         const data = await editSetting(form, id.id)
          if(data.success === true){
           window.location.reload()
          }else{

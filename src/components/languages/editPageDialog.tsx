@@ -24,7 +24,7 @@ interface IProps{
 }
 export const EditPageDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
     const [page, setPage] = useState({en:'', ru:''})
-    const {setOpenSnacBar} = useSnackbar();
+    const {setOpenSnacBar,setErrorText} = useSnackbar();
     const dataToSave = {
         translates:{en:{title: page.en}, ru:{title:page.ru}},
         uri:`#pages/${page.en.split(' ')[0].toLowerCase()}`,
@@ -38,7 +38,12 @@ export const EditPageDialog = ({open, setOpen, id}:{id:number, open:boolean, set
        if(data.success === true){
         window.location.reload()
        }
-       } catch (error) {
+       } catch (error:any) {
+        let errors:any[] = Object.values(error.response.data.errors).flat(1)
+        for(let err of errors){
+          setErrorText(err)
+          break
+        }
         setOpenSnacBar(true)
        }
     }

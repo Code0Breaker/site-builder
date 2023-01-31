@@ -11,7 +11,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-export default function CustomizedSnackbars({open,setOpen}:{open:boolean, setOpen:(state:boolean)=>void}) {
+export default function CustomizedSnackbars({open,setOpen,errorText}:{open:boolean, setOpen:(state:boolean)=>void,errorText:string}) {
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
@@ -22,9 +22,7 @@ export default function CustomizedSnackbars({open,setOpen}:{open:boolean, setOpe
 
   return (
       <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
-          Something went wrong
-        </Alert>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>{errorText}</Alert>
       </Snackbar>
   );
 }
