@@ -41,6 +41,7 @@ export const EditTeamDialog = ({open, setOpen, id}:{id:number, open:boolean, set
         form.append('translates[ru][name]',user.name_ru)
         form.append('translates[en][position]',user.position_en)
         form.append('translates[ru][position]',user.position_ru)
+        form.append('status','1')
         form.append('_method','put')
   
          const data = await editUsers(form, id)
