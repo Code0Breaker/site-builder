@@ -52,6 +52,7 @@ const Post = ({type}:{type:'edit'|'read'}) =>{
         form.append('translates[en][content]',text) 
         form.append('published','1') 
         form.append('_method','put') 
+        form.append('slug','blog_one') 
         
 
         selectedCategories.map((item,index)=>{

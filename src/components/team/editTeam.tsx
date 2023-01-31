@@ -13,6 +13,7 @@ import { editSocial } from "../../api/socialApi"
 import { FlexAlignCenter, FlexCenter } from "../../models/boxes"
 import { editUsers } from "../../api/usersApi"
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
+import { editTeam } from "../../api/team"
 
 export const EditTeamDialog = ({open, setOpen, id}:{id:number, open:boolean, setOpen:(state:boolean)=>void}) =>{
     const {setOpenSnacBar} = useSnackbar();
@@ -44,7 +45,7 @@ export const EditTeamDialog = ({open, setOpen, id}:{id:number, open:boolean, set
         form.append('status','1')
         form.append('_method','put')
   
-         const data = await editUsers(form, id)
+         const data = await editTeam(form, id)
          if(data.success === true){
           window.location.reload()
          }else{

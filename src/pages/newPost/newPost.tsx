@@ -43,7 +43,7 @@ const NewPost = () =>{
         form.append('translates[en][description]',description) 
         form.append('translates[en][content]',text) 
         form.append('published','1') 
-        
+        form.append('slug','blog_one') 
 
         selectedCategories.map(item=>{
             form.append(`categories[${item}]`, item) 
