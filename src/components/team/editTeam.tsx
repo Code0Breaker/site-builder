@@ -90,7 +90,7 @@ export const EditTeamDialog = ({open, setOpen, id}:{id:ITeam, open:boolean, setO
         <DialogActions>
           <Button onClick={()=>setOpen(false)}>Cancel</Button>
           <Button onClick={save} autoFocus>
-            Create
+            Edit
           </Button>
         </DialogActions>
       </Dialog>

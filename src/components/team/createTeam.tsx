@@ -13,6 +13,7 @@ import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { FlexAlignCenter, FlexCenter } from "../../models/boxes"
 import { createUsers } from "../../api/usersApi"
 import { createTeam } from "../../api/team"
+import { Switch } from "@mui/material"
 
 
 export const CreateTeamDialog = ({open, setOpen}:{open:boolean, setOpen:(state:boolean)=>void}) =>{
@@ -23,12 +24,14 @@ export const CreateTeamDialog = ({open, setOpen}:{open:boolean, setOpen:(state:b
     position_en:string,
     position_ru:string,
     image:any,
+    status:'0'|'1'
     }>({
       name_en:'',
       name_ru:'',
       image:null,
       position_en:'',
-      position_ru:''
+      position_ru:'',
+      status:'0'
     })
      
     const create = async() =>{
@@ -43,7 +46,7 @@ export const CreateTeamDialog = ({open, setOpen}:{open:boolean, setOpen:(state:b
       form.append('translates[ru][name]',user.name_ru)
       form.append('translates[en][position]',user.position_en)
       form.append('translates[ru][position]',user.position_ru)
-      form.append('status','1')
+      form.append('status',user.status)
       
 
        const data = await createTeam(form)
@@ -79,6 +82,9 @@ export const CreateTeamDialog = ({open, setOpen}:{open:boolean, setOpen:(state:b
             </FlexAlignCenter>
             <input onChange={(e: React.ChangeEvent<HTMLInputElement>)=>setUser({...user, image:e?.target?.files?.[0]})} type='file' accept="image/png, image/gif, image/jpeg" hidden id="upload-flag"/>
           </label>
+        </FlexCenter>
+        <FlexCenter>
+          <Switch checked={Boolean(+user.status)} onChange={e=>setUser({...user,status: e.target.checked?'1':'0'})}/>
         </FlexCenter>
         <DialogContent sx={{display:'flex',gap:3, flexDirection:'column'}}>
           <OutlinedInput fullWidth placeholder="Name en" value={user.name_en} onChange={e=>setUser({...user, name_en:e.target.value})}/>
