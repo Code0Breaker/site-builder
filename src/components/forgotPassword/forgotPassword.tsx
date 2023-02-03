@@ -27,7 +27,7 @@ export default function ForgotPassword({open,setOpen,next}:{next:(state:boolean)
         <DialogTitle id="alert-dialog-title">
           {"Forgot password?"}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{width: window.innerWidth > 600 ? "500px" : "auto"}}>
             <OutlinedInput 
             value={email} 
             onChange={e=>setEmail(e.target.value)} 
