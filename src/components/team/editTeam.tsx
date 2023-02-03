@@ -41,7 +41,7 @@ export const EditTeamDialog = ({
     image: null,
     position_en: id.translates?.[0]?.position || "",
     position_ru: id.translates?.[1]?.position || "",
-    status: "0",
+    status: id.status.toString() as "0"|"1",
   });
 
   const save = async () => {
