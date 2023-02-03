@@ -58,6 +58,7 @@ export const CreateSettingsDialog = ({
 
   return (
     <Dialog
+      fullWidth
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
@@ -98,24 +99,25 @@ export const CreateSettingsDialog = ({
         sx={{
           display: "flex",
           gap: 3,
-          flexDirection: "column",
-          width: window.innerWidth > 600 ? "500px" : "auto",
+          flexDirection: "row",
+          flexWrap:'wrap',
+          justifyContent:'center'
         }}
       >
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Key"
           value={user.key}
           onChange={(e) => setUser({ ...user, key: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Content en"
           value={user.content_en}
           onChange={(e) => setUser({ ...user, content_en: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Content ru"
           value={user.content_ru}
           onChange={(e) => setUser({ ...user, content_ru: e.target.value })}

@@ -43,13 +43,19 @@ export const CreateLanguageDialog = ({
 
   return (
     <Dialog
+      fullWidth
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">{"Create language"}</DialogTitle>
-      <DialogContent sx={{ width: window.innerWidth > 600 ? "500px" : "auto" }}>
+      <DialogContent sx={{          
+         display: "flex",
+          gap: 3,
+          flexDirection: "row",
+          flexWrap:'wrap',
+          justifyContent:'center'}}>
         <label htmlFor="upload-flag">
           <FlexAlignCenter
             justifyContent={"center"}

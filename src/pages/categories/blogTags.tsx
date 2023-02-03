@@ -115,6 +115,7 @@ const BlogTags = () => {
   return (
     <FlexColumn>
       <Dialog
+      fullWidth
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"

@@ -92,6 +92,7 @@ export const EditGlobalPageDialog = ({
 
   return (
     <Dialog
+      fullWidth
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
@@ -132,36 +133,37 @@ export const EditGlobalPageDialog = ({
         sx={{
           display: "flex",
           gap: 3,
-          flexDirection: "column",
-          width: window.innerWidth > 600 ? "500px" : "auto",
+          flexDirection: "row",
+          flexWrap:'wrap',
+          justifyContent:'center'
         }}
       >
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Name"
           value={page.name}
           onChange={(e) => setPage({ ...page, name: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Uri"
           value={page.uri}
           onChange={(e) => setPage({ ...page, uri: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Url"
           value={page.url}
           onChange={(e) => setPage({ ...page, url: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Header title"
           value={page.header_title}
           onChange={(e) => setPage({ ...page, header_title: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Header description"
           value={page.header_description}
           onChange={(e) =>
@@ -169,19 +171,19 @@ export const EditGlobalPageDialog = ({
           }
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Content"
           value={page.content}
           onChange={(e) => setPage({ ...page, content: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Footer title"
           value={page.footer_title}
           onChange={(e) => setPage({ ...page, footer_title: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Footer description"
           value={page.footer_description}
           onChange={(e) =>
@@ -189,7 +191,7 @@ export const EditGlobalPageDialog = ({
           }
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Meta data"
           value={page.meta_data}
           onChange={(e) => setPage({ ...page, meta_data: e.target.value })}

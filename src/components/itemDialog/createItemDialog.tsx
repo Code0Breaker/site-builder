@@ -56,6 +56,7 @@ export const ItemDialog = ({
 
   return (
     <Dialog
+    fullWidth
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
@@ -96,8 +97,9 @@ export const ItemDialog = ({
         sx={{
           display: "flex",
           gap: 3,
-          flexDirection: "column",
-          width: window.innerWidth > 600 ? "500px" : "auto",
+          flexDirection: "row",
+          flexWrap:'wrap',
+          justifyContent:'center'
         }}
       >
         <OutlinedInput

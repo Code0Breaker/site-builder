@@ -41,6 +41,7 @@ export const CreatePageDialog = ({
 
   return (
     <Dialog
+    fullWidth
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"

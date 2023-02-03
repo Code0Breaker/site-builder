@@ -59,6 +59,7 @@ export const EditPageDialog = ({
 
   return (
     <Dialog
+      fullWidth
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
@@ -69,7 +70,9 @@ export const EditPageDialog = ({
         sx={{
           display: "flex",
           gap: 3,
-          width: window.innerWidth > 600 ? "500px" : "auto",
+          flexDirection: "row",
+          flexWrap:'wrap',
+          justifyContent:'center'
         }}
       >
         <OutlinedInput

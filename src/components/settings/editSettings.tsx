@@ -61,6 +61,7 @@ export const EditSettingsDialog = ({
 
   return (
     <Dialog
+    fullWidth
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"

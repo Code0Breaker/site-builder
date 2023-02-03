@@ -72,6 +72,7 @@ export const CreateTeamDialog = ({
 
   return (
     <Dialog
+      fullWidth
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
@@ -120,30 +121,31 @@ export const CreateTeamDialog = ({
         sx={{
           display: "flex",
           gap: 3,
-          flexDirection: "column",
-          width: window.innerWidth > 600 ? "500px" : "auto",
+          flexDirection: "row",
+          flexWrap:'wrap',
+          justifyContent:'center'
         }}
       >
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Name en"
           value={user.name_en}
           onChange={(e) => setUser({ ...user, name_en: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Name ru"
           value={user.name_ru}
           onChange={(e) => setUser({ ...user, name_ru: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Position en"
           value={user.position_en}
           onChange={(e) => setUser({ ...user, position_en: e.target.value })}
         />
         <OutlinedInput
-          fullWidth
+            fullWidth
           placeholder="Position ru"
           value={user.position_ru}
           onChange={(e) => setUser({ ...user, position_ru: e.target.value })}

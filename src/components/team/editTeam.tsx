@@ -80,6 +80,7 @@ export const EditTeamDialog = ({
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
+      fullWidth
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">{"Edit team"}</DialogTitle>

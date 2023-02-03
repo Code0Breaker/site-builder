@@ -105,6 +105,7 @@ const Languages = () => {
     <FlexColumn>
       <CreateLanguageDialog open={open} setOpen={setOpen} />
       <Dialog
+      fullWidth
         open={openEdit}
         onClose={() => setOpenEdit(false)}
         aria-labelledby="alert-dialog-title"

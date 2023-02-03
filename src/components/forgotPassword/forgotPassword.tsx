@@ -19,6 +19,7 @@ export default function ForgotPassword({open,setOpen,next}:{next:(state:boolean)
   return (
     <div>
       <Dialog
+      fullWidth
         open={open}
         onClose={()=>setOpen(false)}
         aria-labelledby="alert-dialog-title"

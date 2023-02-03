@@ -138,6 +138,7 @@ const BlogCategories = () => {
   return (
     <FlexColumn>
       <Dialog
+        fullWidth
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
@@ -178,7 +179,9 @@ const BlogCategories = () => {
           sx={{
             display: "flex",
             gap: 3,
-            width: window.innerWidth > 600 ? "500px" : "auto",
+            flexDirection: "row",
+            flexWrap:'wrap',
+            justifyContent:'center'
           }}
         >
           <OutlinedInput

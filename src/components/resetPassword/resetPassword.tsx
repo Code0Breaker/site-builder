@@ -20,6 +20,7 @@ export default function ResetPassword({
   return (
     <div>
       <Dialog
+      fullWidth
         open={open}
         onClose={() => setOpen(false)}
         aria-labelledby="alert-dialog-title"
