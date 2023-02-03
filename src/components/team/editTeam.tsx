@@ -16,6 +16,7 @@ import { editUsers } from "../../api/usersApi";
 import { useSnackbar } from "../../types/outletTypes/outletTypes";
 import { editTeam } from "../../api/team";
 import { ITeam } from "../../pages/team/types";
+import Switch from "@mui/material/Switch";
 
 export const EditTeamDialog = ({
   open,
@@ -33,12 +34,14 @@ export const EditTeamDialog = ({
     position_en: string;
     position_ru: string;
     image: any;
+    status: "0"|"1",
   }>({
     name_en: id.translates?.[0]?.name || "",
     name_ru: id.translates?.[1]?.name || "",
     image: null,
     position_en: id.translates?.[0]?.position || "",
     position_ru: id.translates?.[1]?.position || "",
+    status: "0",
   });
 
   const save = async () => {
@@ -53,7 +56,7 @@ export const EditTeamDialog = ({
       form.append("translates[ru][name]", user.name_ru);
       form.append("translates[en][position]", user.position_en);
       form.append("translates[ru][position]", user.position_ru);
-      form.append("status", "1");
+      form.append("status", user.status);
       form.append("_method", "put");
 
       const data = await editTeam(form, id.id);
@@ -118,6 +121,14 @@ export const EditTeamDialog = ({
           width: window.innerWidth > 600 ? "500px" : "auto",
         }}
       >
+        <FlexCenter>
+        <Switch
+          checked={Boolean(+user.status)}
+          onChange={(e) =>
+            setUser({ ...user, status: e.target.checked ? "1" : "0" })
+          }
+        />
+      </FlexCenter>
         <OutlinedInput
           fullWidth
           placeholder="Name en"

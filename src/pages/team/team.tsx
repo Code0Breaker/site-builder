@@ -92,7 +92,7 @@ const Team = () =>{
                                 <Typography variant="body2" color="text.secondary">
                                   <>Verified at {new Date(item.created_at).toLocaleDateString()}</>
                                 </Typography>
-                                <Switch checked={Boolean(item.status)} onChange={e=>setSwitcher(item, !e.target.checked)}/>
+                                
                               </CardContent>
                               <CardActions>
                                 <Button size="small" onClick={()=>remove(item.id)}>Remove</Button>
