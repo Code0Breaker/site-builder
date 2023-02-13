@@ -240,6 +240,9 @@ console.log(menuTranslations);
         </FlexColumn>
         <FlexColumn mt={2} gap={'5px'} width={'100%'} alignItems={'center'}>
         <StyledNavLink to={'site'} end>Pages</StyledNavLink>
+        <StyledNavLink to={'services'}>Services</StyledNavLink>
+        <StyledNavLink to={'categories'}>Categories</StyledNavLink>
+        <StyledNavLink to={'projects'}>Projects</StyledNavLink>
         <StyledNavLink to={'inbox'}>Inbox</StyledNavLink>
         <StyledNavLink to={'team'}>Team</StyledNavLink>
         <StyledNavLink to={'settings'}>Settings</StyledNavLink>

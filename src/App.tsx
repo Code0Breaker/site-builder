@@ -3,7 +3,6 @@ import Taskboard from './components/taskboard/taskboard'
 import MainLayout from './layouts/mainLayout'
 import AllPage from './pages/allPages/allPage'
 import AllPages from './pages/allPages/allPages'
-import BlogList from './pages/blogList/blogList'
 import Calendar from './pages/calendar/calendar'
 import BlogCategories from './pages/categories/blogCategory'
 import BlogTags from './pages/categories/blogTags'
@@ -24,14 +23,17 @@ import NewPost from './pages/newPost/newPost'
 import Pages from './pages/pages/pages'
 import Post from './pages/posts/post'
 import Posts from './pages/posts/posts'
+import Categories from './pages/category/categories'
 import Register from './pages/register/register'
 import SearchResults from './pages/searchResults/searchResults'
+import Services from './pages/services/services'
 import Settings from './pages/settings/settings'
 import Social from './pages/social/social'
 import Summernote from './pages/summernote/summernote'
 import Team from './pages/team/team'
 import TypographySection from './pages/typography/typography'
 import Users from './pages/users/users'
+import Projects from './pages/projects/projects'
 
 function App() {
   const routes = useRoutes([
@@ -43,6 +45,9 @@ function App() {
       children:[
         {path:'', element:<Dashboard/>},
         {path:'languages', element:<Languages/>},
+        {path:'services', element:<Services/>},
+        {path:'categories', element:<Categories/>},
+        {path:'projects', element:<Projects/>},
         {path:'social', element:<Social/>},
         {path:'users', element:<Users/>},
         {path:'pages', element:<Pages/>},
