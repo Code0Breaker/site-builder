@@ -321,7 +321,7 @@ const Projects = () =>{
                          
 
                         <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Service title</InputLabel>
+                        <InputLabel id="demo-simple-select-label">Category</InputLabel>
                         <Select
                           labelId="demo-multiple-chip-label"
                           id="demo-multiple-chip"
@@ -461,7 +461,7 @@ const Projects = () =>{
                          
 
                         <FormControl fullWidth>
-                        <InputLabel id="demo-simple-select-label">Service title</InputLabel>
+                        <InputLabel id="demo-simple-select-label">Category</InputLabel>
                         <Select
                           labelId="demo-multiple-chip-label"
                           id="demo-multiple-chip"
@@ -505,7 +505,7 @@ const Projects = () =>{
             >
                 <AddIcon/>
             </IconButton>
-            <Typography>Service titles</Typography>
+            <Typography>Projects</Typography>
         </Box>
         <PaperBox>
             <Flex flexWrap={'wrap'} width={'100%'} gap={3}>
