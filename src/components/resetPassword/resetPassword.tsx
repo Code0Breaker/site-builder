@@ -20,6 +20,8 @@ export default function ResetPassword({
   return (
     <div>
       <Dialog
+      maxWidth={'lg'}
+      scroll={'body'}
       fullWidth
         open={open}
         onClose={() => setOpen(false)}

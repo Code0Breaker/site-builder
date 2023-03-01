@@ -67,9 +67,7 @@ const Team = () =>{
             <CreateTeamDialog open={openTeam} setOpen={setOpenTeam}/>
             {selectedUser&&<EditTeamDialog open={openEdit} setOpen={setOpenEdit} id={selectedUser}/>}
             <Box mb={3}>
-                <IconButton onClick={()=>setOpenTeam(true)}>
-                    <AddIcon/>
-                </IconButton>
+                <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpenTeam(true)}>create</Button>
             </Box>
             <PaperBox>
                 <Flex flexWrap={'wrap'} width={'100%'} gap={3}>
@@ -90,7 +88,7 @@ const Team = () =>{
                                    {item.translates[0].position}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                  <>Verified at {new Date(item.created_at).toLocaleDateString()}</>
+                                  <>Created at {new Date(item.created_at).toLocaleDateString()}</>
                                 </Typography>
                                 
                               </CardContent>

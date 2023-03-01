@@ -8,21 +8,27 @@ import { CreateGlobalPageDialog } from "../../components/allPages/createGlobalPa
 import { EditGlobalPageDialog } from "../../components/allPages/editGlobalPage"
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { useNavigate } from "react-router-dom"
+import { getLanguages } from "../../api/languages"
+import { ILanguages } from "../languages/types"
 
 const AllPages = () =>{
     const {setOpenSnacBar,setErrorText} = useSnackbar();
     const [allpages, setAllPages] = useState<IAllPages[]|null>(null)
     const [openPage, setOpenPage] = useState(false)
     const [openEdit, setOpenEdit] = useState(false)
+    
     const [selectedPage, setSelectedPage] = useState<null|IAllPages>(null)
     const navigate = useNavigate()
     useEffect(()=>{
         (async()=>{
             const {data} = await getAllPages()
             setAllPages(data)
+            
         })()
     },[])
 
+  
+    
     const remove = async(id:number) => {
         try {
             await removeAllPage(id)
@@ -47,9 +53,7 @@ const AllPages = () =>{
         <CreateGlobalPageDialog open={openPage} setOpen={setOpenPage}/>
         {selectedPage&&<EditGlobalPageDialog open={openEdit} setOpen={setOpenEdit} id={selectedPage}/>}
         <Box mb={3}>
-            <IconButton onClick={()=>setOpenPage(true)}>
-                <AddIcon/>
-            </IconButton>
+            <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpenPage(true)}>create</Button>
         </Box>
         <PaperBox>
             <Flex flexWrap={'wrap'} width={'100%'} gap={3}>
@@ -67,7 +71,7 @@ const AllPages = () =>{
                                {item.name}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
-                              <>Verified at {new Date(item.created_at).toLocaleDateString()}</>
+                              <>Created at {new Date(item.created_at).toLocaleDateString()}</>
                             </Typography>
                           </CardContent>
                           <CardActions>

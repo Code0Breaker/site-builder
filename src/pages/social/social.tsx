@@ -13,6 +13,7 @@ import { getSocials, removeSocial } from "../../api/socialApi"
 import { ISocial } from "./types"
 import { CreateSocialDialog } from "../../components/social/createSocialDialog"
 import { EditSocialDialog } from "../../components/social/editSocialDialog"
+import Button from "@mui/material/Button/Button"
 const Social = () =>{
     const [socials, setSocials] = useState<ISocial[]|null>(null)
     const [open, setOpen] = useState(false)
@@ -44,9 +45,7 @@ const Social = () =>{
             {/* <CreatePageDialog open={open} setOpen={setOpen}/>
             {selectedSocial&&<EditPageDialog open={openSocials} setOpen={setOpenSocials} id={selectedSocial}/>} */}
             <Box mb={3}>
-                <IconButton onClick={()=>setOpen(true)}>
-                    <AddIcon/>
-                </IconButton>
+                <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpen(true)}>create</Button>
             </Box>
             <PaperBox>
                 <Flex flexWrap={'wrap'} width={'100%'}>

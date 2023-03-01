@@ -5,14 +5,17 @@ import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import { Box } from "@mui/system";
-import { useState } from "react";
-import { createLanguage } from "../../api/languages";
+import { useEffect, useState } from "react";
+import { createLanguage, getLanguages } from "../../api/languages";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput";
 import { useSnackbar } from "../../types/outletTypes/outletTypes";
 import { FlexAlignCenter, FlexCenter } from "../../models/boxes";
 import { editAllPage } from "../../api/allPages";
 import { IAllPages } from "../../pages/allPages/types";
+import { ILanguages } from "../../pages/languages/types";
+import { Switcher } from "../switcher/switcher";
+import uploadIcon from '../../assets/upload-icon.png'
 
 export const EditGlobalPageDialog = ({
   open,
@@ -28,25 +31,60 @@ export const EditGlobalPageDialog = ({
     name: string;
     uri: string;
     url: string;
-    header_title: string;
-    header_description: string;
-    content: string;
-    footer_title: string;
-    footer_description: string;
-    meta_data: string;
     image: any;
   }>({
     image: null,
-    content: id.translates?.[0]?.content || "",
-    footer_description: id.translates?.[0]?.footer_description || "",
-    footer_title: id.translates?.[0]?.footer_title || "",
-    header_description: id.translates?.[0]?.header_description || "",
-    header_title: id.translates?.[0]?.header_title || "",
-    meta_data: id.translates?.[0]?.meta_data || "",
     name: id.name || "",
     uri: id.uri || "",
     url: id.url || "",
   });
+  const [fields, setFields] = useState<{
+    [key:string]:{
+      content:string,
+      footer_description: string,
+      footer_title: string,
+      header_description: string,
+      header_title: string,
+      meta_data: string,
+    }
+  }[]>([
+    {
+      en:{
+        content:"",
+        footer_description: "",
+        footer_title: "",
+        header_description: "",
+        header_title: "",
+        meta_data: "",
+      }
+    }
+  ])
+  const [langs, setLangs] = useState<ILanguages[]|null>(null)
+  const [currentLang,setCurrentLang] = useState('en')
+  const [status, setStatus] = useState<'0'|'1'>('0')
+  console.log(id);
+  
+  useEffect(()=>{
+    (async()=>{
+      const newFields:any[] = []
+      id.translates.map(item=>{
+        const newData:any = {}
+        newData[item.language.short_code] = {
+          content:item.content,
+          footer_description: item.footer_description,
+          footer_title: item.footer_title,
+          header_description: item.header_description,
+          header_title: item.header_title,
+          meta_data: item.meta_data,
+        }
+        newFields.push(newData)
+      })
+      setFields(newFields);
+      
+      const {data} = await getLanguages()
+      setLangs(data)
+    })()
+  },[])
 
   const save = async () => {
     try {
@@ -59,19 +97,16 @@ export const EditGlobalPageDialog = ({
       form.append("name", page.name);
       form.append("uri", page.uri);
       form.append("url", page.url);
-      form.append("translates[en][header_title]", page.header_title);
-      form.append(
-        "translates[en][header_description]",
-        page.header_description
-      );
-      form.append("translates[en][content]", page.content);
-      form.append("translates[en][footer_title]", page.footer_title);
-      form.append(
-        "translates[en][footer_description]",
-        page.footer_description
-      );
-      form.append("translates[en][meta_data]", page.meta_data);
-      form.append("status", "1");
+      fields.map(item=>{
+        for(const key in item){
+          for(const field in item[key]){
+            //@ts-ignore
+            form.append(`translates[${key}][${field}]`, item[key][field]);
+          }
+        }
+      })
+      
+      form.append("status", status);
       form.append("_method", "put");
 
       const data = await editAllPage(form, id.id);
@@ -93,12 +128,36 @@ export const EditGlobalPageDialog = ({
   return (
     <Dialog
       fullWidth
+      maxWidth={'lg'}
+      scroll={'body'}
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">{"Edit page"}</DialogTitle>
+      <FlexCenter>
+        <FlexAlignCenter gap={3}>
+          {
+            langs?.map(item=>{
+              return(
+                <Box 
+                  onClick={()=>setCurrentLang(item.short_code)}
+                  component={'img'} 
+                  src={item.image.url} 
+                  width={50} 
+                  height={38}
+                  sx={{
+                    objectFit:'cover',
+                    cursor:'pointer',
+                    border:currentLang === item.short_code?'1px solid red':'',
+                    borderRadius:3
+                  }}/>
+              )
+            })
+          }
+        </FlexAlignCenter>
+      </FlexCenter>
       <FlexCenter>
         <label htmlFor="upload-flag">
           <FlexAlignCenter
@@ -115,7 +174,9 @@ export const EditGlobalPageDialog = ({
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+              <FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input
@@ -129,6 +190,9 @@ export const EditGlobalPageDialog = ({
           />
         </label>
       </FlexCenter>
+        <FlexCenter>
+          <Switcher checked={status} setChecked={setStatus}/>
+        </FlexCenter>
       <DialogContent
         sx={{
           display: "flex",
@@ -159,48 +223,86 @@ export const EditGlobalPageDialog = ({
         <OutlinedInput
             fullWidth
           placeholder="Header title"
-          value={page.header_title}
-          onChange={(e) => setPage({ ...page, header_title: e.target.value })}
+          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].header_title}
+          onChange={(e) => {
+            const updatedFields = [...fields];
+            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+            const currentLanguage = updatedFields[languageIndex][currentLang];
+            const updatedLanguage = {...currentLanguage, header_title: e.target.value};
+            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+            setFields(updatedFields); 
+          }}
         />
         <OutlinedInput
             fullWidth
           placeholder="Header description"
-          value={page.header_description}
-          onChange={(e) =>
-            setPage({ ...page, header_description: e.target.value })
-          }
+          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].header_description}
+          onChange={(e) =>{
+            const updatedFields = [...fields];
+            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+            const currentLanguage = updatedFields[languageIndex][currentLang];
+            const updatedLanguage = {...currentLanguage, header_description: e.target.value};
+            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+            setFields(updatedFields); 
+          }}
         />
         <OutlinedInput
             fullWidth
           placeholder="Content"
-          value={page.content}
-          onChange={(e) => setPage({ ...page, content: e.target.value })}
+          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].content}
+          onChange={(e) =>{
+            const updatedFields = [...fields];
+            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+            const currentLanguage = updatedFields[languageIndex][currentLang];
+            const updatedLanguage = {...currentLanguage, content: e.target.value};
+            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+            setFields(updatedFields); 
+          }}
         />
         <OutlinedInput
             fullWidth
           placeholder="Footer title"
-          value={page.footer_title}
-          onChange={(e) => setPage({ ...page, footer_title: e.target.value })}
+          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].footer_title}
+          onChange={(e) => {
+            const updatedFields = [...fields];
+            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+            const currentLanguage = updatedFields[languageIndex][currentLang];
+            const updatedLanguage = {...currentLanguage, footer_title: e.target.value};
+            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+            setFields(updatedFields); 
+          }}
         />
         <OutlinedInput
             fullWidth
           placeholder="Footer description"
-          value={page.footer_description}
-          onChange={(e) =>
-            setPage({ ...page, footer_description: e.target.value })
-          }
+          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].footer_description}
+          onChange={(e) =>{
+            const updatedFields = [...fields];
+            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+            const currentLanguage = updatedFields[languageIndex][currentLang];
+            const updatedLanguage = {...currentLanguage, footer_description: e.target.value};
+            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+            setFields(updatedFields); 
+          } }
         />
         <OutlinedInput
             fullWidth
           placeholder="Meta data"
-          value={page.meta_data}
-          onChange={(e) => setPage({ ...page, meta_data: e.target.value })}
+          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].meta_data}
+          onChange={(e) => {
+            const updatedFields = [...fields];
+            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+            const currentLanguage = updatedFields[languageIndex][currentLang];
+            const updatedLanguage = {...currentLanguage, meta_data: e.target.value};
+            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+            setFields(updatedFields); 
+          }}
         />
       </DialogContent>
       <DialogActions>
         <Button onClick={() => setOpen(false)}>Cancel</Button>
         <Button onClick={save} autoFocus>
-          Edit
+          Save
         </Button>
       </DialogActions>
     </Dialog>

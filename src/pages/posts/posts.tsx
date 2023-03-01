@@ -16,8 +16,8 @@ const Posts = () =>{
     const navigate = useNavigate()
     useEffect(()=>{
         (async()=>{
-            const data = await getPosts()
-            setPosts(data.data.data)
+            const {data} = await getPosts()
+            setPosts(data.data)
         })()
     },[])
 
@@ -30,9 +30,7 @@ const Posts = () =>{
     return(
         <FlexColumn>
             <Box mb={3}>
-                <IconButton onClick={()=>navigate('/home/new-post')}>
-                    <AddIcon/>
-                </IconButton>
+                <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>navigate('/home/new-post')}>create</Button>
             </Box>
             <PaperBox>
                 <Flex flexWrap={'wrap'} gap={3}>
@@ -53,7 +51,7 @@ const Posts = () =>{
                                    {item.translates[0].description}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                  {/* <>Verified at {new Date(item.email_verified_at).toLocaleDateString()}</> */}
+                                  {/* <>Created at {new Date(item.email_verified_at).toLocaleDateString()}</> */}
                                 </Typography>
                               </CardContent>
                               <CardActions>

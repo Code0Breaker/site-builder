@@ -1,7 +1,7 @@
 import { Api } from "./api"
 
 export const getBlogCategory = async() =>{
-    const {data} = await Api.get('admin/blog-category',{headers:{Authorization:`Bearer ${localStorage.token}`}})
+    const {data} = await Api.get('admin/category',{headers:{Authorization:`Bearer ${localStorage.token}`}})
     return data
 }
 

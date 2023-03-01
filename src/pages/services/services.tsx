@@ -16,6 +16,11 @@ import InputLabel from "@mui/material/InputLabel"
 import Select from "@mui/material/Select"
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
+import { ILanguages } from "../languages/types"
+import { getLanguages } from "../../api/languages"
+
+import uploadIcon from '../../assets/upload-icon.png'
+import { Switcher } from "../../components/switcher/switcher"
 
 const Services = () =>{
     const {setOpenSnacBar,setErrorText} = useSnackbar();
@@ -43,37 +48,91 @@ const Services = () =>{
         image:null,
         srevice_id:''
     })
+    const [langs, setLangs] = useState<ILanguages[]|null>(null)
+    const [currentLang,setCurrentLang] = useState('en')
+    const [status, setStatus] = useState<'0'|'1'>('0')
+    const [fieldsTitles, setFieldsTitles] = useState<{
+      [key:string]:{
+        title:string
+      }
+    }[]>([
+      {
+        en:{
+          title:''
+        }
+      }
+    ])
+    const [fieldsItems, setFieldsItems] = useState<{
+      [key:string]:{
+        description:string
+        title:string
+      }
+    }[]>([
+      {
+        en:{
+          description:"",
+          title:""
+        }
+      }
+    ])
+
 
     useEffect(()=>{
         (async()=>{
+            const languages = await getLanguages()
+            setLangs(languages.data)
+            setFieldsTitles(languages.data.map((lng:ILanguages)=>{
+              return{
+                [lng.short_code]:{
+                  title:''
+                }
+              }
+            }))
             const {data} = await getServices()
             const itemsData = await getServiceItems()
+            setFieldsItems(
+              languages.data.map((lng:ILanguages)=>{
+                return{
+                  [lng.short_code]:{
+                    description:"",
+                    title:""
+                  }
+                }
+              })
+            )
             setService(itemsData.data)
             setServices(data)
         })()
-    },[])
+    },[openServiceItemCreate, openServiceCreate])
 
-    useEffect(()=>{
-      setItem({
-        // ...item,
-        description:'',
-        title:'',
-        srevice_id:'',
-        image:''
-    })
-    },[openServiceItemCreate])
+ 
 
     const openEditService = (item:IServices) =>{
         setOpenServiceEdit(true)
         setSelectedService(item)
-        setTitle(item.translates[0].title)
+        setFieldsTitles(
+          item.translates.map(service=>{
+          return{
+            [service.language.short_code]:{
+              title:service.title
+            }
+          }
+        }))
+       
     }
 
     const openEditServiceItem = (item:IServiceItem) =>{
         setOpenServiceItemEdit(true)
         setSelectedServiceItem(item)
         console.log((item.translates[0]));
-        
+        setFieldsItems(item.translates.map(itm=>{
+          return{
+            [itm.language.short_code]:{
+              description:itm.description,
+              title:itm.title,
+            }
+          }
+        }))
         setItem({
             // ...item,
             description:item.translates[0].description,
@@ -85,7 +144,14 @@ const Services = () =>{
 
     const editItem = async() =>{
       try {
-        await serviceEdit({ translates: {en: {title} }, status:1, _method:"put" }, selectedService?.id as number)
+        const obj:any = {
+          translates: {}
+        };
+        fieldsTitles.map(item=>{
+          const [key] = Object.keys(item);
+          obj.translates[key] = item[key];
+        })
+        await serviceEdit({ ...obj, status, _method:"put" }, selectedService?.id as number)
         window.location.reload()
       } catch (error:any) {
         let errors:any[] = Object.values(error.response.data.errors).flat(1)
@@ -101,7 +167,15 @@ const Services = () =>{
 
     const createService = async() =>{
       try {
-        await serviceCreate({translates:{en:{title}}, status:1})
+        const obj:any = {
+          translates: {}
+        };
+        fieldsTitles.map(item=>{
+          const [key] = Object.keys(item);
+          obj.translates[key] = item[key];
+        })
+
+        await serviceCreate({...obj,status})
         window.location.reload()
       } catch (error:any) {
         let errors:any[] = Object.values(error.response.data.errors).flat(1)
@@ -114,6 +188,7 @@ const Services = () =>{
     }
 
     const createServiceItem = async() => {
+     
       try {
         const form = new FormData()
 
@@ -121,10 +196,16 @@ const Services = () =>{
             form.append("image", item.image);
           }
       
-          form.append("translates[en][title]", item.title);
-          form.append("translates[en][description]", item.description);
+          fieldsItems.map(item=>{
+            for(const key in item){
+              for(const field in item[key]){
+                //@ts-ignore
+                form.append(`translates[${key}][${field}]`, item[key][field]);
+              }
+            }
+          })
           form.append("service_id", item.srevice_id);
-          form.append("status", "1");
+          form.append("status", status);
           await serviceItemCreate(form)
           window.location.reload()
       } catch (error:any) {
@@ -146,10 +227,16 @@ const Services = () =>{
             form.append("image", item.image);
           }
       
-          form.append("translates[en][title]", item.title);
-          form.append("translates[en][description]", item.description);
+          fieldsItems.map(item=>{
+            for(const key in item){
+              for(const field in item[key]){
+                //@ts-ignore
+                form.append(`translates[${key}][${field}]`, item[key][field]);
+              }
+            }
+          })
           form.append("service_id", item.srevice_id);
-          form.append("status", "1");
+          form.append("status", status);
           form.append("_method", "put");
 
           await serviceItemEdit(form, selectedServiceItem?.id as number)
@@ -192,10 +279,13 @@ const Services = () =>{
         setOpenSnacBar(true)
       }  
     }
-  
+    console.log(fieldsItems,'fieldsItems');
+
     return(
         <FlexColumn>
                 <Dialog
+                maxWidth={'lg'}
+                scroll={'body'}
                   fullWidth
                   open={openServiceCreate}
                   onClose={() => setOpenServiceCreate(false)}
@@ -203,7 +293,28 @@ const Services = () =>{
                   aria-describedby="alert-dialog-description"
                 >
                   <DialogTitle id="alert-dialog-title">{"Create Service title"}</DialogTitle>
-
+                  <FlexCenter>
+                    <FlexAlignCenter gap={3}>
+                        {
+                          langs?.map(item=>{
+                            return(
+                              <Box 
+                                onClick={()=>setCurrentLang(item.short_code)}
+                                component={'img'} 
+                                src={item.image.url} 
+                                width={50} 
+                                height={38}
+                                sx={{
+                                  objectFit:'cover',
+                                  cursor:'pointer',
+                                  border:currentLang === item.short_code?'1px solid red':'',
+                                  borderRadius:3
+                                }}/>
+                            )
+                          })
+                        }
+                      </FlexAlignCenter>
+                    </FlexCenter>
                   <DialogContent
                     sx={{
                       display: "flex",
@@ -215,10 +326,16 @@ const Services = () =>{
                     }}
                   >
                     <OutlinedInput
-
                       placeholder="Name"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={fieldsTitles[fieldsTitles.findIndex(item=>item[currentLang])][currentLang].title}
+                      onChange={(e) => {
+                        const updatedFields = [...fieldsTitles];
+                        const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                        const currentLanguage = updatedFields[languageIndex][currentLang];
+                        const updatedLanguage = {...currentLanguage, title: e.target.value};
+                        updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                        setFieldsTitles(updatedFields); 
+                      }}
                     />
 
                   </DialogContent>
@@ -230,6 +347,8 @@ const Services = () =>{
                   </DialogActions>
                 </Dialog>
                 <Dialog
+                maxWidth={'lg'}
+                scroll={'body'}
                   fullWidth
                   open={openServiceEdit}
                   onClose={() => setOpenServiceEdit(false)}
@@ -237,7 +356,28 @@ const Services = () =>{
                   aria-describedby="alert-dialog-description"
                 >
                   <DialogTitle id="alert-dialog-title">{"Edit Service title"}</DialogTitle>
-
+                  <FlexCenter>
+                    <FlexAlignCenter gap={3}>
+                        {
+                          langs?.map(item=>{
+                            return(
+                              <Box 
+                                onClick={()=>setCurrentLang(item.short_code)}
+                                component={'img'} 
+                                src={item.image.url} 
+                                width={50} 
+                                height={38}
+                                sx={{
+                                  objectFit:'cover',
+                                  cursor:'pointer',
+                                  border:currentLang === item.short_code?'1px solid red':'',
+                                  borderRadius:3
+                                }}/>
+                            )
+                          })
+                        }
+                      </FlexAlignCenter>
+                    </FlexCenter>
                   <DialogContent
                     sx={{
                       display: "flex",
@@ -251,19 +391,28 @@ const Services = () =>{
                     <OutlinedInput
 
                       placeholder="Name"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
+                      value={fieldsTitles[fieldsTitles.findIndex(item=>item[currentLang])][currentLang].title}
+                      onChange={(e) => {
+                        const updatedFields = [...fieldsTitles];
+                        const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                        const currentLanguage = updatedFields[languageIndex][currentLang];
+                        const updatedLanguage = {...currentLanguage, title: e.target.value};
+                        updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                        setFieldsTitles(updatedFields); 
+                      }}
                     />
 
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={() => setOpenServiceCreate(false)}>Cancel</Button>
                     <Button onClick={editItem} autoFocus>
-                      Edit
+                    Save
                     </Button>
                   </DialogActions>
                 </Dialog>
                 <Dialog
+                maxWidth={'lg'}
+                scroll={'body'}
                   fullWidth
                   open={openServiceItemCreate}
                   onClose={() => setOpenServiceItemCreate(false)}
@@ -271,7 +420,31 @@ const Services = () =>{
                   aria-describedby="alert-dialog-descriptions"
                 >
                   <DialogTitle id="alert-dialog-titles">{"Create Service item"}</DialogTitle>
-
+                  <FlexCenter>
+                    <FlexAlignCenter gap={3}>
+          {
+            langs?.map(item=>{
+              return(
+                <Box 
+                  onClick={()=>setCurrentLang(item.short_code)}
+                  component={'img'} 
+                  src={item.image.url} 
+                  width={50} 
+                  height={38}
+                  sx={{
+                    objectFit:'cover',
+                    cursor:'pointer',
+                    border:currentLang === item.short_code?'1px solid red':'',
+                    borderRadius:3
+                  }}/>
+              )
+            })
+          }
+                    </FlexAlignCenter>
+                  </FlexCenter>
+                  <FlexCenter mt={2}>
+                    <Switcher checked={status} setChecked={setStatus}/>
+                  </FlexCenter>
                   <DialogContent
                     sx={{
                       display: "flex",
@@ -298,7 +471,10 @@ const Services = () =>{
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+              
+              <FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                              <img src={uploadIcon} width={"100px"}/>
+                            </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input
@@ -311,17 +487,32 @@ const Services = () =>{
             id="upload-flag"
           />
         </label>
+        
                             </FlexCenter>
                         <OutlinedInput
                         placeholder="Title"
-                        value={item.title}
-                        onChange={(e) => setItem({...item,title:e.target.value})}
+                        value={fieldsItems[fieldsItems.findIndex(item=>item[currentLang])][currentLang].title}
+                        onChange={(e) => {
+                          const updatedFields = [...fieldsItems];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, title: e.target.value};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFieldsItems(updatedFields); 
+                        }}
                         />
 
                         <OutlinedInput
                         placeholder="Description"
-                        value={item.description}
-                        onChange={(e) => setItem({...item,description:e.target.value})}
+                        value={fieldsItems[fieldsItems.findIndex(item=>item[currentLang])][currentLang].description}
+                        onChange={(e) => {
+                          const updatedFields = [...fieldsItems];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, description: e.target.value};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFieldsItems(updatedFields); 
+                        }}
                         />
 
                         <FormControl fullWidth>
@@ -346,6 +537,8 @@ const Services = () =>{
                   </DialogActions>
                 </Dialog>
                 <Dialog
+                maxWidth={'lg'}
+                scroll={'body'}
                   fullWidth
                   open={openServiceItemEdit}
                   onClose={() => setOpenServiceItemEdit(false)}
@@ -353,6 +546,28 @@ const Services = () =>{
                   aria-describedby="alert-dialog-description"
                 >
                   <DialogTitle id="alert-dialog-title">{"Edit Service item"}</DialogTitle>
+                  <FlexCenter>
+                    <FlexAlignCenter gap={3}>
+                        {
+                          langs?.map(item=>{
+                            return(
+                              <Box 
+                                onClick={()=>setCurrentLang(item.short_code)}
+                                component={'img'} 
+                                src={item.image.url} 
+                                width={50} 
+                                height={38}
+                                sx={{
+                                  objectFit:'cover',
+                                  cursor:'pointer',
+                                  border:currentLang === item.short_code?'1px solid red':'',
+                                  borderRadius:3
+                                }}/>
+                            )
+                          })
+                        }
+                      </FlexAlignCenter>
+                    </FlexCenter>
                   <FlexCenter>
         <label htmlFor="upload-flag">
           <FlexAlignCenter
@@ -369,7 +584,9 @@ const Services = () =>{
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+              <FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+              <img src={uploadIcon} width={"100px"}/>
+            </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input
@@ -383,6 +600,9 @@ const Services = () =>{
           />
         </label>
                             </FlexCenter>
+                            <FlexCenter>
+                    <Switcher checked={status} setChecked={setStatus}/>
+                  </FlexCenter>
                   <DialogContent
                     sx={{
                       display: "flex",
@@ -396,15 +616,29 @@ const Services = () =>{
                     <OutlinedInput
 
                       placeholder="Title"
-                      value={item.title}
-                      onChange={(e) => setItem({...item,title:e.target.value})}
+                      value={fieldsItems[fieldsItems.findIndex(item=>item[currentLang])][currentLang].title}
+                        onChange={(e) => {
+                          const updatedFields = [...fieldsItems];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, title: e.target.value};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFieldsItems(updatedFields); 
+                        }}
                     />
 
                     <OutlinedInput
 
                     placeholder="Description"
-                    value={item.description}
-                    onChange={(e) => setItem({...item,description:e.target.value})}
+                    value={fieldsItems[fieldsItems.findIndex(item=>item[currentLang])][currentLang].description}
+                    onChange={(e) => {
+                      const updatedFields = [...fieldsItems];
+                      const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                      const currentLanguage = updatedFields[languageIndex][currentLang];
+                      const updatedLanguage = {...currentLanguage, description: e.target.value};
+                      updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                      setFieldsItems(updatedFields); 
+                    }}
                     />
 
                     <FormControl fullWidth>
@@ -425,18 +659,14 @@ const Services = () =>{
                   <DialogActions>
                     <Button onClick={() => setOpenServiceCreate(false)}>Cancel</Button>
                     <Button onClick={editServiceItem} autoFocus>
-                      Edit
+                    Save
                     </Button>
                   </DialogActions>
                 </Dialog>
 
         <Box mb={3}>
-            <IconButton 
-            onClick={()=>setOpenServiceCreate(true)}
-            >
-                <AddIcon/>
-            </IconButton>
-            <Typography>Service titles</Typography>
+          <Typography mb={3} variant={'h3'}>Service titles</Typography>
+        <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpenServiceCreate(true)}>create</Button>
         </Box>
         <PaperBox>
             <Flex flexWrap={'wrap'} width={'100%'} gap={3}>
@@ -470,15 +700,10 @@ const Services = () =>{
             </Flex>
         </PaperBox> 
         
-
+        <Typography mb={3} variant={'h3'}>Service Items</Typography>
         <Box mb={3}>
-            <IconButton 
-            onClick={()=>setOpenServiceItemCreate(true)}
-            >
-                <AddIcon/>
-            </IconButton>
+          <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpenServiceItemCreate(true)}>create</Button>
         </Box>
-        <Typography>Service Items</Typography>
         <PaperBox>
             <Flex flexWrap={'wrap'} width={'100%'} gap={3}>
             {

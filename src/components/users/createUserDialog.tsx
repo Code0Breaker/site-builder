@@ -6,6 +6,7 @@ import DialogContentText from "@mui/material/DialogContentText/DialogContentText
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import { Box } from "@mui/system";
 import { useState } from "react";
+import uploadIcon from '../../assets/upload-icon.png'
 import { createLanguage } from "../../api/languages";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput";
@@ -58,6 +59,8 @@ export const CreateUserDialog = ({
 
   return (
     <Dialog
+    maxWidth={'lg'}
+scroll={'body'}
     fullWidth
       open={open}
       onClose={() => setOpen(false)}
@@ -81,7 +84,9 @@ export const CreateUserDialog = ({
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+<FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input

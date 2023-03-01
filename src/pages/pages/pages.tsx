@@ -10,6 +10,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { getMenus, removeMenu } from "../../api/pagesApi"
 import { EditPageDialog } from "../../components/languages/editPageDialog"
 import DeleteIcon from '@mui/icons-material/Delete';
+import Button from "@mui/material/Button"
 const Languages = () =>{
     const [pages, setPages] = useState<IPages[]|null>(null)
     const [open, setOpen] = useState(false)
@@ -39,9 +40,8 @@ const Languages = () =>{
             <CreatePageDialog open={open} setOpen={setOpen}/>
             {selectedPage&&<EditPageDialog open={openPages} setOpen={setOpenPages} id={selectedPage}/>}
             <Box mb={3}>
-                <IconButton onClick={()=>setOpen(true)}>
-                    <AddIcon/>
-                </IconButton>
+            <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpen(true)}>create</Button>
+               
             </Box>
             <PaperBox>
                 <Flex flexWrap={'wrap'} width={'100%'}>

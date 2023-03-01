@@ -46,9 +46,7 @@ const Users = () =>{
             <CreateUserDialog open={openUsers} setOpen={setOpenUsers}/>
             {selectedUser&&<EditUserDialog open={openEdit} setOpen={setOpenEdit} id={selectedUser}/>}
             <Box mb={3}>
-                <IconButton onClick={()=>setOpenUsers(true)}>
-                    <AddIcon/>
-                </IconButton>
+                <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpenUsers(true)}>create</Button>
             </Box>
             <PaperBox>
                 <Flex flexWrap={'wrap'} width={'100%'} gap={3}>
@@ -69,7 +67,7 @@ const Users = () =>{
                                    {item.email}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                  <>Verified at {new Date(item.email_verified_at).toLocaleDateString()}</>
+                                  <>Created at {new Date(item.email_verified_at).toLocaleDateString()}</>
                                 </Typography>
                               </CardContent>
                               <CardActions>

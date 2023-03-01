@@ -1,3 +1,4 @@
+import uploadIcon from '../../assets/upload-icon.png'
 import { MenuItem, Rating, Typography } from "@mui/material"
 import Box from "@mui/material/Box/Box"
 import Button from "@mui/material/Button/Button"
@@ -27,6 +28,9 @@ import { Theme, useTheme } from '@mui/material/styles';
 import { SelectChangeEvent } from '@mui/material/Select';
 import Chip from '@mui/material/Chip';
 import { useSnackbar } from "../../types/outletTypes/outletTypes"
+import { getLanguages } from "../../api/languages"
+import { ILanguages } from "../languages/types"
+import { Switcher } from "../../components/switcher/switcher"
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -46,21 +50,15 @@ const Projects = () =>{
         link:string,
         client:string,
         rating:number|null,
-        title:string,
-        short_description:string,
-        description:string,
         complete_date:any,
         image:any,
         uri:string
     }>({
         client:'',
         complete_date:'',
-        description:'',
         image:null,
         link:'',
         rating:0,
-        short_description:'',
-        title:'',
         uri:''
     })
     const [selectedProjectItem, setSelectedProjectItem] = useState<IProject|null>(null)
@@ -70,7 +68,24 @@ const Projects = () =>{
     const theme = useTheme();
     const [categoryName, setcategoryName] = useState<string[]>([]);
     const [categoryIds, setcategoryIds] = useState<string[]>([]);
-
+    const [langs, setLangs] = useState<ILanguages[]|null>(null)
+    const [currentLang,setCurrentLang] = useState('en')
+    const [status, setStatus] = useState<'0'|'1'>('0')
+    const [fields, setFields] = useState<{
+      [key:string]:{
+        description:string,
+        title: string,
+        short_description: string
+      }
+    }[]>([
+      {
+        en:{
+          description:"",
+          title:"",
+          short_description:""
+        }
+      }
+    ])
     const handleChange = (event: SelectChangeEvent<typeof categoryName>) => {
         const {
           target: { value },
@@ -95,28 +110,46 @@ const Projects = () =>{
 
     useEffect(()=>{
         (async()=>{
+            const languages = await getLanguages()
+            setLangs(languages.data)
+            const dynamicFields = languages.data.map((item:ILanguages)=>{
+              return {
+                [item.short_code]:{
+                  description:"",
+                  title:"",
+                  short_description:""
+                }
+              }
+            })
+      
+            setFields(dynamicFields);
             const {data} = await getProjects()
             const categoryData = await getProjectCategory()
             setCategories(categoryData.data)
             setProjects(data.data)
         })()
-    },[])
+    },[openServiceCreate])
 
 
 
     const openEditProject = (item:IProject) =>{
         setOpenServiceEdit(true)
         setSelectedProjectItem(item)
-
+        setFields(item.translates.map(itm=>{
+          return{
+            [itm.language.short_code]:{
+              description:itm.description,
+              title:itm.title,
+              short_description:itm.short_description,
+            }
+          }
+        }))
         setProject({
             ...project,
-            description:item.translates[0].description,
-            title:item.translates[0].title,
             rating:item.rating,
             client:item.client,
             complete_date:item.complete_date,
             link:item.link,
-            short_description:item.translates[0].short_description,
             uri:item.uri
         })
     }
@@ -136,14 +169,19 @@ const Projects = () =>{
                 })
             }
       
-          form.append("translates[en][title]", project.title);
-          form.append("translates[en][description]", project.description);
-          form.append("translates[en][short_description]", project.short_description);
+            fields.map(item=>{
+              for(const key in item){
+                for(const field in item[key]){
+                  //@ts-ignore
+                  form.append(`translates[${key}][${field}]`, item[key][field]);
+                }
+              }
+            })
           form.append("rating", project.rating?.toString()||'');
           form.append("complete_date", project.complete_date);
           form.append("uri", project.uri);
           form.append("link", project.link);
-          form.append("status", "1");
+          form.append("status", status);
           await createProject(form)
           window.location.reload()
         } catch (error:any) {
@@ -170,14 +208,19 @@ const Projects = () =>{
                   })
               }
         
-            form.append("translates[en][title]", project.title);
-            form.append("translates[en][description]", project.description);
-            form.append("translates[en][short_description]", project.short_description);
+              fields.map(item=>{
+                for(const key in item){
+                  for(const field in item[key]){
+                    //@ts-ignore
+                    form.append(`translates[${key}][${field}]`, item[key][field]);
+                  }
+                }
+              })
             form.append("rating", project.rating?.toString()||'');
             form.append("complete_date", project.complete_date);
             form.append("uri", project.uri);
             form.append("link", project.link);
-            form.append("status", "1");
+            form.append("status", status);
             form.append("_method", "put");
             await editProject(form, selectedProjectItem?.id as number)
             window.location.reload()
@@ -221,6 +264,8 @@ const Projects = () =>{
  
 
                  <Dialog
+                 maxWidth={'lg'}
+                 scroll={'body'}
                   fullWidth
                   open={openServiceCreate}
                   onClose={() => setOpenServiceCreate(false)}
@@ -231,7 +276,31 @@ const Projects = () =>{
                     {"Create Service item"}
                     <Rating name="read-only" value={project.rating} onChange={(event, newValue) => setProject({...project,rating:newValue})} />  
                   </DialogTitle>
-
+                  <FlexCenter>
+        <FlexAlignCenter gap={3}>
+          {
+            langs?.map(item=>{
+              return(
+                <Box 
+                  onClick={()=>setCurrentLang(item.short_code)}
+                  component={'img'} 
+                  src={item.image.url} 
+                  width={50} 
+                  height={38}
+                  sx={{
+                    objectFit:'cover',
+                    cursor:'pointer',
+                    border:currentLang === item.short_code?'1px solid red':'',
+                    borderRadius:3
+                  }}/>
+              )
+            })
+          }
+        </FlexAlignCenter>
+      </FlexCenter>
+                  <FlexCenter mt={3}>
+                    <Switcher checked={status} setChecked={setStatus}/>
+                  </FlexCenter>
                   <DialogContent
                     sx={{
                       display: "flex",
@@ -258,7 +327,9 @@ const Projects = () =>{
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+<FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input
@@ -275,8 +346,15 @@ const Projects = () =>{
                         
                         <OutlinedInput
                         placeholder="Title"
-                        value={project.title}
-                        onChange={(e) => setProject({...project,title:e.target.value})}
+                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].title}
+                        onChange={(e) => {
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, title: e.target.value};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields); 
+                        }}
                         />
 
                         <OutlinedInput
@@ -287,14 +365,28 @@ const Projects = () =>{
 
                         <OutlinedInput
                         placeholder="Description"
-                        value={project.description}
-                        onChange={(e) => setProject({...project,description:e.target.value})}
+                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].description}
+                        onChange={(e) => {
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, description: e.target.value};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields); 
+                        }}
                         />
 
                         <OutlinedInput
                         placeholder="Short Description"
-                        value={project.short_description}
-                        onChange={(e) => setProject({...project,short_description:e.target.value})}
+                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].short_description}
+                        onChange={(e) => {
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, short_description: e.target.value};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields); 
+                        }}
                         />
 
                         <OutlinedInput
@@ -362,6 +454,8 @@ const Projects = () =>{
                 </Dialog>
 
                <Dialog
+               maxWidth={'lg'}
+               scroll={'body'}
                   fullWidth
                   open={openServiceEdit}
                   onClose={() => setOpenServiceEdit(false)}
@@ -372,6 +466,28 @@ const Projects = () =>{
                     {"Edit Service item"}
                     <Rating name="read-only" value={project.rating} onChange={(event, newValue) => setProject({...project,rating:newValue})} />  
                   </DialogTitle>
+                  <FlexCenter>
+        <FlexAlignCenter gap={3}>
+          {
+            langs?.map(item=>{
+              return(
+                <Box 
+                  onClick={()=>setCurrentLang(item.short_code)}
+                  component={'img'} 
+                  src={item.image.url} 
+                  width={50} 
+                  height={38}
+                  sx={{
+                    objectFit:'cover',
+                    cursor:'pointer',
+                    border:currentLang === item.short_code?'1px solid red':'',
+                    borderRadius:3
+                  }}/>
+              )
+            })
+          }
+        </FlexAlignCenter>
+      </FlexCenter>
                             <DialogContent
                     sx={{
                       display: "flex",
@@ -384,12 +500,14 @@ const Projects = () =>{
                   >
                           <FlexCenter>
         <label htmlFor="upload-flag">
+
           <FlexAlignCenter
             justifyContent={"center"}
             sx={{ cursor: "pointer" }}
             width={100}
             height={100}
           >
+            
             {project.image ? (
               <img
                 src={project.image && URL.createObjectURL(project.image)}
@@ -398,7 +516,10 @@ const Projects = () =>{
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+             
+<FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input
@@ -412,11 +533,20 @@ const Projects = () =>{
           />
         </label>
                             </FlexCenter>
-                        
+                            <FlexCenter>
+                              <Switcher checked={status} setChecked={setStatus}/>
+                            </FlexCenter>
                         <OutlinedInput
                         placeholder="Title"
-                        value={project.title}
-                        onChange={(e) => setProject({...project,title:e.target.value})}
+                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].title}
+                        onChange={(e) => {
+                            const updatedFields = [...fields];
+                            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                            const currentLanguage = updatedFields[languageIndex][currentLang];
+                            const updatedLanguage = {...currentLanguage, title: e.target.value};
+                            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                            setFields(updatedFields); 
+                        }}
                         />
 
                         <OutlinedInput
@@ -427,14 +557,28 @@ const Projects = () =>{
 
                         <OutlinedInput
                         placeholder="Description"
-                        value={project.description}
-                        onChange={(e) => setProject({...project,description:e.target.value})}
+                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].description}
+                        onChange={(e) => {
+                            const updatedFields = [...fields];
+                            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                            const currentLanguage = updatedFields[languageIndex][currentLang];
+                            const updatedLanguage = {...currentLanguage, description: e.target.value};
+                            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                            setFields(updatedFields); 
+                        }}
                         />
 
                         <OutlinedInput
                         placeholder="Short Description"
-                        value={project.short_description}
-                        onChange={(e) => setProject({...project,short_description:e.target.value})}
+                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].short_description}
+                        onChange={(e) => {
+                            const updatedFields = [...fields];
+                            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                            const currentLanguage = updatedFields[languageIndex][currentLang];
+                            const updatedLanguage = {...currentLanguage, short_description: e.target.value};
+                            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                            setFields(updatedFields); 
+                        }}
                         />
 
                         <OutlinedInput
@@ -494,18 +638,14 @@ const Projects = () =>{
                   <DialogActions>
                     <Button onClick={() => setOpenServiceEdit(false)}>Cancel</Button>
                     <Button onClick={projectEdit} autoFocus>
-                      Edit
+                    Save
                     </Button>
                   </DialogActions>
                 </Dialog>
 
         <Box mb={3}>
-            <IconButton 
-            onClick={()=>setOpenServiceCreate(true)}
-            >
-                <AddIcon/>
-            </IconButton>
-            <Typography>Projects</Typography>
+        <Typography mb={3} variant={'h3'}>Projects</Typography>
+        <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpenServiceCreate(true)}>create</Button>
         </Box>
         <PaperBox>
             <Flex flexWrap={'wrap'} width={'100%'} gap={3}>

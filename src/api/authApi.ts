@@ -15,8 +15,6 @@ export const loginApi = async(state:{email:string, password:string}) =>{
 export const forgotPassword = async(email:string)=>{
     try {
         const {data} = await Api.post('admin/forgot-password',email)
-        console.log(data);
-        
         return data
     } catch (error) {
         console.log(error);

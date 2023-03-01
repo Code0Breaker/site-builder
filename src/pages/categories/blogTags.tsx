@@ -115,6 +115,8 @@ const BlogTags = () => {
   return (
     <FlexColumn>
       <Dialog
+      maxWidth={'sm'}
+      scroll={'body'}
       fullWidth
         open={open}
         onClose={() => setOpen(false)}
@@ -130,6 +132,7 @@ const BlogTags = () => {
           }}
         >
           <OutlinedInput
+          fullWidth
             placeholder="Enter blog tag name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -144,6 +147,8 @@ const BlogTags = () => {
       </Dialog>
 
       <Dialog
+      maxWidth={'lg'}
+      scroll={'body'}
         open={openEdit}
         onClose={() => setOpenEdit(false)}
         aria-labelledby="alert-dialog-title"
@@ -158,6 +163,7 @@ const BlogTags = () => {
           }}
         >
           <OutlinedInput
+          fullWidth
             placeholder="Enter blog tag name"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -166,14 +172,12 @@ const BlogTags = () => {
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
           <Button onClick={edit} autoFocus>
-            Edit
+          Save
           </Button>
         </DialogActions>
       </Dialog>
       <Box mb={3}>
-        <IconButton onClick={() => setOpen(true)}>
-          <AddIcon />
-        </IconButton>
+      <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpen(true)}>create</Button>
       </Box>
 
       <PaperBox>

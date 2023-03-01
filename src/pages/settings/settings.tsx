@@ -14,6 +14,7 @@ import { getSetting, removeSetting } from "../../api/settings"
 import { ISettings } from "./types"
 import { CreateSettingsDialog } from "../../components/settings/createSettings"
 import { EditSettingsDialog } from "../../components/settings/editSettings"
+import Button from "@mui/material/Button/Button"
 const Settings = () =>{
     const [settings, setSettings] = useState<ISettings[]|null>(null)
     const [open, setOpen] = useState(false)
@@ -43,9 +44,7 @@ const Settings = () =>{
             <CreateSettingsDialog open={open} setOpen={setOpen}/>
             {selectedSetting&&<EditSettingsDialog open={openSetting} setOpen={setOpenSetting} id={selectedSetting}/>}
             <Box mb={3}>
-                <IconButton onClick={()=>setOpen(true)}>
-                    <AddIcon/>
-                </IconButton>
+                <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpen(true)}>create</Button>
             </Box>
             <PaperBox>
                 <Flex flexWrap={'wrap'} width={'100%'} gap={2}>

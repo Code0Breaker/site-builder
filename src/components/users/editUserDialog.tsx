@@ -9,6 +9,7 @@ import { useState } from "react";
 import { createLanguage } from "../../api/languages";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput";
+import uploadIcon from '../../assets/upload-icon.png'
 import { editMenu } from "../../api/pagesApi";
 import { editSocial } from "../../api/socialApi";
 import { FlexAlignCenter, FlexCenter } from "../../models/boxes";
@@ -63,6 +64,8 @@ export const EditUserDialog = ({
 
   return (
     <Dialog
+    maxWidth={'lg'}
+scroll={'body'}
     fullWidth
       open={open}
       onClose={() => setOpen(false)}
@@ -86,7 +89,9 @@ export const EditUserDialog = ({
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+<FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input

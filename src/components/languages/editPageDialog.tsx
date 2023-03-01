@@ -59,6 +59,8 @@ export const EditPageDialog = ({
 
   return (
     <Dialog
+    maxWidth={'lg'}
+scroll={'body'}
       fullWidth
       open={open}
       onClose={() => setOpen(false)}
@@ -89,7 +91,7 @@ export const EditPageDialog = ({
       <DialogActions>
         <Button onClick={() => setOpen(false)}>Cancel</Button>
         <Button onClick={save} autoFocus>
-          Edit
+        Save
         </Button>
       </DialogActions>
     </Dialog>

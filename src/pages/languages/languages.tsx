@@ -28,6 +28,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { CreateLanguageDialog } from "../../components/languages/createLanguageDialog";
 import { useSnackbar } from "../../types/outletTypes/outletTypes";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import uploadIcon from '../../assets/upload-icon.png'
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -105,6 +106,8 @@ const Languages = () => {
     <FlexColumn>
       <CreateLanguageDialog open={open} setOpen={setOpen} />
       <Dialog
+      maxWidth={'lg'}
+      scroll={'body'}
       fullWidth
         open={openEdit}
         onClose={() => setOpenEdit(false)}
@@ -130,7 +133,9 @@ const Languages = () => {
                   style={{ objectFit: "contain" }}
                 />
               ) : (
-                <InsertPhotoIcon />
+                <FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                                <img src={uploadIcon} width={"100px"}/>
+                              </FlexAlignCenter>
               )}
             </FlexAlignCenter>
             <input
@@ -154,14 +159,12 @@ const Languages = () => {
         <DialogActions>
           <Button onClick={() => setOpenEdit(false)}>Cancel</Button>
           <Button onClick={edit} autoFocus>
-            Edit
+          Save
           </Button>
         </DialogActions>
       </Dialog>
       <Box mb={3}>
-        <IconButton onClick={() => setOpen(true)}>
-          <AddIcon />
-        </IconButton>
+      <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpen(true)}>create</Button>
       </Box>
       <PaperBox width={"100%"}>
         <Flex flexWrap={"wrap"} gap={3} width={"100%"}>

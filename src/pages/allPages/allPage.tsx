@@ -73,9 +73,7 @@ const AllPage = () =>{
             </Flex> 
             <FlexAlignCenter m={3}>
                 <Typography variant="h4">Items</Typography>
-                <IconButton onClick={()=>setOpen(true)}>
-                    <AddIcon/>
-                </IconButton>
+                <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpen(true)}>create</Button>
             </FlexAlignCenter>
             
             <Flex gap={3}>
@@ -93,7 +91,7 @@ const AllPage = () =>{
                              {item.translates[0].title}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
-                            <>Verified at {new Date(item.created_at).toLocaleDateString()}</>
+                            <>Created at {new Date(item.created_at).toLocaleDateString()}</>
                           </Typography>
                         </CardContent>
                         <CardActions>

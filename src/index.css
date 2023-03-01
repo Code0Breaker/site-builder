@@ -134,3 +134,7 @@
   .MuiPaper-root-MuiAccordion-root:before{
     background-color: none !important;
   }
+
+ .editorHeight .ck.ck-editor__main>.ck-editor__editable{
+  height: 300px;
+ }

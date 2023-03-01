@@ -41,6 +41,8 @@ export const CreatePageDialog = ({
 
   return (
     <Dialog
+    maxWidth={'lg'}
+scroll={'body'}
     fullWidth
       open={open}
       onClose={() => setOpen(false)}

@@ -5,6 +5,7 @@ import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import { Box } from "@mui/system";
+import uploadIcon from '../../assets/upload-icon.png'
 import { useState } from "react";
 import { createLanguage } from "../../api/languages";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
@@ -43,6 +44,8 @@ export const CreateLanguageDialog = ({
 
   return (
     <Dialog
+    maxWidth={'lg'}
+scroll={'body'}
       fullWidth
       open={open}
       onClose={() => setOpen(false)}
@@ -71,7 +74,9 @@ export const CreateLanguageDialog = ({
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+<FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input

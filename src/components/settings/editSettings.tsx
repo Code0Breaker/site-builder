@@ -8,6 +8,7 @@ import { Box } from "@mui/system";
 import { useState } from "react";
 import { createLanguage } from "../../api/languages";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
+import uploadIcon from '../../assets/upload-icon.png'
 import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput";
 import { editMenu } from "../../api/pagesApi";
 import { editSocial } from "../../api/socialApi";
@@ -61,6 +62,8 @@ export const EditSettingsDialog = ({
 
   return (
     <Dialog
+    maxWidth={'lg'}
+scroll={'body'}
     fullWidth
       open={open}
       onClose={() => setOpen(false)}
@@ -84,7 +87,9 @@ export const EditSettingsDialog = ({
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+<FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input

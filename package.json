@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^36.0.1",
+    "@ckeditor/ckeditor5-react": "^5.1.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@faker-js/faker": "^7.6.0",
@@ -25,6 +27,7 @@
     "axios": "^1.2.2",
     "build-ui": "^0.1.0-alpha.16",
     "chart.js": "^4.1.1",
+    "devextreme-react": "^22.2.4",
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
     "faker": "^6.6.6",
@@ -66,5 +69,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/ckeditor": "^4.9.10",
+    "@types/ckeditor__ckeditor5-build-classic": "^29.0.1"
   }
 }

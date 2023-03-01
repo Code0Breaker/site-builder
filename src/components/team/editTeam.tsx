@@ -5,18 +5,21 @@ import DialogContent from "@mui/material/DialogContent/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle/DialogTitle";
 import { Box } from "@mui/system";
-import { useState } from "react";
-import { createLanguage } from "../../api/languages";
+import { useEffect, useState } from "react";
+import { createLanguage, getLanguages } from "../../api/languages";
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import OutlinedInput from "@mui/material/OutlinedInput/OutlinedInput";
 import { editMenu } from "../../api/pagesApi";
 import { editSocial } from "../../api/socialApi";
 import { FlexAlignCenter, FlexCenter } from "../../models/boxes";
+import uploadIcon from '../../assets/upload-icon.png'
 import { editUsers } from "../../api/usersApi";
 import { useSnackbar } from "../../types/outletTypes/outletTypes";
 import { editTeam } from "../../api/team";
 import { ITeam } from "../../pages/team/types";
 import Switch from "@mui/material/Switch";
+import { ILanguages } from "../../pages/languages/types";
+import { Switcher } from "../switcher/switcher";
 
 export const EditTeamDialog = ({
   open,
@@ -43,7 +46,39 @@ export const EditTeamDialog = ({
     position_ru: id.translates?.[1]?.position || "",
     status: id.status.toString() as "0"|"1",
   });
+  const [langs, setLangs] = useState<ILanguages[]|null>(null)
+  const [currentLang,setCurrentLang] = useState('en')
+  const [status, setStatus] = useState<'0'|'1'>('0')
+  const [fields, setFields] = useState<{
+    [key:string]:{
+      name:string,
+      position: string,
+    }
+  }[]>([
+    {
+      en:{
+        name:"",
+        position: "",
+      }
+    }
+  ])
+  useEffect(() => {
+    (async()=>{
+      const {data} = await getLanguages()
+      setLangs(data)
+      const dynamicFields = id.translates.map((item)=>{
+        return {
+          [item.language.short_code]:{
+            name:item.name,
+            position: item.position,
+          }
+        }
+      })
 
+      setFields(dynamicFields);
+      
+    })()
+   }, [])
   const save = async () => {
     try {
       const form = new FormData();
@@ -52,11 +87,15 @@ export const EditTeamDialog = ({
         form.append("image", user.image);
       }
 
-      form.append("translates[en][name]", user.name_en);
-      form.append("translates[ru][name]", user.name_ru);
-      form.append("translates[en][position]", user.position_en);
-      form.append("translates[ru][position]", user.position_ru);
-      form.append("status", user.status);
+      fields.map(item=>{
+        for(const key in item){
+          for(const field in item[key]){
+            //@ts-ignore
+            form.append(`translates[${key}][${field}]`, item[key][field]);
+          }
+        }
+      })
+      form.append("status", status);
       form.append("_method", "put");
 
       const data = await editTeam(form, id.id);
@@ -77,6 +116,8 @@ export const EditTeamDialog = ({
 
   return (
     <Dialog
+    maxWidth={'lg'}
+scroll={'body'}
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="alert-dialog-title"
@@ -84,6 +125,28 @@ export const EditTeamDialog = ({
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle id="alert-dialog-title">{"Edit team"}</DialogTitle>
+      <FlexCenter>
+        <FlexAlignCenter gap={3}>
+          {
+            langs?.map(item=>{
+              return(
+                <Box 
+                  onClick={()=>setCurrentLang(item.short_code)}
+                  component={'img'} 
+                  src={item.image.url} 
+                  width={50} 
+                  height={38}
+                  sx={{
+                    objectFit:'cover',
+                    cursor:'pointer',
+                    border:currentLang === item.short_code?'1px solid red':'',
+                    borderRadius:3
+                  }}/>
+              )
+            })
+          }
+        </FlexAlignCenter>
+      </FlexCenter>
       <FlexCenter>
         <label htmlFor="upload-flag">
           <FlexAlignCenter
@@ -100,7 +163,9 @@ export const EditTeamDialog = ({
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+<FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input
@@ -114,51 +179,51 @@ export const EditTeamDialog = ({
           />
         </label>
       </FlexCenter>
+      <FlexCenter>
+          <Switcher checked={status} setChecked={setStatus}/>
+        </FlexCenter>
       <DialogContent
         sx={{
           display: "flex",
           gap: 3,
-          flexDirection: "column",
-          width: window.innerWidth > 600 ? "500px" : "auto",
+          flexDirection: "row",
+          flexWrap:'wrap',
+          justifyContent:'center'
         }}
       >
-        <FlexCenter>
-        <Switch
-          checked={Boolean(+user.status)}
-          onChange={(e) =>
-            setUser({ ...user, status: e.target.checked ? "1" : "0" })
-          }
-        />
-      </FlexCenter>
         <OutlinedInput
-          fullWidth
-          placeholder="Name en"
-          value={user.name_en}
-          onChange={(e) => setUser({ ...user, name_en: e.target.value })}
+            fullWidth
+          placeholder="Name"
+          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].name}
+          onChange={(e) => {
+            const updatedFields = [...fields];
+            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+            const currentLanguage = updatedFields[languageIndex][currentLang];
+            const updatedLanguage = {...currentLanguage, name: e.target.value};
+            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+            setFields(updatedFields); 
+          }}
         />
+    
         <OutlinedInput
-          fullWidth
-          placeholder="Name ru"
-          value={user.name_ru}
-          onChange={(e) => setUser({ ...user, name_ru: e.target.value })}
+            fullWidth
+          placeholder="Position"
+          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].position}
+          onChange={(e) => {
+            const updatedFields = [...fields];
+            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+            const currentLanguage = updatedFields[languageIndex][currentLang];
+            const updatedLanguage = {...currentLanguage, position: e.target.value};
+            updatedFields[languageIndex][currentLang] = updatedLanguage; 
+            setFields(updatedFields); 
+          }}
         />
-        <OutlinedInput
-          fullWidth
-          placeholder="Position en"
-          value={user.position_en}
-          onChange={(e) => setUser({ ...user, position_en: e.target.value })}
-        />
-        <OutlinedInput
-          fullWidth
-          placeholder="Position ru"
-          value={user.position_ru}
-          onChange={(e) => setUser({ ...user, position_ru: e.target.value })}
-        />
+ 
       </DialogContent>
       <DialogActions>
         <Button onClick={() => setOpen(false)}>Cancel</Button>
         <Button onClick={save} autoFocus>
-          Edit
+          Save
         </Button>
       </DialogActions>
     </Dialog>

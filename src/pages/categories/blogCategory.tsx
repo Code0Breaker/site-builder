@@ -37,6 +37,7 @@ import {
   removeBlogCategory,
 } from "../../api/categoryApi";
 import { IBlogCategories } from "./types";
+import uploadIcon from '../../assets/upload-icon.png'
 import InsertPhotoIcon from "@mui/icons-material/InsertPhoto";
 import { useSnackbar } from "../../types/outletTypes/outletTypes";
 
@@ -138,6 +139,8 @@ const BlogCategories = () => {
   return (
     <FlexColumn>
       <Dialog
+      maxWidth={'lg'}
+      scroll={'body'}
         fullWidth
         open={open}
         onClose={() => setOpen(false)}
@@ -161,7 +164,9 @@ const BlogCategories = () => {
                   style={{ objectFit: "contain" }}
                 />
               ) : (
-                <InsertPhotoIcon />
+<FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
               )}
             </FlexAlignCenter>
             <input
@@ -208,6 +213,8 @@ const BlogCategories = () => {
       </Dialog>
 
       <Dialog
+      maxWidth={'lg'}
+      scroll={'body'}
         open={openEdit}
         onClose={() => setOpenEdit(false)}
         aria-labelledby="alert-dialog-title"
@@ -228,6 +235,7 @@ const BlogCategories = () => {
               setCategoryName({ ...categoryName, name: e.target.value })
             }
           />
+          
           <OutlinedInput
             placeholder="Enter category description"
             value={categoryName.description}
@@ -239,14 +247,12 @@ const BlogCategories = () => {
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Cancel</Button>
           <Button onClick={edit} autoFocus>
-            Edit
+          Save
           </Button>
         </DialogActions>
       </Dialog>
       <Box mb={3}>
-        <IconButton onClick={() => setOpen(true)}>
-          <AddIcon />
-        </IconButton>
+        <Button variant="outlined" endIcon={ <AddIcon/>} onClick={()=>setOpen(true)}>create</Button>
       </Box>
 
       <PaperBox>

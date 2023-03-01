@@ -2,7 +2,7 @@ import { Button, Checkbox, Divider, FormControlLabel, OutlinedInput, TextField, 
 import { Box } from "@mui/system"
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom"
 import { Flex, FlexAlignCenter, FlexCenter, FlexColumn, SpaceBetween } from "../../models/boxes"
-import logo from '../../assets/icon-light.svg'
+import logo from '../../assets/darkLogo.png'
 import { AuthLinks } from "../../models/buttons"
 import { useEffect, useState } from "react"
 import { loginApi } from "../../api/authApi"
@@ -43,11 +43,9 @@ const Login = () =>{
                 <FlexColumn width={'70%'}>
                     <SpaceBetween mb={2}>
                         <FlexAlignCenter>
-                            <img src={logo} width='30' height='30'/>
-                            <Typography variant="h5" color={'white'}>HexaBit</Typography>
+                            <img src={logo}/>
                         </FlexAlignCenter>
                         <FlexAlignCenter gap={2}>
-                            <AuthLinks to={'/'}>Documentation</AuthLinks>
                             <AuthLinks to={'/register'}>Sign Up</AuthLinks>
                         </FlexAlignCenter>
                     </SpaceBetween>

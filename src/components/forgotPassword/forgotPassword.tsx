@@ -19,6 +19,8 @@ export default function ForgotPassword({open,setOpen,next}:{next:(state:boolean)
   return (
     <div>
       <Dialog
+      maxWidth={'lg'}
+      scroll={'body'}
       fullWidth
         open={open}
         onClose={()=>setOpen(false)}

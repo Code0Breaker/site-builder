@@ -29,7 +29,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import userImg from '../assets/user.png'
-import logo from '../assets/icon-dark.svg'
+import logo from '../assets/lightLogo.png'
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -149,39 +149,10 @@ console.log(menuTranslations);
             {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
           <SpaceBetween>
-            <Flex>
-                <IconButton>
-                    <WidgetsIcon sx={{color:'white'}}/>
-                </IconButton>
-
-                <IconButton>
-                    <CalendarMonthIcon sx={{color:'white'}}/>
-                </IconButton>
-
-                <IconButton>
-                    <QuestionAnswerIcon sx={{color:'white'}}/>
-                </IconButton>
-            </Flex>
-            <Flex>
-                {!isMobile&&<SearchInput placeholder='Search here...'/>}
-                <Flex>
-                    <IconButton>
-                        <EmailIcon sx={{color:'white'}}/>
-                    </IconButton>
-
-                    <IconButton>
-                        <NotificationsIcon sx={{color:'white'}}/>
-                    </IconButton>
-
-                    <IconButton>
-                        <SettingsIcon sx={{color:'white'}}/>
-                    </IconButton>
-
-                    <IconButton>
-                        <PowerSettingsNewIcon sx={{color:'white'}}/>
-                    </IconButton>
-                </Flex>
-            </Flex>
+            <Flex/>
+            <IconButton>
+                <PowerSettingsNewIcon sx={{color:'white'}}/>
+            </IconButton>
           </SpaceBetween>
         </Toolbar>
       </AppBar>
@@ -201,8 +172,7 @@ console.log(menuTranslations);
       >
         <DrawerHeader>
             <Box display={'flex'} gap={2} width={'100%'} alignItems={'center'}>
-                <img src={logo} width="30px"/>
-                <Typography color={'#feb800'} fontSize={'18px'}>HexaBit</Typography>
+                <img src={logo} />
             </Box>
 
         </DrawerHeader>
@@ -213,52 +183,9 @@ console.log(menuTranslations);
             </Box>
             <Typography>Welcome,</Typography>
             <Button color={'secondary'} onClick={handleClick}>{localStorage.userName}</Button>
-            {/* <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={menuOpen}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <FlexCenter>
-                {
-                  languages?.map(item=>{
-                    return(
-                      <IconButton onClick={()=>setLang(item.short_code)}>
-                      <img src={item.image.url} width={40} height={40} style={{objectFit:'contain'}}/>
-                    </IconButton>
-                    )
-                  })
-                }
-              </FlexCenter>
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>My account</MenuItem>
-              <MenuItem>Logout</MenuItem>
-            </Menu> */}
+ 
         </FlexColumn>
-        <FlexColumn mt={2} gap={'5px'} width={'100%'} alignItems={'center'}>
-        <StyledNavLink to={'site'} end>Pages</StyledNavLink>
-        <StyledNavLink to={'services'}>Services</StyledNavLink>
-        <StyledNavLink to={'categories'}>Categories</StyledNavLink>
-        <StyledNavLink to={'projects'}>Projects</StyledNavLink>
-        <StyledNavLink to={'inbox'}>Inbox</StyledNavLink>
-        <StyledNavLink to={'team'}>Team</StyledNavLink>
-        <StyledNavLink to={'settings'}>Settings</StyledNavLink>
-        <StyledNavLink to={'users'}>Users</StyledNavLink>
-        <StyledNavLink to={'social'}>Social links</StyledNavLink>
-        <StyledNavLink to={'languages'}>Languages</StyledNavLink>
-        
-            {/* {
-              menuTranslations?.map(item=>{
-                return(
-                  <StyledNavLink to={item.url} key={item.id} end>{item.translates.find(translate=>translate.language.short_code === lang)?.title}</StyledNavLink>
-                )
-              })
-            } */}
-
-          <StyledMenuAccordion>
+        <StyledMenuAccordion>
               <AccordionSummary
               sx={{padding:0}}
                 // expandIcon={<ExpandMoreIcon />}
@@ -272,139 +199,25 @@ console.log(menuTranslations);
               </AccordionSummary>
               <AccordionDetails>
                 <FlexColumn>
-                  <StyledSubNavLink to={'/home/posts'}>-- Posts</StyledSubNavLink>
-                  <StyledSubNavLink to={'/home/new-post'}>-- new Post</StyledSubNavLink>
-                  <StyledSubNavLink to={'/home/categories'}>-- Categories</StyledSubNavLink>
-                  <StyledSubNavLink to={'/home/blog-tags'}>-- Tags</StyledSubNavLink>
+                  <StyledSubNavLink to={'/home'} end>-- Posts</StyledSubNavLink>
+                  <StyledSubNavLink to={'/home/new-post'} end>-- new Post</StyledSubNavLink>
+                  <StyledSubNavLink to={'/home/blog-tags'} end>-- Tags</StyledSubNavLink>
                 </FlexColumn>
               </AccordionDetails>
             </StyledMenuAccordion>
-            {/*
-            <StyledNavLink to={'/chat'}><ForumIcon/>Chat</StyledNavLink>
-            <StyledNavLink to={'/taskboard'}><ListIcon/>Taskboard</StyledNavLink>
-            <StyledNavLink to={'/calendar'}><CalendarMonthIcon/>Calendar</StyledNavLink>
-            <StyledNavLink to={'/contacts'}><ImportContactsIcon/>Contacts</StyledNavLink>
-            <StyledMenuAccordion>
-              <AccordionSummary
-              sx={{padding:0}}
-                // expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <FlexAlignCenter gap={2}>
-                  <DiamondIcon/>
-                  UI Elements
-                </FlexAlignCenter>
-              </AccordionSummary>
-              <AccordionDetails>
-                <FlexColumn>
-                  <StyledSubNavLink to={'/typography'}>-- Typography</StyledSubNavLink>
-                  <StyledSubNavLink to={'/helper-classes'}>-- Helper classes</StyledSubNavLink>
-                </FlexColumn>
-              </AccordionDetails>
-            </StyledMenuAccordion>
-
-            <StyledMenuAccordion>
-              <AccordionSummary
-              sx={{padding:0}}
-                // expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <FlexAlignCenter gap={2}>
-                  <LeaderboardIcon/>
-                  Charts
-                </FlexAlignCenter>
-              </AccordionSummary>
-              <AccordionDetails>
-                <FlexColumn>
-                  <StyledSubNavLink to={'/chartjs'}>-- Chartjs</StyledSubNavLink>
-                  <StyledSubNavLink to={'/echarts'}>-- eCharts</StyledSubNavLink>
-                  <StyledSubNavLink to={'/gauges'}>-- Gauges</StyledSubNavLink>
-                </FlexColumn>
-              </AccordionDetails>
-            </StyledMenuAccordion>
-
-            <StyledMenuAccordion>
-              <AccordionSummary
-              sx={{padding:0}}
-                // expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <FlexAlignCenter gap={2}>
-                  <FileCopyIcon/>
-                  Pages
-                </FlexAlignCenter>
-              </AccordionSummary>
-              <AccordionDetails>
-                <FlexColumn>
-                  <StyledSubNavLink to={'/search-results'}>-- Search Results</StyledSubNavLink>
-                  <StyledSubNavLink to={'/image-gallery'}>-- Image gallery</StyledSubNavLink>
-                  <StyledSubNavLink to={'/faq'}>-- FAQ</StyledSubNavLink>
-                </FlexColumn>
-              </AccordionDetails>
-            </StyledMenuAccordion>
-
-            <StyledMenuAccordion>
-              <AccordionSummary
-              sx={{padding:0}}
-                // expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <FlexAlignCenter gap={2}>
-                  <LockIcon/>
-                  Authentication
-                </FlexAlignCenter>
-              </AccordionSummary>
-              <AccordionDetails>
-                <FlexColumn>
-                  <StyledSubNavLink to={'/'}>-- Login</StyledSubNavLink>
-                  <StyledSubNavLink to={'/register'}>-- Register</StyledSubNavLink>
-                </FlexColumn>
-              </AccordionDetails>
-            </StyledMenuAccordion>
-
-            <StyledMenuAccordion>
-              <AccordionSummary
-              sx={{padding:0}}
-                // expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <FlexAlignCenter gap={2}>
-                  <EditIcon/>
-                  Forms
-                </FlexAlignCenter>
-              </AccordionSummary>
-              <AccordionDetails>
-                <FlexColumn>
-                  <StyledSubNavLink to={'/summernote'}>-- Summernote</StyledSubNavLink>
-                </FlexColumn>
-              </AccordionDetails>
-            </StyledMenuAccordion>
-
-
-
-            <StyledMenuAccordion>
-              <AccordionSummary
-              sx={{padding:0}}
-                // expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <FlexAlignCenter gap={2}>
-                  <MapIcon/>
-                  Maps
-                </FlexAlignCenter>
-              </AccordionSummary>
-              <AccordionDetails>
-                <FlexColumn>
-                  <StyledSubNavLink to={'/maps'}>-- jVector Map</StyledSubNavLink>
-                </FlexColumn>
-              </AccordionDetails>
-            </StyledMenuAccordion> */}
+        <FlexColumn mt={2} gap={'5px'} width={'100%'} alignItems={'center'}>
+        <StyledNavLink to={'site'} end>Pages</StyledNavLink>
+        <StyledNavLink to={'services'} end>Services</StyledNavLink>
+        <StyledNavLink to={'categories'} end>Categories</StyledNavLink>
+        <StyledNavLink to={'projects'} end>Projects</StyledNavLink>
+        <StyledNavLink to={'inbox'} end>Inbox</StyledNavLink>
+        <StyledNavLink to={'team'} end>Team</StyledNavLink>
+        <StyledNavLink to={'settings'} end>Settings</StyledNavLink>
+        <StyledNavLink to={'users'} end>Users</StyledNavLink>
+        <StyledNavLink to={'social'} end>Social links</StyledNavLink>
+        <StyledNavLink to={'languages'} end>Languages</StyledNavLink>
+        
+          
         </FlexColumn>
 
       </Drawer>

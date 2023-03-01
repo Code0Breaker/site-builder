@@ -1,3 +1,4 @@
+import uploadIcon from '../../assets/upload-icon.png'
 import {
   Button,
   Dialog,
@@ -56,6 +57,8 @@ export const ItemDialog = ({
 
   return (
     <Dialog
+    maxWidth={'lg'}
+scroll={'body'}
     fullWidth
       open={open}
       onClose={() => setOpen(false)}
@@ -79,7 +82,9 @@ export const ItemDialog = ({
                 style={{ objectFit: "contain" }}
               />
             ) : (
-              <InsertPhotoIcon />
+              <FlexAlignCenter justifyContent={'center'} width={'150px'} height={'100px'}>
+                <img src={uploadIcon} width={"100px"}/>
+              </FlexAlignCenter>
             )}
           </FlexAlignCenter>
           <input
