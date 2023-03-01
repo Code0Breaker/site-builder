@@ -17,7 +17,7 @@ import { Flex, FlexAlignCenter, FlexCenter, FlexColumn, PaperBox, ProgressWitget
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import ForumIcon from '@mui/icons-material/Forum';
 import WidgetsIcon from '@mui/icons-material/Widgets';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -115,7 +115,7 @@ export default function MainLayout() {
   const [openSnacBar, setOpenSnacBar] = useState<boolean>(false)
   const [errorText, setErrorText] = useState<string>('')
   const menuOpen = Boolean(anchorEl);
-
+  const navigate = useNavigate()
   const [lang, setLang] = useState<string>('')
   React.useEffect(()=>{
     (async()=>{
@@ -150,7 +150,7 @@ console.log(menuTranslations);
           </IconButton>
           <SpaceBetween>
             <Flex/>
-            <IconButton>
+            <IconButton onClick={()=>navigate('/')}>
                 <PowerSettingsNewIcon sx={{color:'white'}}/>
             </IconButton>
           </SpaceBetween>
