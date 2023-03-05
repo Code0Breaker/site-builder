@@ -16,7 +16,9 @@ import { IAllPages } from "../../pages/allPages/types";
 import { ILanguages } from "../../pages/languages/types";
 import { Switcher } from "../switcher/switcher";
 import uploadIcon from '../../assets/upload-icon.png'
-
+//@ts-ignore
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export const EditGlobalPageDialog = ({
   open,
   setOpen,
@@ -59,6 +61,11 @@ export const EditGlobalPageDialog = ({
       }
     }
   ])
+  const [titleFocuse, setTitleFocuse] = useState(false)
+  const [headerDescriptionFocuse, setHeaderDescriptionFocuse] = useState(false)
+  const [contentnFocuse, setContentFocuse] = useState(false)
+  const [footerTitleFocuse, setFooterTitleFocuse] = useState(false)
+  const [footerDescriptionFocuse, setFooterDescriptionFocuse] = useState(false)
   const [langs, setLangs] = useState<ILanguages[]|null>(null)
   const [currentLang,setCurrentLang] = useState('en')
   const [status, setStatus] = useState<'0'|'1'>('0')
@@ -197,12 +204,126 @@ export const EditGlobalPageDialog = ({
         sx={{
           display: "flex",
           gap: 3,
-          flexDirection: "row",
+          flexDirection: "column",
           flexWrap:'wrap',
           justifyContent:'center'
         }}
       >
-        <OutlinedInput
+
+                <CKEditor
+                    editor={ ClassicEditor }
+                    onFocus={ ( event:any, editor:any ) => {
+                      setTitleFocuse(true)
+                  } }
+                  onBlur={ ( event:any, editor:any ) => {
+                      setTitleFocuse(false)
+                  } }
+                    data={fields[fields.findIndex(item=>item[currentLang])][currentLang].header_title}
+                    onChange={ ( event:any, editor:any ) => {
+                        if(titleFocuse){
+                          const data = editor.getData();
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, header_title: data};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields);
+                        }
+                    } }
+                    />
+
+
+                  <CKEditor
+                    editor={ ClassicEditor }
+                    onFocus={ ( event:any, editor:any ) => {
+                      setHeaderDescriptionFocuse(true)
+                  } }
+                  onBlur={ ( event:any, editor:any ) => {
+                      setHeaderDescriptionFocuse(false)
+                  } }
+                    data={fields[fields.findIndex(item=>item[currentLang])][currentLang].header_description}
+                    onChange={ ( event:any, editor:any ) => {
+                        if(headerDescriptionFocuse){
+                          const data = editor.getData();
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, header_description: data};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields);
+                        }
+                    } }
+                    />
+
+                  <CKEditor
+                    editor={ ClassicEditor }
+                    onFocus={ ( event:any, editor:any ) => {
+                      setContentFocuse(true)
+                  } }
+                  onBlur={ ( event:any, editor:any ) => {
+                      setContentFocuse(false)
+                  } }
+                    data={fields[fields.findIndex(item=>item[currentLang])][currentLang].content}
+                    onChange={ ( event:any, editor:any ) => {
+                        if(contentnFocuse){
+                          const data = editor.getData();
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, content: data};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields);
+                        }
+                    } }
+                    />
+
+        
+
+                <CKEditor
+                    editor={ ClassicEditor }
+                    onFocus={ ( event:any, editor:any ) => {
+                      setFooterTitleFocuse(true)
+                  } }
+                  onBlur={ ( event:any, editor:any ) => {
+                      setFooterTitleFocuse(false)
+                  } } 
+                    data={fields[fields.findIndex(item=>item[currentLang])][currentLang].footer_title}
+                    onChange={ ( event:any, editor:any ) => {
+                        if(footerTitleFocuse){
+                          const data = editor.getData();
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, footer_title: data};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields);
+                        }
+                    } }
+                    />
+
+                <CKEditor
+                    editor={ ClassicEditor }
+                    onFocus={ ( event:any, editor:any ) => {
+                      setFooterDescriptionFocuse(true)
+                  } }
+                  onBlur={ ( event:any, editor:any ) => {
+                      setFooterDescriptionFocuse(false)
+                  } } 
+                    data={fields[fields.findIndex(item=>item[currentLang])][currentLang].footer_description}
+                    onChange={ ( event:any, editor:any ) => {
+                        if(footerDescriptionFocuse){
+                          const data = editor.getData();
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, footer_description: data};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields);
+                        }
+                    } }
+                    />
+
+<OutlinedInput
             fullWidth
           placeholder="Name"
           value={page.name}
@@ -220,71 +341,8 @@ export const EditGlobalPageDialog = ({
           value={page.url}
           onChange={(e) => setPage({ ...page, url: e.target.value })}
         />
-        <OutlinedInput
-            fullWidth
-          placeholder="Header title"
-          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].header_title}
-          onChange={(e) => {
-            const updatedFields = [...fields];
-            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
-            const currentLanguage = updatedFields[languageIndex][currentLang];
-            const updatedLanguage = {...currentLanguage, header_title: e.target.value};
-            updatedFields[languageIndex][currentLang] = updatedLanguage; 
-            setFields(updatedFields); 
-          }}
-        />
-        <OutlinedInput
-            fullWidth
-          placeholder="Header description"
-          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].header_description}
-          onChange={(e) =>{
-            const updatedFields = [...fields];
-            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
-            const currentLanguage = updatedFields[languageIndex][currentLang];
-            const updatedLanguage = {...currentLanguage, header_description: e.target.value};
-            updatedFields[languageIndex][currentLang] = updatedLanguage; 
-            setFields(updatedFields); 
-          }}
-        />
-        <OutlinedInput
-            fullWidth
-          placeholder="Content"
-          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].content}
-          onChange={(e) =>{
-            const updatedFields = [...fields];
-            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
-            const currentLanguage = updatedFields[languageIndex][currentLang];
-            const updatedLanguage = {...currentLanguage, content: e.target.value};
-            updatedFields[languageIndex][currentLang] = updatedLanguage; 
-            setFields(updatedFields); 
-          }}
-        />
-        <OutlinedInput
-            fullWidth
-          placeholder="Footer title"
-          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].footer_title}
-          onChange={(e) => {
-            const updatedFields = [...fields];
-            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
-            const currentLanguage = updatedFields[languageIndex][currentLang];
-            const updatedLanguage = {...currentLanguage, footer_title: e.target.value};
-            updatedFields[languageIndex][currentLang] = updatedLanguage; 
-            setFields(updatedFields); 
-          }}
-        />
-        <OutlinedInput
-            fullWidth
-          placeholder="Footer description"
-          value={fields[fields.findIndex(item=>item[currentLang])][currentLang].footer_description}
-          onChange={(e) =>{
-            const updatedFields = [...fields];
-            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
-            const currentLanguage = updatedFields[languageIndex][currentLang];
-            const updatedLanguage = {...currentLanguage, footer_description: e.target.value};
-            updatedFields[languageIndex][currentLang] = updatedLanguage; 
-            setFields(updatedFields); 
-          } }
-        />
+  
+      
         <OutlinedInput
             fullWidth
           placeholder="Meta data"

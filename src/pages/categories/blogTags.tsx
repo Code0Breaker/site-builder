@@ -126,9 +126,7 @@ const BlogTags = () => {
         <DialogTitle id="alert-dialog-title">{"Create tag"}</DialogTitle>
         <DialogContent
           sx={{
-            display: "flex",
-            gap: 3,
-            width: window.innerWidth > 600 ? "500px" : "auto",
+             pb:1
           }}
         >
           <OutlinedInput
@@ -157,9 +155,7 @@ const BlogTags = () => {
         <DialogTitle id="alert-dialog-title">{"Edit tag"}</DialogTitle>
         <DialogContent
           sx={{
-            display: "flex",
-            gap: 3,
-            width: window.innerWidth > 600 ? "500px" : "auto",
+            pb:1
           }}
         >
           <OutlinedInput

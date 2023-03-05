@@ -284,7 +284,7 @@ const Services = () =>{
     return(
         <FlexColumn>
                 <Dialog
-                maxWidth={'lg'}
+                maxWidth={'sm'}
                 scroll={'body'}
                   fullWidth
                   open={openServiceCreate}
@@ -347,7 +347,7 @@ const Services = () =>{
                   </DialogActions>
                 </Dialog>
                 <Dialog
-                maxWidth={'lg'}
+                maxWidth={'sm'}
                 scroll={'body'}
                   fullWidth
                   open={openServiceEdit}
@@ -449,7 +449,7 @@ const Services = () =>{
                     sx={{
                       display: "flex",
                       gap: 3,
-                      flexDirection: "row",
+                      flexDirection: "column",
                       flexWrap:'wrap',
                       justifyContent:'center'
                       // width: window.innerWidth > 600 ? "500px" : "auto",
@@ -607,7 +607,7 @@ const Services = () =>{
                     sx={{
                       display: "flex",
                       gap: 3,
-                      flexDirection: "row",
+                      flexDirection: "column",
                       flexWrap:'wrap',
                       justifyContent:'center'
                       // width: window.innerWidth > 600 ? "500px" : "auto",

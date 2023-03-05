@@ -52,8 +52,8 @@ export const EditSocialDialog = ({
 
   return (
     <Dialog
-    maxWidth={'lg'}
-scroll={'body'}
+    maxWidth={'sm'}
+    scroll={'body'}
     fullWidth
       open={open}
       onClose={() => setOpen(false)}
@@ -65,7 +65,8 @@ scroll={'body'}
         sx={{
           display: "flex",
           gap: 3,
-          width: window.innerWidth > 600 ? "500px" : "auto",
+          flexDirection:'column',
+          p:3
         }}
       >
         <OutlinedInput

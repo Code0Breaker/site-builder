@@ -65,7 +65,7 @@ export const EditUserDialog = ({
   return (
     <Dialog
     maxWidth={'lg'}
-scroll={'body'}
+    scroll={'body'}
     fullWidth
       open={open}
       onClose={() => setOpen(false)}
@@ -110,7 +110,7 @@ scroll={'body'}
           display: "flex",
           gap: 3,
           flexDirection: "column",
-          width: window.innerWidth > 600 ? "500px" : "auto",
+    
         }}
       >
         <OutlinedInput

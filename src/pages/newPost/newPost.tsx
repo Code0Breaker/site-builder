@@ -16,6 +16,7 @@ import { Switcher } from "../../components/switcher/switcher"
 //@ts-ignore
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import TextField from "@mui/material/TextField"
 
 const NewPost = () =>{
     const [categories, setCategories] = useState<IBlogCategories[]|null>(null)
@@ -131,9 +132,10 @@ console.log(fields);
         
       </FlexCenter>
       <Box mb={2}>
-      <OutlinedInput
+      <TextField 
           fullWidth
             placeholder="Enter slug"
+            label="Slug"
             value={slug}
             onChange={(e) =>
               setSlug(e.target.value)

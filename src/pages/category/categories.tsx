@@ -18,10 +18,6 @@ const Categories = () =>{
     const [categories, setCategories] = useState<ICategories[] | null>(null);
     const [open, setOpen] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
-    const [categoryName, setCategoryName] = useState({
-      name: "",
-      description: "",
-    });
     const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
     const [image, setImage] = useState<any>(null);
     const [langs, setLangs] = useState<ILanguages[]|null>(null)
@@ -156,7 +152,7 @@ const Categories = () =>{
     return(
         <FlexColumn>
         <Dialog
-        maxWidth={'lg'}
+        maxWidth={'sm'}
         scroll={'body'}
           fullWidth
           open={open}
@@ -229,7 +225,7 @@ const Categories = () =>{
             sx={{
               display: "flex",
               gap: 3,
-              flexDirection: "row",
+              flexDirection: "column",
               flexWrap:'wrap',
               justifyContent:'center'
             }}
@@ -270,7 +266,7 @@ const Categories = () =>{
         </Dialog>
   
         <Dialog
-        maxWidth={'lg'}
+        maxWidth={'sm'}
         scroll={'body'}
           open={openEdit}
           onClose={() => setOpenEdit(false)}
@@ -341,8 +337,8 @@ const Categories = () =>{
           <DialogContent
             sx={{
               display: "flex",
-              gap: 3,
-              width: window.innerWidth > 600 ? "500px" : "auto",
+              flexDirection:'column',
+              gap:2
             }}
           >
             <OutlinedInput

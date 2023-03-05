@@ -106,7 +106,7 @@ const Languages = () => {
     <FlexColumn>
       <CreateLanguageDialog open={open} setOpen={setOpen} />
       <Dialog
-      maxWidth={'lg'}
+      maxWidth={'sm'}
       scroll={'body'}
       fullWidth
         open={openEdit}
@@ -116,7 +116,11 @@ const Languages = () => {
       >
         <DialogTitle id="alert-dialog-title">{"Edit language"}</DialogTitle>
         <DialogContent
-          sx={{ width: window.innerWidth > 600 ? "500px" : "auto" }}
+          sx={{ 
+            display:'flex',
+            flexDirection:'column',
+            alignItems:'center'
+           }}
         >
           <label htmlFor="upload-flag">
             <FlexAlignCenter

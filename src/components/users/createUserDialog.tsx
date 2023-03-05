@@ -60,7 +60,7 @@ export const CreateUserDialog = ({
   return (
     <Dialog
     maxWidth={'lg'}
-scroll={'body'}
+    scroll={'body'}
     fullWidth
       open={open}
       onClose={() => setOpen(false)}
@@ -104,7 +104,7 @@ scroll={'body'}
         sx={{
           display: "flex",
           gap: 3,
-          flexDirection: "row",
+          flexDirection: "column",
           flexWrap:'wrap',
           justifyContent:'center'
         }}

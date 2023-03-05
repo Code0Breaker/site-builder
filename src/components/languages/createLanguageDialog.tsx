@@ -44,7 +44,7 @@ export const CreateLanguageDialog = ({
 
   return (
     <Dialog
-    maxWidth={'lg'}
+    maxWidth={'sm'}
 scroll={'body'}
       fullWidth
       open={open}
@@ -56,9 +56,9 @@ scroll={'body'}
       <DialogContent sx={{          
          display: "flex",
           gap: 3,
-          flexDirection: "row",
+          flexDirection: "column",
           flexWrap:'wrap',
-          justifyContent:'center'}}>
+          alignItems:'center'}}>
         <label htmlFor="upload-flag">
           <FlexAlignCenter
             justifyContent={"center"}

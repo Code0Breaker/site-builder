@@ -31,6 +31,9 @@ import { useSnackbar } from "../../types/outletTypes/outletTypes"
 import { getLanguages } from "../../api/languages"
 import { ILanguages } from "../languages/types"
 import { Switcher } from "../../components/switcher/switcher"
+//@ts-ignore
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -62,10 +65,11 @@ const Projects = () =>{
         uri:''
     })
     const [selectedProjectItem, setSelectedProjectItem] = useState<IProject|null>(null)
-
+    const [descriptionFocuse, setDecriptionFocuse] = useState(false)
     const [openServiceCreate, setOpenServiceCreate] = useState(false)
     const [openServiceEdit, setOpenServiceEdit] = useState(false)
     const theme = useTheme();
+    const [shortDescriptionFocuse,setShortDecriptionFocuse] = useState(false)
     const [categoryName, setcategoryName] = useState<string[]>([]);
     const [categoryIds, setcategoryIds] = useState<string[]>([]);
     const [langs, setLangs] = useState<ILanguages[]|null>(null)
@@ -305,7 +309,7 @@ const Projects = () =>{
                     sx={{
                       display: "flex",
                       gap: 3,
-                      flexDirection: "row",
+                      flexDirection: "column",
                       flexWrap:'wrap',
                       justifyContent:'center'
                       // width: window.innerWidth > 600 ? "500px" : "auto",
@@ -363,31 +367,49 @@ const Projects = () =>{
                         onChange={(e) => setProject({...project,client:e.target.value})}
                         />
 
-                        <OutlinedInput
-                        placeholder="Description"
-                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].description}
-                        onChange={(e) => {
+<CKEditor
+                    editor={ ClassicEditor }
+                    onFocus={ ( event:any, editor:any ) => {
+                      setDecriptionFocuse(true)
+                  } }
+                  onBlur={ ( event:any, editor:any ) => {
+                      setDecriptionFocuse(false)
+                  } }
+                    data={fields[fields.findIndex(item=>item[currentLang])][currentLang].description}
+                    onChange={ ( event:any, editor:any ) => {
+                        if(descriptionFocuse){
+                          const data = editor.getData();
                           const updatedFields = [...fields];
                           const languageIndex = updatedFields.findIndex(item => item[currentLang]);
                           const currentLanguage = updatedFields[languageIndex][currentLang];
-                          const updatedLanguage = {...currentLanguage, description: e.target.value};
+                          const updatedLanguage = {...currentLanguage, description: data};
                           updatedFields[languageIndex][currentLang] = updatedLanguage; 
-                          setFields(updatedFields); 
-                        }}
-                        />
+                          setFields(updatedFields);
+                        }
+                    } }
+                    />
 
-                        <OutlinedInput
-                        placeholder="Short Description"
-                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].short_description}
-                        onChange={(e) => {
+                <CKEditor
+                    editor={ ClassicEditor }
+                    onFocus={ ( event:any, editor:any ) => {
+                      setShortDecriptionFocuse(true)
+                  } }
+                  onBlur={ ( event:any, editor:any ) => {
+                      setShortDecriptionFocuse(false)
+                  } }
+                    data={fields[fields.findIndex(item=>item[currentLang])][currentLang].short_description}
+                    onChange={ ( event:any, editor:any ) => {
+                        if(shortDescriptionFocuse){
+                          const data = editor.getData();
                           const updatedFields = [...fields];
                           const languageIndex = updatedFields.findIndex(item => item[currentLang]);
                           const currentLanguage = updatedFields[languageIndex][currentLang];
-                          const updatedLanguage = {...currentLanguage, short_description: e.target.value};
+                          const updatedLanguage = {...currentLanguage, short_description: data};
                           updatedFields[languageIndex][currentLang] = updatedLanguage; 
-                          setFields(updatedFields); 
-                        }}
-                        />
+                          setFields(updatedFields);
+                        }
+                    } }
+                    />
 
                         <OutlinedInput
                         placeholder="Link"
@@ -492,10 +514,10 @@ const Projects = () =>{
                     sx={{
                       display: "flex",
                       gap: 3,
-                      flexDirection: "row",
+                      flexDirection: "column",
                       flexWrap:'wrap',
                       justifyContent:'center'
-                      // width: window.innerWidth > 600 ? "500px" : "auto",
+
                     }}
                   >
                           <FlexCenter>
@@ -555,31 +577,52 @@ const Projects = () =>{
                         onChange={(e) => setProject({...project,client:e.target.value})}
                         />
 
-                        <OutlinedInput
-                        placeholder="Description"
-                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].description}
-                        onChange={(e) => {
-                            const updatedFields = [...fields];
-                            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
-                            const currentLanguage = updatedFields[languageIndex][currentLang];
-                            const updatedLanguage = {...currentLanguage, description: e.target.value};
-                            updatedFields[languageIndex][currentLang] = updatedLanguage; 
-                            setFields(updatedFields); 
-                        }}
-                        />
 
-                        <OutlinedInput
-                        placeholder="Short Description"
-                        value={fields[fields.findIndex(item=>item[currentLang])][currentLang].short_description}
-                        onChange={(e) => {
-                            const updatedFields = [...fields];
-                            const languageIndex = updatedFields.findIndex(item => item[currentLang]);
-                            const currentLanguage = updatedFields[languageIndex][currentLang];
-                            const updatedLanguage = {...currentLanguage, short_description: e.target.value};
-                            updatedFields[languageIndex][currentLang] = updatedLanguage; 
-                            setFields(updatedFields); 
-                        }}
-                        />
+
+
+                <CKEditor
+                    editor={ ClassicEditor }
+                    onFocus={ ( event:any, editor:any ) => {
+                      setDecriptionFocuse(true)
+                  } }
+                  onBlur={ ( event:any, editor:any ) => {
+                      setDecriptionFocuse(false)
+                  } }
+                    data={fields[fields.findIndex(item=>item[currentLang])][currentLang].description}
+                    onChange={ ( event:any, editor:any ) => {
+                        if(descriptionFocuse){
+                          const data = editor.getData();
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, description: data};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields);
+                        }
+                    } }
+                    />
+
+                <CKEditor
+                    editor={ ClassicEditor }
+                    onFocus={ ( event:any, editor:any ) => {
+                      setShortDecriptionFocuse(true)
+                  } }
+                  onBlur={ ( event:any, editor:any ) => {
+                      setShortDecriptionFocuse(false)
+                  } }
+                    data={fields[fields.findIndex(item=>item[currentLang])][currentLang].short_description}
+                    onChange={ ( event:any, editor:any ) => {
+                        if(shortDescriptionFocuse){
+                          const data = editor.getData();
+                          const updatedFields = [...fields];
+                          const languageIndex = updatedFields.findIndex(item => item[currentLang]);
+                          const currentLanguage = updatedFields[languageIndex][currentLang];
+                          const updatedLanguage = {...currentLanguage, short_description: data};
+                          updatedFields[languageIndex][currentLang] = updatedLanguage; 
+                          setFields(updatedFields);
+                        }
+                    } }
+                    />
 
                         <OutlinedInput
                         placeholder="Link"
